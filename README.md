@@ -12,7 +12,7 @@ The code is here to either inspire someone else to start a similar project, or t
 
 Short code documantation:
 
-#Classes:
+# Classes:
 
 Area
 |-Label
