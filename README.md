@@ -10,14 +10,18 @@ The code displayed here, is open to be used by anyone. If someone wants to add s
 
 The code is here to either inspire someone else to start a similar project, or to give some insight on a few things.
 
-Short code documantation:
+## Short code documantation:
 
-# Classes:
+### Classes:
 
 Area
-|-Label
-|-Entity
-|-Object
+
+ - Label
+
+ - Entity
+
+ - Object
 
 Projectile
-|-Particles
+
+ - Particles
