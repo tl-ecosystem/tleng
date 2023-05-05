@@ -14,11 +14,11 @@ Short code documantation:
 
 # Classes:
 
-Area
+##Area
 |-Label
 |-Entity
 |-Object
 
-Projectile
+##Projectile
 |-Particles
 
