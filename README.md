@@ -25,3 +25,5 @@ Area
 Projectile
 
  - Particles
+ 
+ ### The contributor of the main branch is Theolaos (Theooking007).
