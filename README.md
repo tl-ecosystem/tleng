@@ -12,13 +12,13 @@ The code is here to either inspire someone else to start a similar project, or t
 
 ## The planned full releases are:
 
-- 2.0 Documentation ( <- we are here, beta)
+- 2.0 Documentation ( <- we are here, beta publication of git page)
 
 - 2.1 Hitbox and Coordination (simplify code, update/implement TODOs, examples)
 
 - 2.2 sound and camera-scene handlers 
 
-- 2.3 Available package at PyPi.org + collisions update, particles, AI, missions async update (publication of git page)
+- 2.3 Available package at PyPi.org + collisions update, particles, AI, missions async update 
 
 - 2.4 Physics implementation module
 
