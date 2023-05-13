@@ -2,8 +2,10 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+The newest version will always be supported.
+At least on general version back will also be supported.
+
+If the vulnorability is big then it will be changed whatever the version is.
 
 | Version | Supported          |
 | ------- | ------------------ |
