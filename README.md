@@ -22,7 +22,9 @@ The code is here to either inspire someone else to start a similar project, or t
 
 - 2.4 Physics implementation module
 
-- 2.5 Full Raycasting support
+- 2.5 Multiplayer support
+
+- 2.6 Full Raycasting support
 
 ### The meaning behind the symbolising of the updates are 2.x.y-z:
 
