@@ -14,7 +14,7 @@ If the vulnorability is big then it will be changed whatever the version is.
 
 ## Reporting a Vulnerability
 
-If you find a Vulnerability in the code please report it to me privetly or go to "Security Advisories" 
+If you find a Vulnerability in the code please report it to me privetly or go to "Security Advisories". 
 
 When vulnerabilities are published or asked to me privetly, I might ask the community for a possible fix or try by myself to do it for the version specified.
 It's possible that if the version that the vulnarability was found is old from the current one, then i might make sure that it gets fixed on the new version rather than the old one. 
