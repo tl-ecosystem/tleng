@@ -12,7 +12,7 @@ The code is here to either inspire someone else to start a similar project, or t
 
 ## The planned full releases are:
 
-- 2.0 Documentation ( <- we are here, beta publication of git page)
+- 2.0 Documentation and publication of git page ( <- we are here, beta)
 
 - 2.1 Hitbox and Coordination (simplify code, update/implement TODOs, examples)
 
