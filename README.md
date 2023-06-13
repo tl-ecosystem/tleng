@@ -14,7 +14,7 @@ The code is here to either inspire someone else to start a similar project, or t
 
 - 2.0 Documentation and publication of git page ( <- we are here, beta)
 
-- 2.1 Hitbox and Coordination, additional software(experimental version) (simplify code, update/implement TODOs, examples)
+- 2.1 Hitbox and Coordination, additional software(experimental version (simplify code, update/implement TODOs, examples)
 
 - 2.2 sound and camera-scene handlers, additional software full release
 
@@ -53,16 +53,28 @@ z = is either Beta/Alpha of the general release or the bug fix version
 
 ### Classes:
 
-Area
+ -Area
+
+You can create an Area, a box, that could act a hitbox or what you want it to look like then call it to be drawn with `draw_Area()`, or for the outline to be drawn with `outline_Area()`.
 
  - Label
 
+You can create text with `set_Label()` and then call it to be drawn with `draw_Label()`
+
  - Entity
+
+You can show Animations with `display_current_anim()` which you can control how fast or slow tha animation goes, the animation is also always frame independant, meaning that whatever you put the framerate at, it will always print at the same speed. You also have the power to transform images with `flip_img()` and `transform_img()`. 
 
  - Object
 
-Projectile
+Not implemented yet
+
+ - Projectile
+
+Not implemented yet
 
  - Particles
+
+Not implemented yet
  
  ### The contributor of the main branch is Theolaos (Theooking007).
