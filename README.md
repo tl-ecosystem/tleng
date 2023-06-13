@@ -2,7 +2,7 @@
 
 (I am new to github so the helping (pulling requests, branches and such) stuff is something i don't quite get yet)
 
-Tleng engine, is an engine written in python and based on the pygame library. For the Engine to work, you need to have installed pygame!
+Tleng engine, is an engine written in python and based on the pygame library (the engine will soon migrate with Pygame-CE). For the Engine to work, you need to have installed pygame (or Pygame-CE)!
 
 The reason i started this project to see what it takes to create a 2d engine, and for me to get an even better introduction to computer 2d graphics.
 
