@@ -18,7 +18,7 @@ The code is here to either inspire someone else to start a similar project, or t
 
 - 2.2 sound and camera-scene handlers, additional software full release
 
-- 2.3 Available package at PyPi.org + collisions update, particles, AI, missions async update 
+- 2.3 Available package at PyPi.org + collisions update, particles, (AI, missions async update) 
 
 - 2.4 Physics implementation module
 
