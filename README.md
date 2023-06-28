@@ -12,9 +12,9 @@ The code is here to either inspire someone else to start a similar project, or t
 
 ## The planned full releases are:
 
-- 2.0 Documentation and publication of git page ( <- we are here)
+- 2.0 Documentation and publication of git page 
 
-- 2.1 Hitbox and Coordination, additional software (experimental) (simplify code, update/implement TODOs, examples) 
+- 2.1 Hitbox and Coordination, additional software (experimental) (simplify code, update/implement TODOs, examples) ( <- we are here)
 
 - 2.2 sound and camera-scene handlers, additional software full release
 
