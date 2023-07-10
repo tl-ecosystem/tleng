@@ -14,17 +14,17 @@ The code is here to either inspire someone else to start a similar project, or t
 
 - 2.0 Documentation and publication of git page 
 
-- 2.1 Hitbox and Coordination, additional software (experimental) (simplify code, update/implement TODOs, examples) ( <- we are here)
-
-- 2.2 sound and camera-scene handlers, additional software full release
+- 2.2 re-structure of the engine, sound and camera-scene handlers, additional software full release ( <- we are here)
 
 - 2.3 Available package at PyPi.org + collisions update, particles, (AI, missions async update) 
 
 - 2.4 Physics implementation module
 
-- 2.5 Multiplayer support
+- 2.5 Full Raycasting support
 
-- 2.6 Full Raycasting support
+- 2.6 Sprite stacking & voxel engine support
+
+- 2.7 Multiplayer support
 
 On every single update there will always be an example, in the example folder.
 
