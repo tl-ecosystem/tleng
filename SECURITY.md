@@ -5,7 +5,7 @@
 The newest version will always be supported.
 At least on general version back will also be supported.
 
-If the vulnorability is big then it will be changed whatever the version is.
+If the vulnerability is big then it will be changed whatever the version is.
 
 | Version | Supported          |
 | ------- | ------------------ |
