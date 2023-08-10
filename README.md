@@ -10,6 +10,11 @@ The code displayed here, is open to be used by anyone. If someone wants to add s
 
 The code is here to either inspire someone else to start a similar project, or to give some insight on a few things.
 
+## Requirements
+- python 3.11+
+- Pygame 2.3+ or Pygame Community Edition 2.2+
+
+
 ## The planned full releases are:
 
 - 2.0 Documentation and publication of git page 
