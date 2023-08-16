@@ -1,0 +1,9 @@
+{
+    "Normal" : ["defaults","button"],
+    "Hover" : {"button1": ["defaults","button1"],
+            "button2" : ["defaults","button2"],
+            "button3" : ["defaults","button3"]},
+    "Clicked" : {"button1": ["defaults","button1"],
+            "button2" : ["defaults","button2"],
+            "button3" : ["defaults","button3"]}
+}

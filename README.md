@@ -15,6 +15,8 @@ The code is here to either inspire someone else to start a similar project, or t
 ## Requirements
 - python 3.11+
 - Pygame 2.3+ or Pygame Community Edition 2.2+
+- matplotlib 3.6+
+- numpy 1.24+
 
 
 ## The planned full releases are:
