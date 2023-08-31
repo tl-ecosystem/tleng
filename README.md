@@ -37,7 +37,7 @@ The code is here to either inspire someone else to start a similar project, or t
 
 On every single update there will always be an example, in the example folder.
 
-## There will be additional Software that will work like a bundle for TLeng2
+## Additional Bundled Software for TlengPy2
 
 This software will have a GUI for the user
 
@@ -54,7 +54,7 @@ x = The general full release version
 
 y = The bug fix version for the general release
 
-z = is either Beta/Alpha of the general release or the bug fix version
+z = is either Beta/Alpha/dev of the general release or the bug fix version
 
 
 
