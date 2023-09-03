@@ -64,7 +64,7 @@ z = is either Beta/Alpha/dev of the general release or the bug fix version
 
 ### Classes:
 
- -Area
+ - Area
 
 You can create an Area, a box, that could act a hitbox or what you want it to look like then call it to be drawn with `draw_Area()`, or for the outline to be drawn with `outline_Area()`.
 
