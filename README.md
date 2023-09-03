@@ -10,7 +10,7 @@ The code is here to either inspire someone else to start a similar project, or t
 
 ## Games that use this engine/framework:
 
-- [RainCoin](https://github.com/TheooKing/RainCoin) (Framework ver: 2.0-dev)
+- [RainCoin](https://github.com/TheooKing/RainCoin) (Framework ver: 2.0-dev (modded))
 
 ## Requirements
 - python 3.11+
