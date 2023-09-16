@@ -46,7 +46,7 @@ This software will have a GUI for the user
 - Scene Creator
 - Sprite + Animation Creator (Pixel Art)
 
-### The meaning behind the symbolising of the updates are 2.x.y-z:
+## The meaning behind the symbolising of the updates are 2.x.y-z:
 
 2 = the engine is 2d (and because it's better than the previous try)
 
