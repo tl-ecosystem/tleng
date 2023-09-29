@@ -1,10 +1,8 @@
-# TLeng2
+# TLengPy2
 
-Tleng engine, is an engine written in python and based on the pygame library. For the Engine to work, you need to have installed pygame!
+Tleng engine, is a game engine written in python and based on the pygame library. For the Engine to work, you need to have installed pygame!
 
 The reason I started this project is to see what it takes to create a 2d game engine, and for me to get an even better introduction to computer 2d graphics.
-
-The code displayed here, is open to be used by anyone. If someone wants to add something, could either tell me or do it himself, by pulling a request.
 
 The code is here to either inspire someone else to start a similar project, or to give some insight on a few things.
 
@@ -37,7 +35,7 @@ The code is here to either inspire someone else to start a similar project, or t
 
 On every single update there will always be an example, in the example folder.
 
-## Additional Bundled Software for TlengPy2
+## Additional Bundled Software for TLengPy2
 
 This software will have a GUI for the user
 
@@ -55,9 +53,6 @@ x = The general full release version
 y = The bug fix version for the general release
 
 z = is either Beta/Alpha/dev of the general release or the bug fix version
-
-
-
 
 
 ## Short code documantation:
