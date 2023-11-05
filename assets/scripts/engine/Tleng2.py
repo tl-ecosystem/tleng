@@ -3,13 +3,13 @@ from assets.scripts.engine.utils.TlengEntity import *
 from assets.scripts.engine.utils.TlengLabel import * 
 from assets.scripts.engine.utils.TlengObject import *
 from assets.scripts.engine.utils.TlengProjectile import *
+from assets.scripts.engine.utils.TlengScene import *
 from assets.scripts.engine.TlengUI import * 
 import sys
 
 
-
-__author__ = "Theolaos"
-__version__ = "2.2-exp"
+__author__ = "Theooking/Theolaos"
+__version__ = "v2.2-exp"
 
 # Ideas Report: About the events, you can make the user add the events to a specialised class variable in the abstractbutton class
 # Report:
@@ -31,13 +31,12 @@ __version__ = "2.2-exp"
 
 # Framework/Engine vocab: 
 # Draw ~ display ~ render : render to the window
-# update : updates the state of the class
+# update : updates the state of the class/object
 
+__doc__ = f'''
+TLeng2.py is a python 2d game engine
 
-'''
-TLeng2.py a python 2d game engine
-
-Current version is v2.2-exp
+Current version is {__version__}
 
 Simplification, with overcomplication update ;D
 
@@ -59,6 +58,7 @@ def collidepoint(rect : pygame.rect.Rect, x : float, y : float):
     '''
     return rect.collidepoint(x,y)
         
+
 def colliderect(rect : pygame.rect.Rect, rect2 : pygame.rect.Rect):
     '''
     Checks if the rectangels collided
@@ -69,6 +69,7 @@ def colliderect(rect : pygame.rect.Rect, rect2 : pygame.rect.Rect):
     '''
 
     return rect.colliderect(rect2)
+
 
 def flip(img : pygame.rect.Rect, boolX : bool, boolY : bool):
     '''
@@ -81,6 +82,7 @@ def flip(img : pygame.rect.Rect, boolX : bool, boolY : bool):
     '''
     return pygame.transform.flip(img, boolX, boolY)
 
+
 def load_image(img_filepath,surface:pygame.Surface):
     '''
     Loading an image
@@ -89,6 +91,7 @@ def load_image(img_filepath,surface:pygame.Surface):
     :return: It returns the loaded image (uses convert to make the game more efficient)
     '''
     return pygame.image.load(img_filepath).convert_alpha(surface)
+
 
 def entity_xy_cords(entity : Entity, entity2 :Entity): # TODO: do this or delete it
     '''
@@ -102,47 +105,15 @@ class TlenGame:
     def __init__(self):
         pygame.font.init()
         pygame.mixer.init()
-        self.running = False
 
-
-    def on_init():
-        '''
-        Class objects, Entities, 
-        '''
-        pass
-
-    def handle_events(self):
-        '''
-        To handle the events of mouse and other
-        
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                self.running = False
-        
-        '''
-    def render(self):
-        '''
-        what to render to the screen
-        '''
-
-    def update(self):
-        '''
-        game logic
-        '''
-
-
-    def run(self, intro:bool=True):
+    def run(self, tleng2_intro:bool=True):
         '''
         to play the game
         '''
         self.running = True
         while self.running:
-            # first handle the events
-            self.handle_events()
-            # after we get the events then update
-            self.update()
-            # then you can render
-            self.render()
+            # handle the scene from here
+            self.scene_phase()
 
         pygame.quit()
         sys.exit()
@@ -153,3 +124,5 @@ class TlenGame:
 
 # global animation_database
 # animation_database = {}
+
+

@@ -19,7 +19,7 @@ class Entity(Area):
             self.currentAnim: Current animation that is being played (used to change the current animation that is being played, instead of making a class function)
             self.AnimData: It controls when a new image should be shown to the screen, it finds that by using the int( fps/frames ) 
                 in short it's making sure that you increment the animation at the desired frames parameter 
-                (e.x.: 60/12=5, every frame its goint to be incremented by 5, if it is more that 12
+                (e.x.: 60/12=5, every frame its going to be incremented by 5, if it is more that 12
                 then the next image of the animation will play and animData will reset)
             self.AnimDict: stores every animation the entity
             self.animDictNewList: Only used once at the initialization of the entity, it stores the newly converted images and then puts them back to the self.AnimDict
@@ -89,6 +89,7 @@ class Entity(Area):
     def __del__(self): #                            <- for debugging purposes (maybe could also be used for projectiles and particles?)
             print(f"object entity is deleted")
 
+
     def n_hitbox(self, hitboxWidth : float, hitboxHeight : float) -> None: # TODO : hitbox/coordination system
         '''
         It makes a new hitbox (it changes the width and the height of the hitbox, wich is a Rect)
@@ -100,6 +101,7 @@ class Entity(Area):
         self.rect.width, self.rect.height = hitboxWidth, hitboxHeight
         self.rect.x, self.rect.y = self.coreX - self.rect.width/2, self.coreY - self.rect.height/2
 
+
     def display_idle(self,x:float=0,y:float=0) -> None: # TODO : hitbox/coordination system
         '''
         Displays ONLY the idle image that was given on init of the class (TODO: make the function a bit more safe to use, also make the x and y values to be shifted)
@@ -109,7 +111,8 @@ class Entity(Area):
         :return: it returns nothing
         '''
         self.window.blit(self.idle_image, (x,y))
-               
+
+
     def draw_anim(self, fps : int, animName : str,  frames : int = 12) -> None: #probably going to delete later, same principles as the function displat_current_anim 
         # TODO : hitbox/coordination system
         # self.mw.blit(pygame.image.load(self.anim[self.AnimData]),(self.rect.x,self.rect.y))     # <------- old implemantation of displaying stuff to the screen
@@ -121,6 +124,7 @@ class Entity(Area):
         self.AnimData += frames/fps
         if self.AnimData >= len(self.animDict[animName]):
             self.AnimData = 0
+
 
     def draw_current_anim(self, target_fps : float, fps : float, frames : int = 12) -> None:
         # TODO : hitbox/coordination system
@@ -154,6 +158,7 @@ class Entity(Area):
         #TODO: Experimental: use of imageX/imageY in animation
         self.rect.x, self.rect.y = self.imageX, self.imageY
 
+
     def flip_img(self, names : list, flip:tuple = (False,False)) -> None: #can help with animations
         # TODO : hitbox/coordination system
         '''
@@ -167,6 +172,7 @@ class Entity(Area):
         for name in names:
             for pic in range(len(self.animDict[name])):
                     self.animDict[name][pic] = pygame.transform.flip(self.animDict[name][pic], flip[0],flip[1])
+
 
     def transform_img(self,width : float, height : float, rotation : float, name:str or list = 'all') -> None:
         '''
@@ -203,6 +209,7 @@ class Entity(Area):
         self.rect.width = width
         self.rect.height = height
         self.rotation = rotation
+
 
     def update(self,current_anim, target_fps):
         '''

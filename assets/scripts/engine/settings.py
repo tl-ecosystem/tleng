@@ -1,13 +1,31 @@
-# for ceratin class functions that reuire a constant variable from this page
+# for creating class functions that require a constant global setting variable from this page
 import pygame, json
 
 
-class Settings:
-    def __init__(self):
-        self._width = 700
-        self._height = 700
-        self._win = pygame.display.set_mode((self._width, self._height))
-        pygame.display.set_caption("Sample Version 2.2-exp")
+class GlobalSettings:
+    _width = 1280
+    _height = 720
+    _scaling = 1
+    _window = None # the window that you see
+    _display = None # the inner display of the window
 
-        self._clock = pygame.time.Clock()
-        self._fps = 2000      
+    _clock = pygame.time.Clock()
+    _fps = 60
+
+    
+    @staticmethod
+    def load_display( bg_color: tuple[int,int,int] = (200,200,255) ) -> None:
+        """
+        Initialize the display.
+        """
+        GlobalSettings._display = pygame.Surface((GlobalSettings._width, GlobalSettings._height)) 
+        GlobalSettings._window = pygame.display.set_mode((GlobalSettings._width, GlobalSettings._height))
+        GlobalSettings._display.fill(bg_color)
+
+
+    @staticmethod
+    def load_settings():
+        """
+        Pass the saved settings
+        """
+        pass

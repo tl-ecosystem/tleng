@@ -50,3 +50,6 @@ making Area class Great again
 
 __all__ doesn't work well in the Tleng2.py file
 constants aren't really constants
+
+22-10-2023
+adding the ideas for the TlengScene file, and the way that the containing classes will interact.
