@@ -27,7 +27,17 @@ class Entity(Area):
             self.directions: Used for storing the 2-dimensional vector for the class Entity (expirimental value)
 
     '''
-    def __init__(self, window:pygame.Surface, x:int|float, y:int|float,  width:int|float, height:int|float, entity_type:str, color:tuple=WHITE, animDict:dict=None, img_filename:str=None)->None:
+    def __init__(self, 
+                 window:pygame.Surface, 
+                 x:int|float, 
+                 y:int|float,  
+                 width:int|float, 
+                 height:int|float, 
+                 entity_type:str, 
+                 color:tuple=WHITE, 
+                 animDict:dict = None, 
+                 img_filename:str = None
+                 ) -> None:
         '''
         Initializing the entity
 
