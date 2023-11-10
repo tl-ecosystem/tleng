@@ -1,0 +1,65 @@
+Updates on what is added-removed problems found-solved
+
+21-6-2023 Wednsday:
+Found the reason why the screen waited to load the entities and sunch, 
+    we were importing the modules after we had initialised the screen, meaning the screen 
+    had opened and after the modules were loaded only then it started to render the entities thus the 
+    lag between the window appearing and then the entities appearing
+
+Updated documantation and added/changed some features, such as the:
+    - Group class (which i created and then deleted, it was going to work as the group class in sprites but figured i will use the pygame.sprite.Sprite)
+    - Added self.image in Area wich is pygame.Surface([width, height])
+    - Updating the documantation on Label class (as it's going to be used in the button classes)
+    - Updating the documantation in Entity on __init__()
+    - Updating the documantation in Area on __init__()
+    - Updating the documantation in pygame.sprite.Sprites() Class Abstractgroup function draw()
+
+Learned about the class python and pygame functions:
+    -hasattr (does it have the attribute "y" return "x")
+    -getattr (what is the attribute "y" return "x" , and if not defaults="z")
+    -blits [(source: Surface, dest: Coordinate | RectValue, area: RectValue | None = None, special_flags: int = 0), ...] -> Rect
+    -Documantation of return for functions: -> Tuple[str, List[float], int]
+
+4-7-2023
+Updated documantation and added/changed some features, such as the:
+    - Updating the documentation in Label class
+    - Adding new features in label, such as:
+        - display_algorithm()
+        - Updateting 
+    - Updating the documentation/use of the Area() class 
+
+5-7-2023
+Updated documantation and changed some features, such as the:
+    - Updating the documentation in Label class
+    - Addingg new features in label, such as:
+        - display_algorithm() -> fusing_list() words_wrap() newline_text()
+        - init function for Label
+    - experimental class Game 
+
+10-7-2023
+complete overhaul of the engine
+new structure for the files.
+new hierarchy
+new update goal
+new way of handling the game loop
+    event handle
+    update
+    render
+
+making Area class Great again
+
+__all__ doesn't work well in the Tleng2.py file
+constants aren't really constants
+
+22-10-2023
+adding the ideas for the TlengScene file, and the way that the containing classes will interact.
+
+9-11-2023
+arrow class in TlengUI
+
+learning trigonometry :|
+
+__init__.py files can be far better than what they are used to be.
+
+10-11-2023
+If you want to oprimize some parts of the code why not cythonise them?
