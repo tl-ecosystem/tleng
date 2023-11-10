@@ -1,10 +1,11 @@
-from assets.scripts.engine.utils.TlengArea import * # pygame
-from assets.scripts.engine.utils.TlengEntity import *
-from assets.scripts.engine.utils.TlengLabel import * 
-from assets.scripts.engine.utils.TlengObject import *
-from assets.scripts.engine.utils.TlengProjectile import *
-from assets.scripts.engine.utils.TlengScene import *
-from assets.scripts.engine.TlengUI import * 
+"""
+_________________
+
+for reference
+_________________
+
+"""
+
 import sys
 
 
