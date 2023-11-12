@@ -1,5 +1,5 @@
 from .engine.area import *
-from .entity import *
+from .engine.entity import *
 from .ui_elements.label import * 
 from .physics.object import *
 from .physics.projectile import *

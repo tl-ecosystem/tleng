@@ -1,6 +1,6 @@
 import pygame
 from warnings import warn
-from ..colors import *
+from ..utils.colors import *
 
 
 class Area(pygame.sprite.Sprite):

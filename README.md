@@ -6,10 +6,12 @@ The reason I started this project is to see what it takes to create a 2d game en
 
 The code is here to either inspire someone else to start a similar project, or to give some insight on a few things.
 
+### [Documantation](docs/table_of_contents.md)
+
 ## Games that use this engine/framework:
 
 - [RainCoin](https://github.com/TheooKing/RainCoin) (Framework ver: 2.0-dev (modded))
-- [CoulomHelper](https://github.com/TheooKing/CoulombHelper)
+- [CoulombHelper](https://github.com/TheooKing/CoulombHelper)
 
 ## Requirements
 - python 3.11+
@@ -54,34 +56,5 @@ x = The general full release version
 y = The bug fix version for the general release
 
 z = is either Beta/Alpha/dev of the general release or the bug fix version
-
-
-## Short code documantation:
-
-### Classes:
-
- - Area
-
-You can create an Area, a box, that could act a hitbox or what you want it to look like then call it to be drawn with `draw_Area()`, or for the outline to be drawn with `outline_Area()`.
-
- - Label
-
-You can create text with `set_Label()` and then call it to be drawn with `draw_Label()`
-
- - Entity
-
-You can show Animations with `display_current_anim()` which you can control how fast or slow tha animation goes, the animation is also always frame independant, meaning that whatever you put the framerate at, it will always print at the same speed. You also have the power to transform images with `flip_img()` and `transform_img()`. 
-
- - Object
-
-Not implemented yet
-
- - Projectile
-
-Not implemented yet
-
- - Particles
-
-Not implemented yet
  
- ### The contributor of the main branch is Theolaos (@Thooking007).
+## The contributor of the main branch is Theolaos (@Thooking007).

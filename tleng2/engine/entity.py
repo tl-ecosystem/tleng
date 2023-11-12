@@ -1,4 +1,4 @@
-from .engine.area import *
+from .area import *
 
 
 class Entity(Area):

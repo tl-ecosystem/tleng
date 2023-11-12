@@ -1,1 +1,5 @@
 /updates.log
+__pycache__/
+todo
+*.pyc
+dist
