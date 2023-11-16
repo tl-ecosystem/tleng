@@ -12,6 +12,8 @@ class GlobalSettings:
     _clock = pygame.time.Clock()
     _fps = 60
 
+    _font = None # global font for the whole game.
+
     # indexEvent = 1
 
     # animation_database = {} # probably not to use
@@ -27,8 +29,8 @@ class GlobalSettings:
 
 
     @staticmethod
-    def load_settings():
+    def load_settings_json():
         """
-        Pass the saved settings
+        Pass the saved settings from json.
         """
         pass
