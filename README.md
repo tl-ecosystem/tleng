@@ -6,39 +6,19 @@ The reason I started this project is to see what it takes to create a 2d game en
 
 The code is here to either inspire someone else to start a similar project, or to give some insight on a few things.
 
-### [Documantation](docs/table_of_contents.md)
+On every single update there will always be an example, in the `examples` folder.
+
+## For the documentation check the wiki!
 
 ## Games that use this engine/framework:
 
-- [RainCoin](https://github.com/TheooKing/RainCoin) (Framework ver: 2.0-dev (modded))
-- [CoulombHelper](https://github.com/TheooKing/CoulombHelper)
+- [RainCoin](https://github.com/TheooKing/RainCoin) (Framework ver: 2.0-dev)
 
 ## Requirements
 - python 3.11+
 - Pygame 2.3+ or Pygame Community Edition 2.2+
-- matplotlib 3.6+ (for debugging with graphs)
-- numpy 1.24+ 
 
-
-## The planned full releases are:
-
-- 2.0 Documentation and publication of git page 
-
-- 2.2 re-structure of the engine, sound and camera-scene handlers, additional software full release ( <- we are here)
-
-- 2.3 Available package at PyPi.org + collisions update, particles, (AI, missions async update) 
-
-- 2.4 Physics implementation module
-
-- 2.5 Full Raycasting support
-
-- 2.6 Sprite stacking & voxel engine support
-
-- 2.7 Multiplayer support
-
-On every single update there will always be an example, in the example folder.
-
-## Additional Bundled Software for TLengPy2
+## Additional Bundled Software for TLengPy2 (still in development)
 
 This software will have a GUI for the user
 
@@ -56,5 +36,9 @@ x = The general full release version
 y = The bug fix version for the general release
 
 z = is either Beta/Alpha/dev of the general release or the bug fix version
+
+## WARNING 
+
+The game engine is still in the early stages, so please note that for every new push it is no guranteed that the code will reliably work. Check the realeases before attampting to get the newest from cloning the project.
  
 ## The contributor of the main branch is Theolaos (@Thooking007).
