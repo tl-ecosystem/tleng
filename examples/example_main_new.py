@@ -1,16 +1,17 @@
 # from assets.scripts.Tleng2 import *
 # import assets.scripts.engine.Tleng2 as TL
-from assets.scripts.engine.Tleng2 import *
+from tleng2 import *
+from tleng2.utils.colors import *
+import pygame 
 
 # from time import time
 # import numpy as np
 # import matplotlib.pyplot as plt
 
 
-class Game(TlenGame, Settings):
+class Game:
     def __init__(self):
-        TlenGame.__init__(self)
-        Settings.__init__(self)
+        ...
         
     def on_start(self):
         '''

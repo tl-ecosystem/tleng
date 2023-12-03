@@ -3,21 +3,21 @@
 ## Supported Versions
 
 The newest version will always be supported.
-At least on general version back will also be supported.
 
 If the vulnerability is big then it will be changed whatever the version is.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| <2.0.x   | :white_check_mark: |
+| <2.0.x  | :white_check_mark: |
+| <2.2-dev| :white_check_mark: |
 
+(2.2-dev is being developed)
 
 ## Reporting a Vulnerability
 
-If you find a Vulnerability in the code please report it to me privetly or go to "Security Advisories". 
+If you find a Vulnerability in the code please open an issue or go to "Security Advisories". 
 
-When vulnerabilities are published or asked to me privetly, I might ask the community for a possible fix or try by myself to do it for the version specified.
-It's possible that if the version that the vulnarability was found is old from the current one, then i might make sure that it gets fixed on the new version rather than the old one. 
+It's possible that if the version that the vulnarability was found is old from the current one, then I will make sure that it gets fixed on the new version rather than the old one. 
 
 ## The numbers on the version of the engine indicate:
 

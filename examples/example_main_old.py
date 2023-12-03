@@ -1,11 +1,12 @@
 import pygame, os, sys
-from assets.scripts.engine.Tleng2 import *
+from tleng2 import *
+from tleng2.ui_elements import *
 from time import time
 import numpy as np
 import matplotlib.pyplot as plt
+from tleng2.utils.colors import *
 
 # TODO: for some reason the button has a smaller hitbox than the image
-# class Particles():
 WIDTH, HEIGHT = 700, 700
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 
@@ -18,44 +19,39 @@ FPS = 2000
 #maximum velocity for stickman
 VEL = 200
 
-#for debugging
-
-# debugging = Debug(WIN, 0, 0, 10, 10, '')
-
-
-box = Area(WIN,0,0,20,20)
+box = Area(0,0,20,20)
 
 #creating our stickman character
-stickman = Entity(WIN,50,50,60,60,"player",RED,{
-    "running_left":[os.path.join('assets','art','pictures','animations',"walking",'walkingman1.png'),
-                 os.path.join('assets','art','pictures','animations',"walking",'walkingman2.png'),
-                 os.path.join('assets','art','pictures','animations',"walking",'walkingman3.png'),
-                 os.path.join('assets','art','pictures','animations',"walking",'walkingman4.png')],
+stickman = Entity(50,50,60,60,"player")
+stickman.anim_service.import_animation({
+    "running_left":[os.path.join('assets','images',"walking",'walkingman1.png'),
+                 os.path.join('assets','images',"walking",'walkingman2.png'),
+                 os.path.join('assets','images',"walking",'walkingman3.png'),
+                 os.path.join('assets','images',"walking",'walkingman4.png')],
 
-    "running_right":[os.path.join('assets','art','pictures','animations',"walking",'walkingman1.png'),
-                 os.path.join('assets','art','pictures','animations',"walking",'walkingman2.png'),
-                 os.path.join('assets','art','pictures','animations',"walking",'walkingman3.png'),
-                 os.path.join('assets','art','pictures','animations',"walking",'walkingman4.png')],
+    "running_right":[os.path.join('assets','images',"walking",'walkingman1.png'),
+                 os.path.join('assets','images',"walking",'walkingman2.png'),
+                 os.path.join('assets','images',"walking",'walkingman3.png'),
+                 os.path.join('assets','images',"walking",'walkingman4.png')],
 
-    "jumping":[os.path.join('assets','art','pictures','animations','jumping','jumping1.png'),
-                 os.path.join('assets','art','pictures','animations','jumping','jumping2.png'),
-                 os.path.join('assets','art','pictures','animations','jumping','jumping3.png'),
-                 os.path.join('assets','art','pictures','animations','jumping','jumping4.png')]},
+    "jumping":[os.path.join('assets','images',"walking",'jumping1.png'),
+                 os.path.join('assets','images',"walking",'jumping2.png'),
+                 os.path.join('assets','images',"walking",'jumping3.png'),
+                 os.path.join('assets','images',"walking",'jumping4.png')]})
 
-    os.path.join('assets','art','pictures','standingman.png'))
-
-stickman.flip_img(['running_right'], (True,False))
+stickman.anim_service.flip_anim(['running_right'], (True,False))
 
 
 def print1():
-    print("Hello World -------------------------------------")
+    print("----------------------------- Button Was Pressed -------------------------------------")
 
-button = Button(WIN, 50, 600, 'action', 400, 50, callback=print1)
+button = Button(50, 600, 'action', 400, 50, callback=print1)
 
 
 def draw_window(current_fps):
     #reseting the backgoround to it's original color
-    WIN.fill(BLACK)  
+    WIN.fill(BLACK)
+
     box.draw_Area()
     box.outline_Area(-2,RED)
     stickman.draw_current_anim(FPS,current_fps)
@@ -70,7 +66,6 @@ def draw_window(current_fps):
 
 
 
-
 def fpsChecker(fps,lows):
     # it checks if the fps are lower than the target fps.
     if fps < FPS:
@@ -79,6 +74,7 @@ def fpsChecker(fps,lows):
     else:
         # print(f'Higher {fps-FPS} from {FPS} fps!')
         return 0
+
 
 def stickman_handle_movement(keys_pressed, stickman, dt, current_fps): # TODO: there is room for optimization
     # Using vectoring to have smooth movement
@@ -121,6 +117,7 @@ def average_of(total:list, max:int|None =None) -> float:
 
     return sum1/len(total)
 
+
 def showgraph(total_fps):
     x = np.arange(len(total_fps))
     y = []
@@ -132,8 +129,10 @@ def showgraph(total_fps):
     plt.plot(x, y)
     plt.show()
 
+
 def time_based_dt(dt1, dt2) -> float:
     return dt2 - dt1
+
 
 def main():
     lows = 1
@@ -159,7 +158,6 @@ def main():
         # if time() - start_fps >= 1:
         #     fps = 1/dt
         
-
         # dt = 1/fps
         # dt_list += [dt]
         # fps_dt = 1/average_of(dt_list) 
@@ -195,7 +193,6 @@ def main():
         # lows += fpsChecker(FPS,lows)
         previous_fps = current_fps
         total_fps += [previous_fps]
-
 
 
 
