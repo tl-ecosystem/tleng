@@ -159,9 +159,12 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Thooking workspace files to ignore
+# theolaos workspace files to ignore
 main_test.py
 test/
 test.py
 test1.py
-subpixel/
+test2.py
+test3.py
+# subpixel/
+toke.py

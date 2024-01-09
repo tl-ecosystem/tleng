@@ -2,7 +2,8 @@
 Scene handler
 It justs puts the stuff on the screen and it handles the <scene changes> like menu->game->pause screen etc.
 '''
-from assets.scripts.engine.settings import *
+import pygame
+from abc import ABC, abstractmethod
 #import pygame
 
 """
@@ -32,18 +33,22 @@ fn scene_phase:
 
 """
 
-class Scene:
-    def __init__(self):
-        pygame.font.init()
-        pygame.mixer.init()
-        # self.
+from abc import ABC, abstractmethod
 
-    def on_init():
-        '''
-        Class objects, Entities, 
-        '''
+class SceneCatcher:
+    scenes = {}
 
-    def handle_events(self):
+    def __init__(self, scene_key):
+        self.scenes.update({scene_key:[self]})
+
+
+class Scene(SceneCatcher, ABC):
+    def __init__(self,scene_name)-> None:
+        SceneCatcher.__init__(self,scene_key=scene_name)
+        self.scene_name = scene_name
+
+    @abstractmethod
+    def event_handling(self):
         '''
         To handle the events of mouse and other
         
@@ -52,24 +57,27 @@ class Scene:
                 self.running = False
         
         '''
-        
-    def render(self):
-        '''
-        what to render to the screen
-        '''
 
+    @abstractmethod
     def update(self):
         '''
         game logic
         '''
 
-class SceneHandler:
-    def __init__(self, scenes: dict[str,Scene]) -> None: 
+    @abstractmethod
+    def render(self):
+        '''
+        what to render to the screen
+        '''
+
+
+class SceneManager:
+    def __init__(self, ) -> None: 
         """
         :param scenes: The dictionary should have Scene classes, or classes that have the structure of a scene class.
         :return: None
         """
-        self.scenes = scenes
+        self.scenes = None
         self.current_scene = ''
         self.layers = []
 
@@ -81,20 +89,21 @@ class SceneHandler:
         """
         return self.scenes[key]
     
-    def scene_phase(self, key:str) -> None:
-        """
-        Handles the scene 
-        """
-        self.scenes[key].handle_events()
-        self.scenes[key].update()
-        self.scenes[key].render()
 
+    def load_scenes(self, scenes: dict[str,Scene]) -> None:
+        self.scenes = scenes
     
-    def current_scene_phase(self) -> None:
-        self.scenes[self.current_scene].handle_events()
-        self.scenes[self.current_scene].update()
-        self.scenes[self.current_scene].render()
 
+    def render_current_scene(self) -> None:
+        try:
+            for scene in SceneCatcher.scenes[self.current_scene]:
+                scene.update_stuff()
+                scene.render_stuff()
+        except: 
+            for scene in self.scenes[self.current_scene]:
+                scene.event_handling()
+                scene.update_stuff()
+                scene.render_stuff()
 # the general idea that the scene can be controlled by the scene itself is kinda stupid.
 
 

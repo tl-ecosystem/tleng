@@ -1,7 +1,10 @@
-from assets.scripts.engine.utils.TlengArea import *
+from ..engine.area import Area
+from ..utils.colors import WHITE, BLACK
+from ..utils.settings import GlobalSettings
 from warnings import warn
+import pygame
 
-#TODO: K.I.S.S. (Keep It Simple, Stupid)
+#TODO: K.I.S.S. (Keep It Simple, Stupid)!!!
 
 class Label(Area):
     '''
@@ -25,7 +28,7 @@ class Label(Area):
         param `tsize` : It's the desired size for your text (default size 12) \n
         param `tcolor` : It's the desired color for your text (default color BLACK) \n
         param `tbold` : If you want for your text to be bold set it to True (default to False) \n
-        param `escape_text` : If you want to output the text raw or edited with this symbol ' \ ' (currently supported: \\n) \n
+        param `escape_text` : If you want to output the text raw or edited with this symbol ' \\ ' (currently supported: \\n) \n
         param `dynamic_change` : A function which will be called to handle what happens when the text reaches the edge of the screen, 
                                 str = 'default' for the default handling, if there are spaces in the text, then it will make a new line from the words \n
                                 None = nothing

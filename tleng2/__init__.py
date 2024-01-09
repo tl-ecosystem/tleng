@@ -1,30 +1,82 @@
-from .engine.area import *
-from .engine.entity import *
-from .ui_elements.label import * 
-from .physics.object import *
-from .physics.projectile import *
-from .engine.scene import *
-from .ui_manager import * 
+from os import environ
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
+# print(environ.get('PYGAME_HIDE_SUPPORT_PROMPT')) # debug
 
-__author__ = "Theooking/Theolaos"
-__version__ = "v2.2-exp"
+from .engine.area import Area
+from .engine.entity import Entity
+from .engine.scene import Scene
+from .engine.camera import Camera
+from .engine.scene import Scene, SceneManager
 
-__doc__ = f'''
-TLeng2.py is a python 2d game engine
+from .ui_elements.label import Label
+# from .ui_manager import 
+
+from .physics.object import Object
+from .physics.projectile import Projectile, Particles
+
+from .services.animation import LazyAnimationService
+from .services.image import ImageService
+from .services.sound import SoundService
+from .services.font import FontService
+from .services.tilemap import TileMap, TileSet
+
+from .utils.colors import *
+from .utils.settings import GlobalSettings, scaling_display, fill_display
+from .utils.debug import debug_print
+
+
+__author__ = "TheooKing/Theolaos"
+__version__ = "v2.2.01-exp"
+
+
+__name__ = "tleng2"
+__doc__ = f'''TLeng2.py is a python 2d game engine
 
 Current version is {__version__}
 
-Simplification, with overcomplication update ;D
+Current License:
+MIT License
 
+Copyright (c) 2023 Theofilos Nikolaos Savvidis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 '''
 
-# Ideas Report: About the events, you can make the user add the events to a specialised class variable in the abstractbutton class
-# Report:
-# TODO: proposal on changing the system from based to rect.x and rect.y to being based to a float coordination variable (pygame-ce has frects which allow for floating points)
-# TODO: adding the ability to either add the assets from the relative directory or from the whole directory (if one fails use other)
-# TODO: Make the code 'safer' , there are a lot of instances where you check if that do that, try using the 'try, except, finally' , maybe gonna ease the pain?
-# TODO: If current working directory doesn't work then you also use the global directory, which can be accesed from the constant variable `LOCAL_DIRECTORY` and the current working directory
+__all__ = [
+'Area', 
+'Entity', 
+'Scene', 
+'Camera', 
+'Scene', 'SceneManager', 
+'Label', 
+'Object', 
+'Projectile', 'Particles', 
+'LazyAnimationService', 
+'SoundService',
+'ImageService', 
+'FontService', 
+'TileMap', 'TileSet', 
+'GlobalSettings', 'scaling_display', 'fill_display',
+'debug_print'
+]
 
+# Report:
 # TODO: Redo the Label system in update 2.2 and add:
 #       capitilize / lower
 #       striketrough, underlined
@@ -33,9 +85,3 @@ Simplification, with overcomplication update ;D
 #       join
 #       change_{smt}
 #       __len__, __str__
-
-
-
-# Framework/Engine vocab: 
-# Draw ~ display ~ render : render to the window
-# update : updates the state of the class/object

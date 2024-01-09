@@ -7,15 +7,10 @@ assignees: ''
 
 ---
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Version [e.g. 22]
- - More info ...
-
-**Smartphone (please complete the following information):**
- - OS: [e.g. iOS8.1]
- - Version [e.g. 22]
- - More info ...
+**Hardware Specifications (please complete the following information):**
+ - Platform: [e.g. Laptop]
+ - OS: [e.g. Linux]
+ - Version [e.g. Kernel Version: 6.5]
 
 
 **Describe the bug**

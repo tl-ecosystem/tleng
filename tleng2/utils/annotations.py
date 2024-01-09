@@ -1,5 +1,6 @@
-import pygame
-from typing import AnyStr, Dict, Int, Sequence, Tuple, Union
+from pygame.math import Vector2
+from typing import Sequence, Tuple, Union
 
-Coordinate = Union[Tuple[float, float], Sequence[float], pygame.math.Vector2]
+# Coordinate = Union[Tuple[float, float], Vector2()]
+Color = Tuple[int,int,int]
 # {"%name_anim1%" : {"anim":[str,str,...], "frames" : int}, "%name_anim2%" : {"anim":[str,str,...], "frames" : int}, ...}

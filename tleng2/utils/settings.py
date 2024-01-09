@@ -1,7 +1,24 @@
 import pygame, json
+from abc import abstractmethod, ABC
 
+class LocalSettings:
+    @abstractmethod
+    def __init__(self):
+        """
+        Put the local specific setting that you want the scene/enviroment/object to have
+        e.x. (pseudo code)
+
+        self.fps = 30
+        self.font = comic_sans
+        self.debug = True
+        self.test = False
+        """
 
 class GlobalSettings:
+    """
+    Global settings, used across the game.
+    """
+
     _win_res = (1280,720)
     _disp_res = (1280,720)
     _display_scaling = 1
@@ -46,6 +63,10 @@ class GlobalSettings:
         Pass the saved settings from json.
         """
         pass
+
+
+def set_caption(caption: str) -> None:
+    pygame.display.set_caption(caption)
 
 
 def scaling_display(width, height):

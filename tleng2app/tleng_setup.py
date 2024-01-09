@@ -1,5 +1,9 @@
 '''
-First to time to click here
+First to time to click here.
+
+Should recreate it in PyQt, which will always be pre-installed.
+There is windows, linux and os x support.
+
 
 setups the main files to the programfiles folder, create the neccesery trees and then creates a shortcut to the desktop. 
 
@@ -17,7 +21,8 @@ Portal will open a project, and use it's utilities so the user can manipulate wh
 
 New projects will always give the option for a template, to kickstart the project as fast as possible
 
-TODO: change to bash script (?)
+TODO: Change from pygame to PyQt
+TODO: change to bash script (for linux?)
 
 '''
 
@@ -33,7 +38,7 @@ def setup_main_dir_windows(parent_dir:str='C:\Program Files',directory:str= "TLe
     os.chdir(parent_dir)
     path = os.path.join(parent_dir, directory) 
     os.mkdir(path) 
-    print("Directory '% s' created" % directory) 
+    print(f"Directory {directory} created") 
 
 def setup_main_dir_linux():
     pass
@@ -48,19 +53,17 @@ def main():
     run = True
     while run:
         # regulating which events are allowed (it doesn't work for some reason)
-        pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
+        # pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
                 sys.exit()
-            print(event)
 
         pygame.display.update()
         CLOCK.tick(FPS)
             
 
-        
 
 if __name__ == "__main__":
     main()

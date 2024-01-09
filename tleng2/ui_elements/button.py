@@ -1,7 +1,6 @@
-from assets.scripts.engine.utils.TlengArea import *
-from assets.scripts.engine.settings import *
+from tleng2.engine.area import *
+from tleng2.utils.colors import *
 import os  # better performance?
-import json
 # ______________________________________________________________UI FUNCTIONS _______________________________________________________________________________________
 
 # Button defaults
@@ -16,7 +15,6 @@ global indexEvent
 indexEvent = 1
 
 LOCAL_DIRECTORY = os.getcwd()
-# todo: cache these images into a the defaults json
 
 IMAGE_NORMAL = os.path.join(LOCAL_DIRECTORY,"assets","art","defaults","bttn_normal.png")
 IMAGE_HOVER = os.path.join(LOCAL_DIRECTORY,"assets","art","defaults","bttn_hover.png")
@@ -36,8 +34,18 @@ class Button(Area):
         If pressed button will be in a true false state, more like a switch. And if pressed again will go to the opposite state than it was before
         If pressed and released button, then instead of capturing the true false, it will create an event
     '''
-    def __init__(self, window:pygame.Surface, x:float, y:float, button_type:str, width:float, 
-                 height:float, button_states_path:tuple = (IMAGE_NORMAL,IMAGE_HOVER,IMAGE_DOWN), button_states_txt:tuple = (''),color:tuple=LIGHT_GREY, animDict:dict or json=None, callback=None):
+    def __init__(self, 
+            window: pygame.Surface, 
+            x:float, 
+            y:float, 
+            button_type:str, 
+            width:float, 
+            height:float, 
+            button_states_path: tuple = (IMAGE_NORMAL,IMAGE_HOVER,IMAGE_DOWN), 
+            button_states_txt: tuple = (''),
+            color: tuple = LIGHT_GREY, 
+            animDict: dict = None, 
+            callback = None):
         #json implemantation for buttons, for TlengUtilities
 
         Area.__init__(self, window, x, y, width, height, color)
@@ -112,22 +120,3 @@ class Button(Area):
         A little more advanced version of the function simple_draw()
         '''
         pass
-
-IMAGE_STATE_TRUE = os.path.join(LOCAL_DIRECTORY,"assets","scripts","defaults","bttn_normal.png")
-IMAGE_STATE_TRUE_HOVER = os.path.join(LOCAL_DIRECTORY,"assets","scripts","defaults","bttn_hover.png")
-IMAGE_STATE_FALSE = os.path.join(LOCAL_DIRECTORY,"assets","scripts","defaults","bttn_clicked.png")
-IMAGE_STATE_FALSE_HOVER = os.path.join(LOCAL_DIRECTORY,"assets","scripts",  "defaults","bttn_clicked.png")
-
-class Switch(Area):
-    def __init__(self, window, x:float, y:float, width:float, height:float, switchStates:tuple=[IMAGE_STATE_FALSE, IMAGE_STATE_FALSE_HOVER, IMAGE_STATE_TRUE, IMAGE_STATE_TRUE_HOVER], color:tuple=WHITE): #dictionaries?
-        Area.__init__(self, window, x, y, width, height, color)
-        self.switchStates = []
-        for path in switchStates:
-            self.state_img += [pygame.image.load(path).convert_alpha()]
-        self.stateFalse = self.switchStates[0]
-        self.stateFalseHover = self.switchStates[1]
-        self.stateTrue = self.switchStates[2]
-        self.stateTrueHover = self.switchStates[3]
-
-class Slider(Button):
-    pass

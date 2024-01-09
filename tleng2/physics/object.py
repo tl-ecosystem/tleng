@@ -1,4 +1,5 @@
-from assets.scripts.engine.utils.TlengArea import *
+from ..engine.area import Area
+# import pygame
 
 class Object(Area):
     pass
