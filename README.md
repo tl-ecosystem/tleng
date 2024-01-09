@@ -39,6 +39,6 @@ z = is either Beta/Alpha/dev of the general release or the bug fix version
 
 > ## :warning: WARNING 
 >
-> The game engine is still in the early stages, so please note that for every new push it is no guranteed that the code will reliably work with previous or current projects. Check the releases before attempting to get the newest from source.
+> The game engine is still in the early stages, so please note that for every new push it is not guranteed that the new code will reliably work with your previous or current projects. Check the releases before attempting to get the newest from source.
  
 ## The contributor of the main branch is Theolaos (@Thooking007).
