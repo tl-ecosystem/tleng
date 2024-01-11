@@ -1,6 +1,10 @@
 # TLengPy2
 
-TLengPy2 is a game engine written in python with the pygame-ce module.
+> ## :warning: WARNING 
+>
+> The game engine is still in the early stages, so please note that for every new push it is not guranteed that the new code will reliably work with your previous or current projects. Check the releases before attempting to get the newest from source.
+
+TLengPy2 is a game engine written in python with the pygame-ce and NumPy module.
 
 The reason I started this project is to see what it takes to create a 2d game engine, and for me to get an even better introduction to computer 2d graphics.
 
@@ -17,6 +21,7 @@ On every single update there will always be an example game, in the `examples` f
 ## Requirements
 - python 3.11+
 - Pygame Community Edition 2.2+
+- NumPy 1.20+
 
 ## Additional Bundled Software for TLengPy2 (still in development)
 
@@ -36,9 +41,5 @@ x = The general full release version
 y = The bug fix version for the general release
 
 z = is either Beta/Alpha/dev of the general release or the bug fix version
-
-> ## :warning: WARNING 
->
-> The game engine is still in the early stages, so please note that for every new push it is not guranteed that the new code will reliably work with your previous or current projects. Check the releases before attempting to get the newest from source.
  
 ## The contributor of the main branch is Theolaos (@theolaos).
