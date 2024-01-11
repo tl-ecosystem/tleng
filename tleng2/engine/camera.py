@@ -5,7 +5,7 @@ from ..utils.settings import GlobalSettings
 import pygame
 
 #test
-from subpixel import SubPixelSurface
+from ..utils.subpixel import SubPixelSurface
 
 
 class Camera: 

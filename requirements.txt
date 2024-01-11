@@ -1,4 +1,4 @@
 pygame-ce
+numpy
 moderngl
 matplotlib
-numpy

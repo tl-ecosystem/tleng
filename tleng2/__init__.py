@@ -24,10 +24,31 @@ from .utils.colors import *
 from .utils.settings import GlobalSettings, scaling_display, fill_display
 from .utils.debug import debug_print
 
+from .utils.subpixel import SubPixelSurface
+
+
+__all__ = [
+'Area', 
+'Entity', 
+'Scene', 
+'Camera', 
+'Scene', 'SceneManager', 
+'Label', 
+'Object', 
+'Projectile', 'Particles', 
+'LazyAnimationService', 
+'SoundService',
+'ImageService', 
+'FontService', 
+'TileMap', 'TileSet', 
+'GlobalSettings', 'scaling_display', 'fill_display',
+'debug_print',
+'SubPixelSurface'
+]
+
 
 __author__ = "TheooKing/Theolaos"
-__version__ = "v2.2.01-exp"
-
+__version__ = "v2.2.03-exp"
 
 __name__ = "tleng2"
 __doc__ = f'''TLeng2.py is a python 2d game engine
@@ -58,25 +79,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-__all__ = [
-'Area', 
-'Entity', 
-'Scene', 
-'Camera', 
-'Scene', 'SceneManager', 
-'Label', 
-'Object', 
-'Projectile', 'Particles', 
-'LazyAnimationService', 
-'SoundService',
-'ImageService', 
-'FontService', 
-'TileMap', 'TileSet', 
-'GlobalSettings', 'scaling_display', 'fill_display',
-'debug_print'
-]
-
 # Report:
+# TODO: Settings Json support.
+# TODO: Animation Json Support.
 # TODO: Redo the Label system in update 2.2 and add:
 #       capitilize / lower
 #       striketrough, underlined

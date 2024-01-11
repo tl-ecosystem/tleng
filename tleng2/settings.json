@@ -1,0 +1,5 @@
+{ 
+    // TODO: add more settings, see the settings.py file, 
+    // and create an importer for GlobalSettings!
+    "PYGAME_HIDE_SUPPORT_PROMPT" : "hide"
+}
