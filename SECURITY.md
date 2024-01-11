@@ -8,7 +8,7 @@ If the vulnerability is big then it will be changed whatever the version is.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| <2.0.x  | :white_check_mark: |
+| <2.0.x  | ❎ |
 | <2.2-dev| :white_check_mark: |
 
 (2.2-dev is being developed)
