@@ -1,26 +1,38 @@
+# Tests the SubPixel Library Alone.
+
 NUM_BALLS = 100
 
-import pygame
+import pygame, os, sys
+# from sys import path as sys_path
+# from os import path as os_path
 from pygame.locals import *
 
-from subpixelsurface import *
+
+try:
+    from ..tleng2 import SubPixelSurface
+except ImportError as e1:
+    try: 
+        # print(help(sys_path))
+        sys.path.append("..")
+        from tleng2 import SubPixelSurface
+    except ImportError as e2:
+        print( "Problem with import of the subpixel library. Test Failed")
+        raise(e2)
 
 from math import sin, cos
 
 def run():
-    
     pygame.init()
     screen = pygame.display.set_mode((640, 480))  
 
     clock = pygame.time.Clock()
     
-    pingball = pygame.image.load("subpixel/ball.png")    
+    pingball = pygame.image.load(os.path.join("..","tleng2","utils","subpixel","ball.png"))    
     pingball_subpixel = SubPixelSurface(pingball, x_level=4)    
-    back = pygame.image.load("subpixel/back.png")
+    back = pygame.image.load(os.path.join("..","tleng2","utils","subpixel","back.png"))
         
     t = 0.
     while True:
-        
         for event in pygame.event.get():
             if event.type == QUIT:
                 return
@@ -45,5 +57,8 @@ def run():
         pygame.display.update() 
         print(time_passed)
 
-        
+
 run()
+
+# TODO: make it run for 10 seconds, and track the fps. 
+#           Run 10 instances (sequentially) with incrementing the amount of balls 
