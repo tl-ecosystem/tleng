@@ -41,6 +41,6 @@ x = The general full release version
 
 y = The bug fix version for the general release
 
-z = is either Beta/Alpha/dev of the general release or the bug fix version
+z = is either Beta/Alpha/dev/exp of the general release or the bug fix version (exp : experimental)
  
 ## The contributor of the main branch is Theolaos (@theolaos).
