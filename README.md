@@ -17,7 +17,7 @@ On every single update there will always be an example game, in the `examples` f
 ## Games that use this engine/framework:
 
 - [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
-- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: 2.2-dev)
+- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.04-exp)
 
 ## Requirements
 - python 3.11+
