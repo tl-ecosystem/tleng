@@ -27,14 +27,15 @@ Check the github [wiki](https://github.com/theolaos/TLengPy2/wiki)!
 - Pygame Community Edition 2.2+
 - NumPy 1.20+
 
-## 💾 Additional Bundled Software for TLengPy2 (still in development)
+## 💾 Additional Bundled Software for TLengPy2 (in development)
 
 This software will have a GUI for the user
 
 - Level Creator
 - Assistant for inputing assets to your game (Import Wizard)
-- Scene Creator
+- Scene/UI Creator
 - Sprite + Animation Creator (Pixel Art)
+- SpriteStacking Viewer
 
 ## ❓ The meaning behind the symbolising of the updates are 2.x.y-z:
 
