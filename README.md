@@ -12,19 +12,22 @@ The code is here to either inspire someone else to start a similar project, or t
 
 On every single update there will always be an example game, in the `examples` folder.
 
-## For the documentation check the wiki!
+## 📖 Documentation
 
-## Games that use this engine/framework:
+Check the github [wiki](https://github.com/theolaos/TLengPy2/wiki)!
+
+## 🎮 Games that use this engine/framework:
 
 - [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
 - [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.04-exp)
+- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.04-exp)
 
-## Requirements
+## 🛠️ Requirements
 - python 3.11+
 - Pygame Community Edition 2.2+
 - NumPy 1.20+
 
-## Additional Bundled Software for TLengPy2 (still in development)
+## 💾 Additional Bundled Software for TLengPy2 (still in development)
 
 This software will have a GUI for the user
 
@@ -33,7 +36,7 @@ This software will have a GUI for the user
 - Scene Creator
 - Sprite + Animation Creator (Pixel Art)
 
-## The meaning behind the symbolising of the updates are 2.x.y-z:
+## ❓ The meaning behind the symbolising of the updates are 2.x.y-z:
 
 2 = the engine is 2d (and because it's better than the previous try)
 
