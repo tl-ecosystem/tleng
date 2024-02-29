@@ -4,7 +4,7 @@
 >
 > The game engine is still in the early stages, so please note that for every new push it is not guranteed that the new code will reliably work with your previous or current projects. Check the releases before attempting to get the newest from source.
 
-TLengPy2 (pronounced: tleng-pie-two) is a game engine written in python with the pygame-ce and NumPy module.
+TLengPy2 (pronounced: tlenk-pie-two) is a game engine written in python with the pygame-ce and NumPy module.
 
 The reason I started this project is to see what it takes to create a 2d game engine, and for me to get an even better introduction to computer 2d graphics.
 
@@ -20,7 +20,7 @@ Check the github [wiki](https://github.com/theolaos/TLengPy2/wiki)!
 
 - [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
 - [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.04-exp)
-- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.04-exp)
+- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.05-exp)
 
 ## 🛠️ Requirements
 - python 3.11+
