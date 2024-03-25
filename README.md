@@ -19,8 +19,8 @@ Check the github [wiki](https://github.com/theolaos/TLengPy2/wiki)!
 ## 🎮 Games that use this engine/framework:
 
 - [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
-- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.04-exp)
-- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.05-exp)
+- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.4-exp)
+- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.10-exp)
 
 ## 🛠️ Requirements
 - python 3.11+
