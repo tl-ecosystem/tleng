@@ -35,7 +35,7 @@ This software will have a GUI for the user
 - Assistant for inputing assets to your game (Import Wizard)
 - Scene/UI Creator
 - Sprite + Animation Creator (Pixel Art)
-- SpriteStacking Viewer
+- [SpriteStacking Viewer](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/sprite-stack-viewer)
 
 ## ❓ The meaning behind the symbolising of the updates are 2.x.y-z:
 
