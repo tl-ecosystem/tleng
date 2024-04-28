@@ -1,10 +1,10 @@
-# TLengPy2
+# TLeng3
 
 > ## :warning: WARNING 
 >
 > The game engine is still in the early stages, so please note that for every new push it is not guranteed that the new code will reliably work with your previous or current projects. Check the releases before attempting to get the newest from source.
 
-TLengPy2 (pronounced: tlenk-pie-two) is a game engine written in python with the pygame-ce and NumPy modules.
+TLeng3 (pronounced: tlenk-three) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++.
 
 The reason I started this project is to see what it takes to create a 2d game engine, and for me to get an even better introduction to computer 2d graphics.
 
@@ -12,9 +12,11 @@ The code is here to either inspire someone else to start a similar project, or t
 
 On every single general release update there always will be an example game, in the `examples` folder.
 
+The C++ version of the engine is a work in progress, but it will be available soon! 
+
 ## 📖 Documentation
 
-Check the github [wiki](https://github.com/theolaos/TLengPy2/wiki)!
+Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 
 ## 🎮 Games that use this engine/framework:
 
@@ -23,9 +25,17 @@ Check the github [wiki](https://github.com/theolaos/TLengPy2/wiki)!
 - [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.10-exp)
 
 ## 🛠️ Requirements
-- python 3.11+
-- Pygame Community Edition 2.2+
-- NumPy 1.20+
+- Python:
+  - python 3.11+
+  - Pygame Community Edition 2.2+
+  - PyMunk 6.5+
+  - NumPy 1.20+
+  - ModernGL (not needed yet)
+- C++ (WIP):
+  - SDL 3
+  - GLAD
+  - OpenGL
+  - CMake
 
 ## 💾 Additional Bundled Software for TLengPy2 (in development)
 
