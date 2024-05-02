@@ -4,7 +4,7 @@
 >
 > The game engine is still in the early stages, so please note that for every new push it is not guranteed that the new code will reliably work with your previous or current projects. Check the releases before attempting to get the newest from source.
 
-TLeng3 (pronounced: tlenk-three) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++.
+TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++. 
 
 The reason I started this project is to see what it takes to create a 2d game engine, and for me to get an even better introduction to computer 2d graphics.
 
@@ -13,6 +13,8 @@ The code is here to either inspire someone else to start a similar project, or t
 On every single general release update there always will be an example game, in the `examples` folder.
 
 The C++ version of the engine is a work in progress, but it will be available soon! 
+
+After the C++ section will be finished, the engine will change names from TLeng2 to TLeng3. TLeng2 aims only for support with python, TLeng3 aims to support python and C++ together.
 
 ## 📖 Documentation
 
