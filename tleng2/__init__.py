@@ -1,54 +1,84 @@
-from os import environ
+from os import environ, path, getcwd
+import json
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
-# print(environ.get('PYGAME_HIDE_SUPPORT_PROMPT')) # debug
 
-from .engine.area import Area
-from .engine.entity import Entity
-from .engine.scene import Scene
-from .engine.camera import Camera
-from .engine.scene import Scene, SceneManager
 
+# core_engine Directory
+#from .core_engine.scene_manager import SceneManager
+
+
+# core_engine Directory
+# from .core_engine.scene_manager import SceneManager
+from .engine.game import Game
+from .engine.properties import EngineProperties, SceneManagerProperties, RendererProperties
+from .engine.methods import EngineMethods, SceneManagerMethods, RendererMethods
+from .engine.settings import GlobalSettings, LocalSettings
+# from .engine.ui_manager
+
+# utils Directory
+from .utils import colors
+from .utils.utils import convert_rad_to_deg, convert_deg_to_rad, get_parent_dir
+from .utils.debug import debug_print
+from .utils.subpixel import SubPixelSurface
+
+
+# object Directory
+from .object.area import Area
+from .object.sprite import Sprite
+
+# object Directory
+from .components.scene import Scene, SceneCatcher
+from .components.camera import Camera
+from .components.renderable import Renderable
+from .components.map import Map
+
+# ui_elemetns Directory
 from .ui_elements.label import Label
+from .ui_elements.button import Button
 # from .ui_manager import 
 
+
+# physics Directory
 from .physics.object import Object
 from .physics.projectile import Projectile, Particles
 
+
+# services Directory
 from .services.animation import LazyAnimationService
 from .services.image import ImageService
 from .services.sound import SoundService
 from .services.font import FontService
 from .services.tilemap import TileMap, TileSet
+from .services.sprite_stack import SpriteStackService
 
-from .utils.colors import *
-from .utils.settings import GlobalSettings, scaling_display, fill_display
-from .utils.debug import debug_print
-
-from .utils.subpixel import SubPixelSurface
-
-
+# TODO Error in __all__ preventing * import 
 __all__ = [
+'colors', 'convert_rad_to_deg', 'convert_deg_to_rad', 'get_parent_dir',
+'EngineMethods', 'SceneManagerMethods', 'SceneManagerProperties', 'RendererMethods', 'RendererProperties', 'EngineProperties',
+'Renderable',
+'Map',
 'Area', 
-'Entity', 
+'Sprite', 
 'Scene', 
 'Camera', 
-'Scene', 'SceneManager', 
-'Label', 
+'Scene', 'SceneCatcher',
+"Game",
+'Label', 'Button',
 'Object', 
 'Projectile', 'Particles', 
 'LazyAnimationService', 
 'SoundService',
 'ImageService', 
-'FontService', 
+'FontService', 'SpriteStackService',
 'TileMap', 'TileSet', 
-'GlobalSettings', 'scaling_display', 'fill_display',
+'GlobalSettings', 'LocalSettings',
 'debug_print',
 'SubPixelSurface'
 ]
 
 
 __author__ = "TheooKing/Theolaos"
-__version__ = "v2.2.03-exp"
+__version__ = "v2.2.11-exp"
 
 __name__ = "tleng2"
 __doc__ = f'''TLeng2.py is a python 2d game engine
@@ -79,7 +109,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-# Report:
+# Engine Report:
 # TODO: Settings Json support.
 # TODO: Animation Json Support.
 # TODO: Redo the Label system in update 2.2 and add:

@@ -1,5 +1,9 @@
 { 
-    // TODO: add more settings, see the settings.py file, 
-    // and create an importer for GlobalSettings!
-    "PYGAME_HIDE_SUPPORT_PROMPT" : "hide"
+    "PYGAME_HIDE_SUPPORT_PROMPT" : "hide",
+    "TLENG2_HIDE_SUPPORT_PROMPT" : "hide",
+    "FPS" : 60,
+    "WINDOW_RESOLUTION" : [1280,720],
+    "DISPLAY_RESOLUTION" : [1280,720],
+    "FONT" : null,
+    "DEBUG" : false
 }
