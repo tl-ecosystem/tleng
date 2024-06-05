@@ -16,6 +16,29 @@ The C++ version of the engine is a work in progress, but it will be available so
 
 After the C++ section will be finished, the engine will change names from TLeng2 to TLeng3. TLeng2 aims only for support with python, TLeng3 aims to support python and C++ together.
 
+## Setting Up the Engine
+
+TLeng is finally up on the PyPi platform as a package that you can install.
+
+```bash
+$ pip install tleng
+```
+
+Create a directory that is going to host your game files:
+```bash
+$ mkdir my_game_name
+$ cd my_game_name
+```
+
+After that you can create a `main.py` file:
+
+```bash
+$ touch main.py
+$ your_preferred_editor main.py
+```
+
+Import tleng and start developing games!
+
 ## 📖 Documentation
 
 Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
@@ -23,8 +46,8 @@ Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 ## 🎮 Games that use this engine/framework:
 
 - [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
-- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.4-exp)
-- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.10-exp)
+- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.0-exp4)
+- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0-exp12)
 
 ## 🛠️ Requirements
 - Python:

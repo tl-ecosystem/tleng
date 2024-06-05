@@ -8,8 +8,8 @@ If the vulnerability is big then it will be changed whatever the version is.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| <2.0.x  | ❌ |
-| <2.2-dev| :white_check_mark: |
+| 2.0.x  | ❌ |
+| 2.2.0-dev(x)| :white_check_mark: |
 
 (2.2-dev is being developed)
 
@@ -28,6 +28,6 @@ The meaning behind the symbolising of the updates are 2.x.y-z:
 
 - y = The bug fix version for the general release
 
-- z = is either Beta/Alpha of the general release (or rarely on the fixes)
+- z = is either Beta/Alpha/experimental of the general release (or rarely on the fixes)
 
 In this situation, the y is responsible on showing the new update fixes. Logs on what was fixed would always be on the releases tab.

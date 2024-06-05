@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tleng"
+version = "2.2.0.dev11"
+authors = [
+  { name="Theolaos" },
+]
+description = "TLeng is a python 2d game engine"
+readme = "README.md"
+dependencies = [
+    "pygame-ce", 
+    "numpy", 
+    "moderngl"
+]
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/tl-ecosystem/tleng"
+Issues = "https://github.com/tl-ecosystem/tleng/issues"

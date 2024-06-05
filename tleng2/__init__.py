@@ -83,12 +83,12 @@ __version__ = "v2.2.11-exp"
 __name__ = "tleng2"
 __doc__ = f'''TLeng2.py is a python 2d game engine
 
-Current version is {__version__}
+Current version is {__version__}.
+'''
 
-Current License:
-MIT License
+__license__ = '''MIT License
 
-Copyright (c) 2023 Theofilos Nikolaos Savvidis
+Copyright (c) 2023 theolaos
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -107,7 +107,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-'''
+''' 
 
 # Engine Report:
 # TODO: Settings Json support.
