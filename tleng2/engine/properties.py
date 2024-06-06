@@ -24,11 +24,11 @@ class EngineProperties:
     """
     Engine properties, needed across the framework/game.
     """
-    _clock = pygame.time.Clock()
-    _dt = 0
-    _events = None
-    _keys_pressed = None
-    GAME_RUNNING = True
+    _clock: pygame.time.Clock = pygame.time.Clock()
+    _dt: float = 0
+    _events: list = []
+    _keys_pressed: list = []
+    GAME_RUNNING: bool = True
 
     # _index_event = 1
 
@@ -36,27 +36,27 @@ class EngineProperties:
 
 
 class SceneManagerProperties:
-    _default_scene = ''
+    _default_scene: str = ''
 
-    _current_scene = ''
+    _current_scene: str = ''
     
-    _waiting_scene = ''
-    _changing_scenes = False
+    _waiting_scene: str = ''
+    _changing_scenes: bool = False
 
 
 class RendererProperties:
     __temp_disp = None
 
-    _default_display = None
+    _default_display: pygame.SurfaceType = None
 
-    _display = None
-    _window = None
+    _display: pygame.SurfaceType = None
+    _window: pygame.SurfaceType  = None
 
     _local_default_camera = None
 
     # parameters to be used in scenes
-    scene_parameters = {}
-    type_parameters = {}
+    scene_parameters: dict = {}
+    type_parameters: dict = {}
 
     # when you call to render a sprite, it's renderable attr will be passed 
     # here for the renderer to later inspect it and render it

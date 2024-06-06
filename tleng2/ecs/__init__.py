@@ -1,0 +1,1 @@
+# This ECS implementation is inspired from Bevy ECS.

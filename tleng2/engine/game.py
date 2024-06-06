@@ -2,6 +2,7 @@ import sys
 import os
 import pygame
 
+from ..ecs.ecs_manager import WorldsManager
 from ..engine.properties import EngineProperties, SceneManagerProperties, RendererProperties
 from ..engine.methods import  EngineMethods, RendererMethods, SceneManagerMethods
 from ..engine.renderer import Renderer
@@ -11,20 +12,27 @@ from .settings import GlobalSettings
 from .scene_manager import SceneManager
 
 
-
-
 class Game: 
     def __init__(self):
         # pygame.init()
         self.scene_manager = SceneManager()
         self.renderer = Renderer()
+        self.ecs_manager = WorldsManager()
         
 
-    def run(self, tleng2_intro: bool = True):
+    def load_worlds(self, ) -> None:
+        """
+        
+        """
+        self.ecs_manager = ...
+
+
+    def run(self, tleng2_intro: bool = False):
         '''
-        to play the game
+        Runs the Game Engine while loop with the game
         '''
         
+        # it is not ready yet
         if tleng2_intro:
             pass
 
@@ -47,6 +55,8 @@ class Game:
             RendererMethods.clear_render_calls()
             EngineMethods.clock_tick_GP_dt(GlobalSettings._fps)
             SceneManagerMethods.update_scene()
+
+            # self.ecs_manager.update()
 
             debug_print(SceneCatcher.scenes, tags=["Rendering"])
 

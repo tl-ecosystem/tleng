@@ -1,7 +1,6 @@
-from os import environ, path, getcwd
-import json
+from os import environ#, path, getcwd
+# import json
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
-
 
 # core_engine Directory
 #from .core_engine.scene_manager import SceneManager
@@ -51,7 +50,6 @@ from .services.font import FontService
 from .services.tilemap import TileMap, TileSet
 from .services.sprite_stack import SpriteStackService
 
-# TODO Error in __all__ preventing * import 
 __all__ = [
 'colors', 'convert_rad_to_deg', 'convert_deg_to_rad', 'get_parent_dir',
 'EngineMethods', 'SceneManagerMethods', 'SceneManagerProperties', 'RendererMethods', 'RendererProperties', 'EngineProperties',
@@ -78,15 +76,19 @@ __all__ = [
 
 
 __author__ = "TheooKing/Theolaos"
-__version__ = "v2.2.11-exp"
+__version__ = "v2.2.0-exp12"
+
+import platform
+
+print(f"tleng {__version__} (Python: {platform.python_version()})")
 
 __name__ = "tleng2"
 __doc__ = f'''TLeng2.py is a python 2d game engine
 
-Current version is {__version__}.
-'''
+Current version is {__version__}
 
-__license__ = '''MIT License
+Current License:
+MIT License
 
 Copyright (c) 2023 theolaos
 
@@ -107,7 +109,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-''' 
+'''
 
 # Engine Report:
 # TODO: Settings Json support.

@@ -21,6 +21,7 @@ class LocalSettings:
 class GlobalSettings:
     """
     Global settings, used across the game.
+    Can be overwritten with the LocalSettings class.
     """
 
     _win_res = (1280,720)
