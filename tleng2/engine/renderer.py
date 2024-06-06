@@ -34,16 +34,16 @@ class Renderer:
         for call in RendererProperties.render_calls:
             renderable = call
             
-            print(renderable)
+            debug_print(renderable, tags=["Renderer"])
 
             if RendererProperties._local_default_camera != None:
                 pos = CameraCatcher.cameras[RendererProperties._local_default_camera].offset_pos
-                print(pos)
+                debug_print(pos, tags=["Renderer"])
                 display.blit(renderable.surface, (round(renderable.x - pos[0]) , round(renderable.y - pos[1])))
             else:
                 display.blit(renderable.surface, (renderable.x , renderable.y))
         
-        print(CameraCatcher.cameras)
+        debug_print(CameraCatcher.cameras, tags=["Renderer", "Camera"])
 
 
         

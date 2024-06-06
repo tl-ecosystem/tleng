@@ -21,7 +21,7 @@ class Renderable:
         """   
         surface = None
         if thickness > 0:
-            surface = pygame.Surface((rect.w + (thickness<<1),rect.w + (thickness<<1)))
+            surface = pygame.Surface((rect.w + (thickness<<1), rect.w + (thickness<<1)))
             rect = pygame.Rect(rect.x - thickness, rect.y - thickness, rect.width + thickness*2 , rect.height + thickness*2)
         else:
             surface = pygame.Surface(rect.size)

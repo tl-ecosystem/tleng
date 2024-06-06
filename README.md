@@ -18,6 +18,8 @@ After the C++ section will be finished, the engine will change names from TLeng2
 
 ## Setting Up the Engine
 
+It is recommended that everytime you create a game in Tleng you create a Virtual Enviroment. That is to resolve any conflicts that might arise from namespaces and more (Tleng uses Pygame-CE which conflicts with Pygame).
+
 TLeng is finally up on the PyPi platform as a package that you can install.
 
 ```bash
