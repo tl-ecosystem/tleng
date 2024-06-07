@@ -7,6 +7,10 @@ from .component import Component
 class Schedule:
     def __init__(self) -> None:
         self.system_schedule: list[System] = []
+    
+
+    def add_systems(self, *systems) -> None:
+        self.system_schedule.append(*systems)
 
 
 class EntityManager:
@@ -21,7 +25,7 @@ class EntityManager:
         self.free_entities: set[int] = set()
         self.entities: set[int] = set()
 
-        self.caches: set = {}
+        self.caches: dict = {}
 
 
     def spawn(self) -> int:
@@ -44,10 +48,13 @@ class EntityManager:
             print(f"(logger is not implemented) Unssuccesfull despawn of Entity with id: #{_id}")
 
 
+    def clear_cache(self) -> None:
+        self.caches = {}
+
+
 class ComponentManager:
     def __init__(self) -> None:
         pass
-
 
 
 class World:
@@ -59,10 +66,7 @@ class World:
     def __init__(self) -> None:
         self.entity_manager = EntityManager()
 
-        self.components = ComponentManager()
-        # self.components: dict = {}
-
-        self.schedule: Schedule = None
+        self.component_manager = ComponentManager()
 
         self.archetypes_table: list = []
 
@@ -115,3 +119,11 @@ class World:
 
     def query(self, *components: Component, optional: list[Component] = None) -> tuple[int, list[Component]]:
         ...
+
+    
+    def clear_cache(self) -> None:
+        """
+        Clears the caches from the Component Manager and the Entity Manager.
+        """
+        self.entity_manager.clear_cache()
+        self.component_manager.clear_cache()

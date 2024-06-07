@@ -76,19 +76,20 @@ __all__ = [
 
 
 __author__ = "TheooKing/Theolaos"
-__version__ = "v2.2.0-exp12"
+__version__ = "v2.2.0.dev12"
 
 import platform
 
 print(f"tleng {__version__} (Python: {platform.python_version()})")
 
-__name__ = "tleng2"
-__doc__ = f'''TLeng2.py is a python 2d game engine
+__name__ = "tleng"
+__doc__ = f'''
+TLeng is a 2d python game engine.
 
-Current version is {__version__}
+Current version is {__version__}.
+'''
 
-Current License:
-MIT License
+__license__ = '''MIT License
 
 Copyright (c) 2023 theolaos
 

@@ -22,4 +22,36 @@
 # $ Who is the author of this game: Theolaos
 # $ 
 
- 
+import argparse
+import sys
+from tleng2 import __name__, __doc__, __version__
+
+def main() -> None:
+
+    print("hello")
+
+    parser = argparse.ArgumentParser(
+        prog=__name__.name, 
+        description=__doc__.description,
+        epilog="Check the repo in: https://github.com/tl-ecosystem/tleng"
+    )
+
+
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=f"{__version__}",
+        help="To see the version of the Game Engine"
+    )
+
+    parser.add_argument(
+        "--license",
+        action="version",
+        version="MIT license",
+        help="To see the license of the Game Engine"
+    )
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

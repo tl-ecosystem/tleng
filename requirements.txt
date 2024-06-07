@@ -1,4 +1,6 @@
 pygame-ce
 numpy
 moderngl
+pymunk
+typing_extensions
 matplotlib

@@ -4,6 +4,10 @@
 >
 > The game engine is still in the early stages, so please note that for every new push it is not guranteed that the new code will reliably work with your previous or current projects. Check the releases before attempting to get the newest from source.
 
+ ![Static Badge](https://img.shields.io/badge/pip_install-tleng-blue?style=flat) ![Static Badge](https://img.shields.io/badge/licence-MIT-blue?style=flat) ![Static Badge](https://img.shields.io/badge/python-3.11_3.12-blue?style=flat&logo=python)
+
+
+
 TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++. 
 
 The reason I started this project is to see what it takes to create a 2d game engine, and for me to get an even better introduction to computer 2d graphics.
@@ -18,10 +22,19 @@ After the C++ section will be finished, the engine will change names from TLeng2
 
 ## Setting Up the Engine
 
-It is recommended that everytime you create a game in Tleng you create a Virtual Enviroment. That is to resolve any conflicts that might arise from namespaces and more (Tleng uses Pygame-CE which conflicts with Pygame).
+It is recommended that everytime you create a game in `Tleng` you create a `Virtual Enviroment`. That is to resolve any conflicts that might arise from namespaces and more (`Tleng` uses `Pygame-CE` which conflicts with `Pygame`).
 
-TLeng is finally up on the PyPi platform as a package that you can install.
+Here is how to create a `virtual enviroment`:
+```bash
+$ python -m venv name_of_your_virtual_enviroment
+```
 
+Then you want to activate the `virtual enviroment`:
+```bash
+$ source venv/bin/activate
+```
+
+Now install the `TLeng` game engine with `pip`:
 ```bash
 $ pip install tleng
 ```
@@ -39,7 +52,7 @@ $ touch main.py
 $ your_preferred_editor main.py
 ```
 
-Import tleng and start developing games!
+Import `tleng2` and start developing games!
 
 ## 📖 Documentation
 

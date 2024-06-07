@@ -17,7 +17,7 @@ GlobalSettings._debug = False
 class ExampleSceneOne(Scene):
     def __init__(self, scene_name) -> None:
         super().__init__(scene_name)
-        image_assets_dir = os.path.join(get_parent_dir(__file__, 1), 'assets/images')
+        image_assets_dir = os.path.join(get_parent_dir(__file__, 2), 'assets/images')
 
         self.zero_vector = pygame.math.Vector2(0,0)
 
@@ -74,7 +74,7 @@ class ExampleSceneOne(Scene):
 
         if self.player_vector != self.zero_vector:
             self.player_sprite.rect.center += self.player_vector.normalize() * SPEED
-            print(self.player_vector.length())
+            # print(self.player_vector.length())
         else:
             self.player_sprite.change_current_animation('Standing')
     

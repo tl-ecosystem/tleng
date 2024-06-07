@@ -1,5 +1,4 @@
 import sys
-import os
 import pygame
 
 from ..ecs.ecs_manager import WorldsManager

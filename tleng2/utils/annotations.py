@@ -1,8 +1,8 @@
 from pygame.math import Vector2
 #from pygame._common import RectValue
 from typing import IO, Callable, Tuple, Union, TypeVar
-from typing_extensions import Literal as Literal, SupportsIndex as SupportsIndex
-from typing_extensions import Protocol
+# from typing_extensions import Literal as Literal, SupportsIndex as SupportsIndex
+# from typing_extensions import Protocol
 from typing import Sequence, Tuple, Union, overload
 
 # Coordinate = Union[Tuple[float, float], Vector2()]
