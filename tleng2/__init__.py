@@ -14,7 +14,7 @@ from .engine.methods import EngineMethods, SceneManagerMethods, RendererMethods
 from .engine.game import Game
 # from .engine.ui_manager
 
-import ecs
+from . import ecs
 
 # utils Directory
 from .utils import colors
