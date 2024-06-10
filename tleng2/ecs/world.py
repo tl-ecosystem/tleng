@@ -1,52 +1,13 @@
-# ECS implementation inspired from Esper ECS : https://github.com/benmoran56/esper
-# Naming schemes inspired from Bevy ECS : https://docs.rs/bevy_ecs/latest/bevy_ecs/
-
-from dataclasses import dataclass
 from itertools import count
 
 # from ..engine.properties import EngineProperties
 from typing import Any, Iterable
-from ..utils.utils import first
-from .system import System
-from .component import Component
 
 
-class Schedule:
+class Component: 
     """
-    Something like a system manager.
+    Here for symbolic reasons
     """
-    def __init__(self) -> None:
-        self.system_schedule: list[System] = []
-    
-
-    def add_systems(self, *systems) -> None: 
-        for system in systems:
-            self.system_schedule.append(system)
-        
-        self.system_schedule.sort(key=lambda syst: syst.priority, reverse=True)
-
-    
-    def init_systems(self, world) -> None:
-        for system in self.system_schedule:
-            system.change_world(world)
-
-
-    def update(self) -> None:
-        for system in self.system_schedule:
-            system.update()
-
-
-class ComponentManager:
-    def __init__(self) -> None:
-        self.cache = {}
-
-
-    def get_components(self) -> None: 
-        raise NotImplementedError
-
-
-    def clear_cache(self) -> None:
-        self.cache = {}
 
 
 class World:
@@ -56,7 +17,6 @@ class World:
     The world contains every entity with it's respective components.
     """
     def __init__(self) -> None:
-
         self.id_count = count(start=0)
         self.dead_entities: set[int] = set()
         self.entity_db: dict[int, dict[Any, set]] = {}
@@ -118,32 +78,21 @@ class World:
         Clears all the components from the given entity id
         :returns: Nothing
         """
-        raise NotImplementedError
-
+        self.components_caches
     
-    def kill(self, entity: int) -> None:
+
+    def add_components(self, entity: int, components: Component) -> None: 
         """
-        Despawns the Entity and clears all the components that it had.
+        Adds components to the given entity id
+        :returns: Nothing
         """
         raise NotImplementedError
-
-
-    def use_schedule(self, schedule: Schedule) -> None:
-        """
-        Use the schedule that works best with the world created.
-        """
-        self.schedule = schedule
-        self.schedule.init_systems(self)
-
-
-    def run_schedule(self) -> None:
-        self.schedule.update()
 
 
     def __get_components_has_without(self, 
                                           component_types: tuple, 
-                                          has: tuple,
-                                          without: tuple = ()
+                                          has: tuple[Component] = (),
+                                          without: tuple[Component] = ()
                                     ) -> Iterable[tuple[int, list[Component]]]:
         component_db = self.components_db
         entity_db = self.entity_db
@@ -161,8 +110,8 @@ class World:
     
     def query(self, 
                     *component_types: Component, 
-                    has: tuple[Component],  
-                    without: tuple = ()
+                    has: tuple[Component] = (),  
+                    without: tuple[Component] = ()
                 ) -> Iterable[tuple[int, list[Component]]]:
         """
         Query in the same tuple all the wanted and `has` (tries to see if they 
@@ -201,7 +150,20 @@ class World:
             return self.components_caches[component_types]
         except KeyError:
             return self.components_caches.setdefault(component_types, list(self.__get_components(*component_types)))
-        
+    
+
+    def __get_component(self, component_type) -> Iterable[tuple[int, Component]]:
+        entity_db = self.entity_db
+
+        for entity in self.components_db.get(component_type, []):
+            yield entity, entity_db[entity][component_type]
+
+
+    def single_fast_query(self, component_type: Component) -> Iterable[tuple[int, Component]]:
+        try:
+            return self.components_caches[component_type]
+        except KeyError:
+            return self.components_caches.setdefault(component_type, list(self.__get_component(*component_type)))
 
 
     def clear_cache(self) -> None:
@@ -212,4 +174,13 @@ class World:
         self.component_caches = {}
     
 
+    def use_schedule(self, schedule) -> None:
+        """
+        Use the schedule that works best with the world created.
+        """
+        self.schedule = schedule
+        self.schedule.init_systems(self)
 
+
+    def run_schedule(self) -> None:
+        self.schedule.update()

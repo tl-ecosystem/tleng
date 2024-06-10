@@ -14,6 +14,8 @@ from .engine.methods import EngineMethods, SceneManagerMethods, RendererMethods
 from .engine.game import Game
 # from .engine.ui_manager
 
+import ecs
+
 # utils Directory
 from .utils import colors
 from .utils.utils import convert_rad_to_deg, convert_deg_to_rad, get_parent_dir
@@ -71,7 +73,8 @@ __all__ = [
 'TileMap', 'TileSet', 
 'GlobalSettings', 'LocalSettings',
 'debug_print',
-'SubPixelSurface'
+'SubPixelSurface',
+'ecs'
 ]
 
 

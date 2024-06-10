@@ -1,7 +1,7 @@
 import sys
 import pygame
 
-from ..ecs.ecs_manager import WorldsManager
+from ..ecs.worlds_manager import WorldsManager
 from ..engine.properties import EngineProperties, SceneManagerProperties, RendererProperties
 from ..engine.methods import  EngineMethods, RendererMethods, SceneManagerMethods
 from ..engine.renderer import Renderer
