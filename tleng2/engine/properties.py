@@ -1,6 +1,6 @@
 # have every not setting related variable stored here
-# this file will be kept for legacy reasons, and for this module to be able to work as a framework, before it transitions into an engine
-# TODO maybe we are going to move some functionality from here to their respective categories
+
+# from logging import getLogger
 
 import pygame
 from .settings import GlobalSettings
@@ -29,6 +29,7 @@ class EngineProperties:
     _events: list = []
     _keys_pressed: list = []
     GAME_RUNNING: bool = True
+    # _logger = getLogger("EngineLogger")
 
     # _index_event = 1
 

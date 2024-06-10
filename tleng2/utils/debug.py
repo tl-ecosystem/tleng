@@ -14,6 +14,7 @@ def debug_print(*values: object, sep: str | None = " ", end: str | None = "\n", 
     elif GlobalSettings._debug:
         print(*values, sep=sep, end=end, file=file, flush=flush)
 
+
 class DebugTags:
     '''
     Stores an active dictionary that upon called it will try to match what the 

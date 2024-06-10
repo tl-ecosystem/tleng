@@ -2,8 +2,11 @@ import os
 
 from math import pi
 from time import time
-from .debug import debug_print
+
 from ..engine.settings import GlobalSettings
+from .debug import debug_print
+from .annotations import TypeVar
+
 
 def convert_deg_to_rad(deg) -> float:
     return (deg*pi)/180
@@ -43,8 +46,16 @@ def timer_func_debug(func):
     return wrap_func 
 
 
-def get_parent_dir(path, directories=1):
+def get_parent_dir(path, directories=1) -> str:
 	path_result = None
 	for i in range(directories):
 		path_result = get_parent_dir(path.rpartition(os.sep)[0], i)
 	return path_result or path
+
+
+def first(s: set) -> TypeVar:
+    """
+    Get the first item in a Set()
+    """
+    for i in s:
+        return i

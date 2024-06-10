@@ -8,10 +8,10 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
 # core_engine Directory
 # from .core_engine.scene_manager import SceneManager
-from .engine.game import Game
+from .engine.settings import GlobalSettings, LocalSettings
 from .engine.properties import EngineProperties, SceneManagerProperties, RendererProperties
 from .engine.methods import EngineMethods, SceneManagerMethods, RendererMethods
-from .engine.settings import GlobalSettings, LocalSettings
+from .engine.game import Game
 # from .engine.ui_manager
 
 # utils Directory

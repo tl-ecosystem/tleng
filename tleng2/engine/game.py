@@ -54,6 +54,10 @@ class Game:
             RendererMethods.clear_render_calls()
             EngineMethods.clock_tick_GP_dt(GlobalSettings._fps)
             SceneManagerMethods.update_scene()
+            
+            if GlobalSettings._debug:
+                EngineMethods.set_caption(f"{EngineProperties._clock.get_fps()}")
+
 
             # self.ecs_manager.update()
 
