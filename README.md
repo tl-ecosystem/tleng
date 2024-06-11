@@ -61,8 +61,8 @@ Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 ## 🎮 Games that use this engine/framework:
 
 - [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
-- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.0-exp4)
-- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0-exp12)
+- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.0.dev4)
+- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0.dev12)
 
 ## 🛠️ Requirements
 - Python:
@@ -88,7 +88,7 @@ This software will have a GUI for the user
 - Scene/UI Creator
 - Animation Creator
 
-## ❓ The meaning behind the symbolising of the updates are 2.x.y-z:
+## ❓ The meaning behind the symbolising of the updates are 2.x.y.z:
 
 2 = the engine is 2d (and because it's better than the previous try)
 
