@@ -19,5 +19,5 @@ class WorldsManager:
 
 
     def run_current_world(self) -> None:
-        raise NotImplementedError
+        self.worlds[self.current_world].run_schedule()
 
