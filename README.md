@@ -81,7 +81,7 @@ Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 
 This software will have a GUI for the user
 
-- [SpriteStacking Viewer](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/sprite-stack-viewer)
+- [SpriteStacking Viewer](https://github.com/tl-ecosystem/tl-ssv)
 - Tilemap Editor
 - Level Creator
 - Assistant for inputing assets to your game (Import Wizard)
