@@ -27,15 +27,16 @@ from .utils.subpixel import SubPixelSurface
 from .object.area import Area
 from .object.sprite import Sprite
 
+
 # object Directory
 from .components.scene import Scene, SceneCatcher
 from .components.camera import Camera
 from .components.renderable import Renderable
 from .components.map import Map
 
-# ui_elemetns Directory
-from .ui_elements.label import Label
-from .ui_elements.button import Button
+# ui_elements Directory
+from .uix.label import Label
+from .uix.button import Button
 # from .ui_manager import 
 
 

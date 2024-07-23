@@ -77,9 +77,9 @@ class SceneManager:
         pygame.display.flip()
 
     @staticmethod
-    def render_current_scene() -> None:
+    def run_current_scene() -> None:
         """
-        Renders the current scene that is assigned.
+        Runs the current scene that is assigned.
         """
         # for scene in SceneCatcher.scenes[self.current_scene]:
         scene = SceneCatcher.scenes[SceneManagerProperties._current_scene]

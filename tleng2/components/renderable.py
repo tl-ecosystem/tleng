@@ -1,6 +1,16 @@
+import pygame
+from dataclasses import dataclass
+
 from ..engine.properties import RendererProperties
 from ..utils.annotations import Color
-import pygame
+
+
+@dataclass
+class RenderableComp:
+    surface: pygame.SurfaceType
+    cords: tuple[int,int]
+    layer: int
+
 
 class Renderable:
     def __init__(self,) -> None:

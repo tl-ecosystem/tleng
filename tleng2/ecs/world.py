@@ -163,7 +163,7 @@ class World:
         try:
             return self.components_caches[component_type]
         except KeyError:
-            return self.components_caches.setdefault(component_type, list(self.__get_component(*component_type)))
+            return self.components_caches.setdefault(component_type, list(self.__get_component(component_type)))
 
 
     def clear_cache(self) -> None:
@@ -183,4 +183,7 @@ class World:
 
 
     def run_schedule(self) -> None:
-        self.schedule.update()
+        try:
+            self.schedule.update()
+        except AttributeError:
+            raise Warning("Maybe you forgot to write 'use_schedule'?")

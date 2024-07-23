@@ -1,8 +1,9 @@
-from ..components.scene import SceneCatcher
+import pygame
+
 from .properties import EngineProperties, SceneManagerProperties, RendererProperties
 from .settings import GlobalSettings
 
-import pygame
+from ..components.scene import SceneCatcher
 
 class EngineMethods:
     @staticmethod
@@ -13,11 +14,11 @@ class EngineMethods:
     @staticmethod
     def clock_tick_dt(target_fps: int) -> float:
         return EngineProperties._clock.tick(target_fps) / 1000
-        # return 1
+        # return 1 # for debugging purposes
     
 
     @staticmethod
-    def clock_tick_GP_dt(target_fps: int) -> None:
+    def clock_tick_EP_dt(target_fps: int) -> None:
         """
         Stores the dt value in EngineProperties.
         """
@@ -50,7 +51,6 @@ class SceneManagerMethods:
         RendererProperties._display = params['display']
         RendererProperties._local_default_camera = params['camera']
         
-
 
     @staticmethod
     def change_current_scene(new_scene: str) -> None:
@@ -96,13 +96,13 @@ class RendererMethods:
 
 
     @staticmethod
-    def load_displays() -> None:
+    def load_displays(flags) -> None:
         """
         Initialize the display fast.
         """
         RendererProperties._default_display = pygame.Surface(GlobalSettings._disp_res) 
-        RendererProperties._window = pygame.display.set_mode(GlobalSettings._win_res)
-        RendererProperties.type_parameters.update({'default':{
+        RendererProperties._window = pygame.display.set_mode(GlobalSettings._win_res,flags=flags)
+        RendererProperties.type_parameters.update({'default': {
                                                         'display' : RendererProperties._default_display.copy(),
                                                         'camera' : None 
                                                     }

@@ -10,6 +10,9 @@ from ..object.sprite import Sprite
 
 
 
+
+
+
 class CameraCatcher:
     cameras = {}
     default_camera_key = ''
@@ -77,6 +80,10 @@ class Camera(CameraCatcher):
     def set_target(self, new_target_entity: Sprite) -> None: 
         self.target_entity = new_target_entity
         
+
+class CameraManager:
+    cameras = {}
+
 
 
 class Camera_3d: 

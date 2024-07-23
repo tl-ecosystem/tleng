@@ -6,12 +6,12 @@ class WorldsManager:
     The ECS manager of tleng2
     """
     def __init__(self) -> None:
-        self.worlds: dict[str, World] = []
+        self.worlds: dict[str, World] = {}
         self.current_world: str = ""
 
 
-    def load_worlds(self, *worlds) -> None: 
-        self.worlds += worlds
+    def load_worlds(self, **worlds: World) -> None: 
+        self.worlds.update(worlds) 
 
     
     def change_world(self, new_world: str) -> None:
