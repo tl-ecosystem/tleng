@@ -5,12 +5,25 @@ import pygame
 from dataclasses import dataclass
 
 from ..engine.settings import GlobalSettings
-from ..object.area import VertArea
+from ..object.area import AreaComp, VertAreaComp, VertArea
 from ..object.sprite import Sprite
 
 
+class MainCameraComp: ...
+
+@dataclass
+class CameraComp:
+    """
+    surface: entity that has `DisplayCanvasComp`
+    """ 
+    surface: int
+    area: AreaComp
 
 
+@dataclass
+class VertCamera:
+    surface: pygame.SurfaceType
+    vert_area: VertAreaComp
 
 
 class CameraCatcher:
@@ -81,8 +94,7 @@ class Camera(CameraCatcher):
         self.target_entity = new_target_entity
         
 
-class CameraManager:
-    cameras = {}
+
 
 
 
@@ -90,8 +102,6 @@ class Camera_3d:
     def __init__(self) -> None: ...
 
 
-@dataclass
-class CameraBundle:
-    vert_area: VertArea
+
 
 

@@ -49,6 +49,11 @@ class GlobalSettings:
 
 
     @staticmethod
+    def update_resolution(new_res:tuple[int,int]) -> None:
+        GlobalSettings._win_res = new_res
+
+
+    @staticmethod
     def load_settings_json():
         """
         Pass the saved settings from json.

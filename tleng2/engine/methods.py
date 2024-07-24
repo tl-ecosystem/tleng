@@ -78,6 +78,7 @@ class RendererMethods:
     """
     Renderer Static methods that might be needed across the base game.
     """
+
     @staticmethod
     def import_scene_renderer_params(params_key: str, params: dict) -> None:
         RendererProperties.type_parameters.update({params_key: params})

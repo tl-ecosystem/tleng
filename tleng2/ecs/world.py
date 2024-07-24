@@ -183,7 +183,5 @@ class World:
 
 
     def run_schedule(self) -> None:
-        try:
-            self.schedule.update()
-        except AttributeError:
-            raise Warning("Maybe you forgot to write 'use_schedule'?")
+        self.schedule.update()
+

@@ -1,4 +1,4 @@
-from .event_bus import Subscriber
+from ..ecs.event_bus import Subscriber
 from .properties import SceneManagerProperties, RendererProperties
 
 

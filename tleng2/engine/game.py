@@ -36,7 +36,7 @@ class Game:
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:
             events = pygame.event.get()
-            EngineProperties._event = events
+            EngineProperties._events = events
 
             for event in events:
                 if event.type == pygame.QUIT:

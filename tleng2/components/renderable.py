@@ -1,5 +1,5 @@
 import pygame
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from ..engine.properties import RendererProperties
 from ..utils.annotations import Color
@@ -8,8 +8,23 @@ from ..utils.annotations import Color
 @dataclass
 class RenderableComp:
     surface: pygame.SurfaceType
-    cords: tuple[int,int]
+    cords: tuple[int, int]
     layer: int
+
+@dataclass
+class FillScreenComp:
+    """
+    RGBA = Red, Green, Blue, Alpha
+    """
+    color: tuple[int, int, int, int]
+
+@dataclass
+class DisplayCanvasComp:
+    size: tuple[int, int]
+    surface: pygame.Surface = field(init=False)
+
+    def __post_init__(self):
+        self.surface = pygame.Surface(self.size)
 
 
 class Renderable:

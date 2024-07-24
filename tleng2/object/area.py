@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 import pygame
 from warnings import warn
 from .point import Point
@@ -15,6 +16,37 @@ class AreaCatcher:
     def __init__(self, taint):
         if taint is not False:
             self.entity_in_scene.update({f"area{len(self.camera)}" : [self]})        
+
+
+@dataclass
+class AreaComp:
+    x: float
+    y: float
+    width: float
+    height: float
+    color: Color = WHITE
+    border_radius: int = 0
+
+
+@dataclass
+class VertAreaComp:
+    x: float
+    y: float
+    width: float
+    height: float
+    color: Color = WHITE
+    border_radius: int = 0
+
+    vertices: list[int,] = field(init=False)
+
+    def __post_init__(self):
+        self.vertices = [
+                            pygame.math.Vector2(-self.width/2, -self.height/2),
+                            pygame.math.Vector2( self.width/2, -self.height/2),
+                            pygame.math.Vector2( self.width/2,  self.height/2),
+                            pygame.math.Vector2(-self.width/2,  self.height/2)
+                        ]
+
 
 
 class Area(AreaCatcher):
