@@ -40,8 +40,9 @@ class Game:
 
             for event in events:
                 if event.type == pygame.QUIT:
+                    print(f"Closing game")
                     pygame.quit()
-                    sys.exit()
+                    sys.exit()                    
 
             self.ecs_manager.run_current_world()
             # RendererMethods.update_window()

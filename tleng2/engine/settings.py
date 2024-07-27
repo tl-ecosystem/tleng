@@ -5,18 +5,6 @@ from abc import abstractmethod, ABC
 
 debug_tags = ['JSON_debug']
 
-class LocalSettings:
-    @abstractmethod
-    def __init__(self):
-        """
-        Put the local specific setting that you want the scene/enviroment/object to have
-        e.x. (pseudo code)
-
-        self.fps = 30
-        self.font = comic_sans
-        self.debug = True
-        self.test = False
-        """
 
 class GlobalSettings:
     """

@@ -1,6 +1,3 @@
-'''
-Offsets the objects so the objects and their hitboxes would show right in the currently displayed game, easier debugging
-'''
 import pygame
 from dataclasses import dataclass
 

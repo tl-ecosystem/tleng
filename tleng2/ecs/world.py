@@ -1,7 +1,8 @@
 from itertools import count
 
 # from ..engine.properties import EngineProperties
-from typing import Any, Iterable
+from typing import Any as _Any
+from typing import Iterable as _Iterable
 
 
 class Component: 
@@ -19,14 +20,19 @@ class World:
     def __init__(self) -> None:
         self.id_count = count(start=0)
         self.dead_entities: set[int] = set()
-        self.entity_db: dict[int, dict[Any, set]] = {}
+        self.entity_db: dict[int, dict[_Any, set]] = {}
 
         #  a sparse list of every entities pointing to their respective components
-        self.components_db: dict[Any, set] = {} 
-
+        self.components_db: dict[_Any, set] = {} 
 
         self.components_caches = {}
         self.component_caches = {}
+
+    #     self.world_info = {}
+
+    
+    # def append_world_info(self, info: dict[type, _Any]) -> None:
+    #     self.world_info.update( info )
 
 
     def spawn(self, *components: Component) -> int:
@@ -93,7 +99,7 @@ class World:
                                           component_types: tuple, 
                                           has: tuple[Component] = (),
                                           without: tuple[Component] = ()
-                                    ) -> Iterable[tuple[int, list[Component]]]:
+                                    ) -> _Iterable[tuple[int, list[Component]]]:
         component_db = self.components_db
         entity_db = self.entity_db
 
@@ -112,7 +118,7 @@ class World:
                     *component_types: Component, 
                     has: tuple[Component] = (),  
                     without: tuple[Component] = ()
-                ) -> Iterable[tuple[int, list[Component]]]:
+                ) -> _Iterable[tuple[int, list[Component]]]:
         """
         Query in the same tuple all the wanted and `has` (tries to see if they 
         exists and only then it adds them to the tuple without adding the `has`)
@@ -128,7 +134,7 @@ class World:
                 )
 
 
-    def __get_components(self, *component_types) -> Iterable[tuple[int, list[Component]]]: 
+    def __get_components(self, *component_types) -> _Iterable[tuple[int, list[Component]]]: 
         component_db = self.components_db
         entity_db = self.entity_db
 
@@ -142,7 +148,7 @@ class World:
             pass
 
     
-    def fast_query(self, *component_types: Component,) -> Iterable[tuple[int, list[Component]]]:
+    def fast_query(self, *component_types: Component,) -> _Iterable[tuple[int, list[Component]]]:
         """
         Relatively to world.query() the fast_query is a faster implementation. as there are not more for loops while finding. 
         """
@@ -152,18 +158,27 @@ class World:
             return self.components_caches.setdefault(component_types, list(self.__get_components(*component_types)))
     
 
-    def __get_component(self, component_type) -> Iterable[tuple[int, Component]]:
+    def __get_component(self, component_type) -> _Iterable[tuple[int, Component]]:
         entity_db = self.entity_db
 
         for entity in self.components_db.get(component_type, []):
             yield entity, entity_db[entity][component_type]
 
 
-    def single_fast_query(self, component_type: Component) -> Iterable[tuple[int, Component]]:
+    def single_fast_query(self, component_type: Component) -> _Iterable[tuple[int, Component]]:
         try:
             return self.components_caches[component_type]
         except KeyError:
             return self.components_caches.setdefault(component_type, list(self.__get_component(component_type)))
+
+
+    def has_component(self, entity: int, component_type: Component) -> bool:
+        assert(type(entity) == int) 
+        try:
+            self.entity_db[entity][component_type]
+            return True
+        except KeyError:
+            return False
 
 
     def clear_cache(self) -> None:

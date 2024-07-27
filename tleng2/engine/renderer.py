@@ -7,15 +7,6 @@ from .properties import RendererProperties, SceneManagerProperties
 
 import pygame
 
-# The other renderer is a sub-renderer
-# that in the end render using this renderer
-
-# Scene parameters
-# layers
-# layers_order (sparse list)
-# target_surf
-
-
 
 class Renderer:
     """

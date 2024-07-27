@@ -1,0 +1,12 @@
+{
+    "theme-name": "tleng2-theme", 
+    "button" : {
+        "idle"  : "tleng2-theme-idle.jpg",
+        "hover" : "tleng2-theme-hover.jpg",
+        "click" : "tleng2-theme-click.jpg"
+    },
+    "colors" : {
+        "primary"  : [],
+        "secondary" : []
+    }
+}

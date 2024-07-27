@@ -5,10 +5,9 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 # core_engine Directory
 #from .core_engine.scene_manager import SceneManager
 
-
 # core_engine Directory
 # from .core_engine.scene_manager import SceneManager
-from .engine.settings import GlobalSettings, LocalSettings
+from .engine.settings import GlobalSettings
 from .engine.properties import EngineProperties, SceneManagerProperties, RendererProperties
 from .engine.methods import EngineMethods, SceneManagerMethods, RendererMethods
 from .engine.game import Game
@@ -72,7 +71,7 @@ __all__ = [
 'ImageService', 
 'FontService', 'SpriteStackService',
 'TileMap', 'TileSet', 
-'GlobalSettings', 'LocalSettings',
+'GlobalSettings',
 'debug_print',
 'SubPixelSurface',
 'ecs'
@@ -86,6 +85,7 @@ import platform
 
 print(f"tleng {__version__} (Python: {platform.python_version()})")
 
+del platform
 __name__ = "tleng"
 __doc__ = f'''
 TLeng is a 2d python game engine.
@@ -117,6 +117,9 @@ SOFTWARE.
 '''
 
 # Engine Report:
+# TODO: Unverbose the engine. 
+#       Instead of globalsettings._win_res -> 
+#           (from .~.globalsettings import _win_res) _win_res
 # TODO: Settings Json support.
 # TODO: Animation Json Support.
 # TODO: Redo the Label system in update 2.2 and add:

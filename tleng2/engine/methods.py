@@ -3,8 +3,6 @@ import pygame
 from .properties import EngineProperties, SceneManagerProperties, RendererProperties
 from .settings import GlobalSettings
 
-from ..components.scene import SceneCatcher
-
 class EngineMethods:
     @staticmethod
     def set_caption(caption: str) -> None:
@@ -97,7 +95,7 @@ class RendererMethods:
 
 
     @staticmethod
-    def load_displays(flags) -> None:
+    def load_displays(flags: int = 0) -> None:
         """
         Initialize the display fast.
         """

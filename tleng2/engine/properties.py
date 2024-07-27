@@ -46,6 +46,7 @@ class SceneManagerProperties:
 
 
 class RendererProperties:
+    """Exposing pygame functionality"""
     __temp_disp = None
 
     _default_display: pygame.SurfaceType = None
@@ -58,6 +59,8 @@ class RendererProperties:
     # parameters to be used in scenes
     scene_parameters: dict = {}
     type_parameters: dict = {}
+
+    fill_screen_color: tuple[int, int, int, int] = (0, 0, 0, 255)
 
     # when you call to render a sprite, it's renderable attr will be passed 
     # here for the renderer to later inspect it and render it
