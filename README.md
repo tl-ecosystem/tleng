@@ -6,9 +6,7 @@
 
  ![Static Badge](https://img.shields.io/badge/pip_install-tleng-blue?style=flat) ![Static Badge](https://img.shields.io/badge/licence-MIT-blue?style=flat) ![Static Badge](https://img.shields.io/badge/python-3.11_3.12-blue?style=flat&logo=python)
 
-
-
-TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++. 
+TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++.
 
 The reason I started this project is to see what it takes to create a 2d game engine, and for me to get an even better introduction to computer 2d graphics.
 
@@ -25,31 +23,35 @@ After the C++ section will be finished, the engine will change names from TLeng2
 It is recommended that everytime you create a game in `Tleng` you create a `Virtual Enviroment`. That is to resolve any conflicts that might arise from namespaces and more (`Tleng` uses `Pygame-CE` which conflicts with `Pygame`).
 
 Here is how to create a `virtual enviroment`:
+
 ```bash
-$ python -m venv name_of_your_virtual_enviroment
+python -m venv name_of_your_virtual_enviroment
 ```
 
 Then you want to activate the `virtual enviroment`:
+
 ```bash
-$ source venv/bin/activate
+source venv/bin/activate
 ```
 
 Now install the `TLeng` game engine with `pip`:
+
 ```bash
-$ pip install tleng
+pip install tleng
 ```
 
 Create a directory that is going to host your game files:
+
 ```bash
-$ mkdir my_game_name
-$ cd my_game_name
+mkdir my_game_name
+cd my_game_name
 ```
 
 After that you can create a `main.py` file:
 
 ```bash
-$ touch main.py
-$ your_preferred_editor main.py
+touch main.py
+your_preferred_editor main.py
 ```
 
 Import `tleng2` and start developing games!
@@ -65,6 +67,7 @@ Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 - [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0.dev12)
 
 ## 🛠️ Requirements
+
 - Python:
   - python 3.11+
   - Pygame Community Edition 2.2+
@@ -82,7 +85,7 @@ Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 This software will have a GUI for the user
 
 - [SpriteStacking Viewer](https://github.com/tl-ecosystem/tl-ssv)
-- Tilemap Editor
+- [Tilemap Editor](https://github.com/tl-ecosystem/tl-editor)
 - Level Creator
 - Assistant for inputing assets to your game (Import Wizard)
 - Scene/UI Creator
@@ -92,7 +95,7 @@ This software will have a GUI for the user
 
 2 = the engine is 2d (and because it's better than the previous try)
 
-x = The general full release version 
+x = The general full release version
 
 y = The bug fix version for the general release
 
