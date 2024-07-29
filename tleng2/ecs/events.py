@@ -16,7 +16,7 @@ from typing import Callable as _Callable
 
 @dataclass
 class EventComp:
-    
+    ...
 
 
 def pygame_quit_handler(event) -> None:
@@ -45,7 +45,7 @@ class HandleEventsSystem(System):
             for event in EngineProperties._events:
                 for key, callable in self.world.unique_components[EventComp].events:
                     if event.type == key:
-                        self.dispatch_event(callable, event)
+                        dispatch_event(callable, event)
 
 
     def dispatch_event(self, name: str, *args: _Any) -> None:
