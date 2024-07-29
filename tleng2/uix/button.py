@@ -1,9 +1,14 @@
+import pygame
+from os import path, getcwd  # better performance?
+
+from dataclasses import dataclass
+
 from ..object.area import Area
 from ..utils.colors import LIGHT_GREY
 from ..engine.properties import RendererProperties, EngineProperties
 from ..utils.debug import debug_print
-import pygame
-import os  # better performance?
+
+from typing import Callable as _Callable
 # ______________________________________________________________UI FUNCTIONS _______________________________________________________________________________________
 
 # Button defaults
@@ -17,17 +22,25 @@ import os  # better performance?
 global indexEvent   
 indexEvent = 1
 
-LOCAL_DIRECTORY = os.getcwd()
+LOCAL_DIRECTORY = getcwd()
 
-IMAGE_NORMAL = os.path.join(LOCAL_DIRECTORY,"assets","art","defaults","bttn_normal.png")
-IMAGE_HOVER = os.path.join(LOCAL_DIRECTORY,"assets","art","defaults","bttn_hover.png")
-IMAGE_DOWN = os.path.join(LOCAL_DIRECTORY,"assets","art","defaults","bttn_clicked.png")
+IMAGE_NORMAL = path.join(LOCAL_DIRECTORY,"assets","art","defaults","bttn_normal.png")
+IMAGE_HOVER = path.join(LOCAL_DIRECTORY,"assets","art","defaults","bttn_hover.png")
+IMAGE_DOWN = path.join(LOCAL_DIRECTORY,"assets","art","defaults","bttn_clicked.png")
 # FONT = pygame.font.SysFont('Comic Sans MS', 32)
 
-class AbstractButton(Area):
-    def __init__(self, window, x, y, width, height, color):
-        Area.__init__(self, window, x, y, width, height, color)
-        pass
+@dataclass
+class ButtonComp:
+    button_type: str
+    text: str = ""
+    callback: _Callable = None
+    custom_theme: dict[str,str] = None
+    width: float = None
+    height: float = None
+    x: float = None
+    y: float = None
+
+
 
 class Button(Area):
     '''
@@ -44,10 +57,10 @@ class Button(Area):
             width:float, 
             height:float, 
             button_states_path: tuple = (IMAGE_NORMAL,IMAGE_HOVER,IMAGE_DOWN), 
-            button_states_txt: tuple = (''),
+            button_states_txt: tuple = ('',),
             color: tuple = LIGHT_GREY, 
             animDict: dict = None, 
-            callback = None):
+            callback: _Callable = None):
         #json implemantation for buttons, for TlengUtilities
 
         Area.__init__(self, x, y, width, height, color)
@@ -76,7 +89,7 @@ class Button(Area):
         self.pressed = False
 
         # the fucntion that the user wants to be executed when the button is pressed
-        self.callback = callback
+        self.callback: _Callable = callback
 
     def handle_event(self):
         for event in EngineProperties._events:

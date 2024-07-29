@@ -33,15 +33,6 @@ from typing import Any as _Any
     
 event_registry = {}
 
-event_bus = []
-
-def dispatch_to_event_bus(name: str, info: _Any) -> None:
-    event_bus.append(
-        {
-            name: info
-        }
-    )
-
 
 def dispatch_event(name: str, *args: _Any) -> None:
     """Dispatch an event by name, with optional arguments.

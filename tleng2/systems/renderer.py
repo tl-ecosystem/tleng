@@ -11,6 +11,8 @@ from ..utils.debug import debug_print
 from ..utils.event_manager import dispatch_event
 
 
+
+
 class RendererSystem(System):
     """
     Experimental ECS Renderer
@@ -25,21 +27,18 @@ class RendererSystem(System):
     def change_world(self, world) -> None:
         super().change_world(world)
 
-        self._displays = self.world.single_fast_query(
-            DisplayCanvasComp
-        )
 
-        self._display = self._displays[0][1]
+        if DisplayCanvasComp in self.world.unique_components:
+            self._display = self.world.unique_components[DisplayCanvasComp]
+
+    
+    def resize_window(self) -> None:
+        GlobalSettings._win_res = RendererProperties._window.get_rect().size
+        
+        self._display.surface = pygame.transform.scale(self._display.surface, GlobalSettings._win_res)       
     
 
     def update(self) -> None:
-        for event in EngineProperties._events:
-            if event.type == pygame.VIDEORESIZE:
-                GlobalSettings._win_res = RendererProperties._window.get_rect().size
-                
-                self._display.surface = pygame.transform.scale(self._display.surface, GlobalSettings._win_res)
-                dispatch_event("resize", )
-
         self._display.surface.fill(RendererProperties.fill_screen_color)
 
         # Basically render_calls but on steroids

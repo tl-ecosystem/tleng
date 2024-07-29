@@ -5,9 +5,9 @@ from typing import Any as _Any
 from typing import Iterable as _Iterable
 
 
-class Component: 
+class Component:
     """
-    Here for symbolic reasons
+    here for symbolic reasons
     """
 
 
@@ -28,14 +28,25 @@ class World:
         self.components_caches = {}
         self.component_caches = {}
 
-    #     self.world_info = {}
+        self.unique_components = {}
 
     
-    # def append_world_info(self, info: dict[type, _Any]) -> None:
-    #     self.world_info.update( info )
+    def append_unique_components(self, info: dict[type, _Any]) -> None:
+        """
+        Appends unique components to the world itself.
+        
+        Example:
+        {
+            ComponentType: Compoenent, ...
+        }
+        """
+        self.unique_components.update( info )
 
 
     def spawn(self, *components: Component) -> int:
+        """
+        Spawns an entity with the components provided and returns the id of the entity. 
+        """
         entity = next(self.id_count)
 
         if entity not in self.entity_db:
@@ -84,22 +95,67 @@ class World:
         Clears all the components from the given entity id
         :returns: Nothing
         """
-        self.components_caches
-    
+        for component_type in self.entity_db[entity]:
+            self.components_db[component_type].discard(entity)
 
-    def add_components(self, entity: int, components: Component) -> None: 
+            # if in turn the sparse list of that component type is empty then delete it
+            if not self.components_db[component_type]:
+                del self.components_db[component_type]
+
+        self.clear_cache()
+
+    
+    def remove_component(self, entity: int, component_type: Component) -> None:
         """
-        Adds components to the given entity id
-        :returns: Nothing
+        Removes component by type.
+        """
+        self.components_db[component_type].discard(entity)
+
+        if not self.components_db[component_type]:
+            del self.components_db[component_type]
+
+        self.clear_cache()
+
+    def remove_components(self, entity: int, *components: Component) -> None:
+        """
+        Removes components by type from a given entity id.
         """
         raise NotImplementedError
+    
+
+    def add_component(self, entity: int, component: Component) -> None: 
+        """
+        Adds a component to the given entity id.
+        :returns: Nothing
+        """
+        component_type = type(component)
+
+        if component_type not in self.components_db:
+            self.components_db[component_type] = set()
+
+        self.components_db[component_type].add(entity)
+
+        self.entity_db[entity][component_type] = component
+        self.clear_cache()
+    
+
+    def has_component(self, entity: int, component_type: Component) -> bool:
+        assert(type(entity) == int) 
+        return component_type in self.entity_db[entity]
+    
+    
+    def has_components(self, entity: int, *component_types: Component) -> bool:
+        """Check if an Entity has all the specified Component types."""
+        return all(comp_type in self.entity_db[entity] for comp_type in component_types)
+
 
 
     def __get_components_has_without(self, 
-                                          component_types: tuple, 
-                                          has: tuple[Component] = (),
-                                          without: tuple[Component] = ()
-                                    ) -> _Iterable[tuple[int, list[Component]]]:
+            component_types: tuple, 
+            has: tuple[Component] = (),
+            without: tuple[Component] = ()
+        ) -> _Iterable[tuple[int, list[Component]]]:
+
         component_db = self.components_db
         entity_db = self.entity_db
 
@@ -170,20 +226,11 @@ class World:
             return self.components_caches[component_type]
         except KeyError:
             return self.components_caches.setdefault(component_type, list(self.__get_component(component_type)))
-
-
-    def has_component(self, entity: int, component_type: Component) -> bool:
-        assert(type(entity) == int) 
-        try:
-            self.entity_db[entity][component_type]
-            return True
-        except KeyError:
-            return False
-
+        
 
     def clear_cache(self) -> None:
         """
-        Clears the caches from the Component Manager and the Entity Manager.
+        Clears the caches from the Component caches and the Entity caches.
         """
         self.components_caches = {}
         self.component_caches = {}

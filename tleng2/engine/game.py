@@ -38,11 +38,11 @@ class Game:
             events = pygame.event.get()
             EngineProperties._events = events
 
-            for event in events:
-                if event.type == pygame.QUIT:
-                    print(f"Closing game")
-                    pygame.quit()
-                    sys.exit()                    
+            # for event in events:
+            #     if event.type == pygame.QUIT:
+            #         print(f"Closing game")
+            #         pygame.quit()
+            #         sys.exit()                    
 
             self.ecs_manager.run_current_world()
             # RendererMethods.update_window()
