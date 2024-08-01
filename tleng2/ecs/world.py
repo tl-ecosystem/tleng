@@ -30,6 +30,8 @@ class World:
 
         self.unique_components = {}
 
+        self.events = ...
+
     
     def append_unique_components(self, info: dict[type, _Any]) -> None:
         """
@@ -149,7 +151,6 @@ class World:
         return all(comp_type in self.entity_db[entity] for comp_type in component_types)
 
 
-
     def __get_components_has_without(self, 
             component_types: tuple, 
             has: tuple[Component] = (),
@@ -164,7 +165,6 @@ class World:
         try:
             for entity in set.intersection(*[component_db[ct] for ct in (component_types + has)]) \
             .difference(*[component_db[ct] for ct in (without)]):
-                
                 yield entity, [entity_db[entity][ct] for ct in component_types]
         except:
             pass

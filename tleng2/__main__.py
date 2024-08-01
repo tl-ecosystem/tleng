@@ -45,6 +45,7 @@ def main() -> None:
         help="To see the version of the Game Engine"
     )
 
+
     parser.add_argument(
         "--license",
         action="version",
