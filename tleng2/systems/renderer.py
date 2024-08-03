@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from time import time
 import pygame
 
@@ -11,7 +12,8 @@ from ..utils.debug import debug_print
 from ..utils.event_manager import dispatch_event
 
 
-
+@dataclass
+class ResizeWindowEvent: ...
 
 class RendererSystem(System):
     """
@@ -39,6 +41,10 @@ class RendererSystem(System):
     
 
     def update(self) -> None:
+        events = self.world.events.read(ResizeWindowEvent)
+        if events:        
+            self.resize_window()
+            
         self._display.surface.fill(RendererProperties.fill_screen_color)
 
         # Basically render_calls but on steroids

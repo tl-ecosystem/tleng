@@ -29,9 +29,11 @@ def timer_func(func):
 
 
 def timer_func_debug(func): 
-    # This function shows the execution time of  
-    # the function object passed 
-    # maybe not so optimized
+    """    
+    This function shows the execution time of  
+    the function object passed 
+    maybe not so optimized
+    """
     def wrap_func(*args, **kwargs): 
         result = None
         if GlobalSettings._debug:

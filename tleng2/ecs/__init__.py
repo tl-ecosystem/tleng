@@ -7,11 +7,13 @@ from .world import World
 from .schedule import Schedule
 from .system import System
 from .worlds_manager import WorldsManager
+from .events import EventsComp, Events, EventManagerSystem
 
 __all__ = [
     "component",
     "World",
     "Schedule",
     "System",
-    "WorldsManager"
+    "WorldsManager",
+    "EventsComp", "Events", "EventManagerSystem"
 ]

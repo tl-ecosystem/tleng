@@ -1,6 +1,9 @@
 from itertools import count
 
+from .events import Events
 # from ..engine.properties import EngineProperties
+
+
 from typing import Any as _Any
 from typing import Iterable as _Iterable
 
@@ -17,7 +20,7 @@ class World:
 
     The world contains every entity with it's respective components.
     """
-    def __init__(self) -> None:
+    def __init__(self, events = False) -> None:
         self.id_count = count(start=0)
         self.dead_entities: set[int] = set()
         self.entity_db: dict[int, dict[_Any, set]] = {}
@@ -30,7 +33,9 @@ class World:
 
         self.unique_components = {}
 
-        self.events = ...
+        if events:
+            self.events = Events(self)
+
 
     
     def append_unique_components(self, info: dict[type, _Any]) -> None:
@@ -142,7 +147,7 @@ class World:
     
 
     def has_component(self, entity: int, component_type: Component) -> bool:
-        assert(type(entity) == int) 
+        assert type(entity) == int, 'The entity need to be an integer'
         return component_type in self.entity_db[entity]
     
     
