@@ -5,15 +5,12 @@ import pygame
 
 from ..ecs import *
 from ..components.renderable import DisplayCanvasComp, RenderableComp
+from ..components.events import ResizeWindowEvent
 from ..engine.properties import EngineProperties, RendererProperties
 from ..engine.methods import RendererMethods
 from ..engine.settings import GlobalSettings
 from ..utils.debug import debug_print
-from ..utils.event_manager import dispatch_event
 
-
-@dataclass
-class ResizeWindowEvent: ...
 
 class RendererSystem(System):
     """
@@ -44,7 +41,7 @@ class RendererSystem(System):
         events = self.world.events.read(ResizeWindowEvent)
         if events:        
             self.resize_window()
-            
+
         self._display.surface.fill(RendererProperties.fill_screen_color)
 
         # Basically render_calls but on steroids
