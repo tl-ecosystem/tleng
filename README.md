@@ -18,7 +18,7 @@ The C++ version of the engine is a work in progress, but it will be available so
 
 After the C++ section will be finished, the engine will change names from TLeng2 to TLeng3. TLeng2 aims only for support with python, TLeng3 aims to support python and C++ together.
 
-## 🛠 Setting Up the Engine
+## ⚡ Setting Up the Engine
 
 It is recommended that everytime you create a game in `Tleng` you create a `Virtual Enviroment`. That is to resolve any conflicts that might arise from namespaces and more (`Tleng` uses `Pygame-CE` which conflicts with `Pygame`).
 
