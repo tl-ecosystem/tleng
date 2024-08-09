@@ -56,6 +56,32 @@ your_preferred_editor main.py
 
 Import `tleng2` and start developing games!
 
+The suggested file structure in `tleng` is this:
+```
+app_name/
+ |- assets/
+ |  |- images/ ...
+ |  |- sound/ ...
+ |  |- fonts/ ...
+ |
+ |- src/
+ |  |- tleng2/ ... (*)
+ |  |- menu.py
+ |  |- settings.py
+ |  |- level.py
+ |  |- ai_movement.py
+ |
+ |- main.py
+```
+
+Explanation:
+- An `assets` directory that you can structure as you wish, the structure sgoen in the example is not definitive.
+- A `src` directory that contains all the source files of the game, sctipts, scenes etc.
+- The `main.py` file exists to setup the entirity of the game at startup. It links all the scenes, specifys the plugins used and more.
+
+(*) If you want to make modifications to the game eninge, then it's recommended that you import all the game engines files into your src folder. 
+
+
 ## 📖 Documentation
 
 Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
