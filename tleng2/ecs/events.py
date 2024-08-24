@@ -67,16 +67,25 @@ class Events:
             events = wuc[EventsComp]
 
             return events.prev_events.get(event_type, []) + events.curr_events.get(event_type, [])
-
-
-    # def produce() -> None:
+        
+    
+    # def read_consume(self, event_type) -> _Any:
     #     """
-    #     You can create events to be later consumed 
+    #     Instead of just reading the event, it also consumes it. Meaning that if there is no other sender after consumption
+    #     any other systme that tries to read this event_type will not find anything.
+    #     """
+    #     ...
+
+
+    # def produce(self,) -> None:
+    #     """
+    #     Produces consumable events. Infinite lifespan
     #     """        
     #     ...
 
-    # def consume() -> None:
+
+    # def consume(self,) -> None:
     #     """
-    #     When you produce events, the events wait to be consumed. 
+    #     Consumes consumable events. 
     #     """
     #     ...

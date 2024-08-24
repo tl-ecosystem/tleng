@@ -6,7 +6,7 @@ class Schedule:
     Something like a system manager.
     """
     def __init__(self) -> None:
-        self.system_schedule: list[System] = []
+        self.system_schedule: dict[str, System] = []
     
 
     def add_systems(self, *systems) -> None: 

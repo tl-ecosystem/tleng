@@ -9,6 +9,8 @@ class WorldsManager:
         self.worlds: dict[str, World] = {}
         self.current_world: str = ""
 
+        self.cache_current_worlds_systems = []
+
 
     def load_worlds(self, **worlds: World) -> None: 
         self.worlds.update(worlds) 

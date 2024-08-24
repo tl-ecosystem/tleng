@@ -1,6 +1,7 @@
+from dataclasses import dataclass, field
 from itertools import count
 
-from .events import Events
+from .events import Events, EventsComp
 # from ..engine.properties import EngineProperties
 
 
@@ -14,13 +15,24 @@ class Component:
     """
 
 
+@dataclass
+class WorldComp:
+    id_count: count = count(start=0)
+    dead_entities: set[int] = field(default_factory=set)
+    entity_db: dict[int, dict[_Any, set]] = field(default_factory=dict)
+    #  a sparse list of every entities pointing to their respective components
+    components_db: dict[_Any, set] = field(default_factory=dict)
+
+    components_caches: dict = field(default_factory=dict)
+    component_caches: dict = field(default_factory=dict)
+    resources: dict = field(default_factory=dict)
+
+
 class World:
     """
-    The ECS iplementation of the Scene class.
-
     The world contains every entity with it's respective components.
     """
-    def __init__(self, events = False) -> None:
+    def __init__(self) -> None:
         self.id_count = count(start=0)
         self.dead_entities: set[int] = set()
         self.entity_db: dict[int, dict[_Any, set]] = {}
@@ -31,23 +43,26 @@ class World:
         self.components_caches = {}
         self.component_caches = {}
 
-        self.unique_components = {}
-
-        if events:
-            self.events = Events(self)
+        self.resources: dict = {}
 
 
-    
-    def append_unique_components(self, info: dict[type, _Any]) -> None:
+    def get_resource(self, resource_type: type) -> None:
         """
-        Appends unique components to the world itself.
+        It will search if the World has this resource
+        """
+        raise NotImplementedError()
+
+
+    def append_resources(self, *resources: _Any) -> None:
+        """
+        Appends resources to the world.
         
-        Example:
+        - Example:
         {
             ComponentType: Compoenent, ...
         }
         """
-        self.unique_components.update( info )
+        self.resources.update( {type(resource): resource for resource in resources})
 
 
     def spawn(self, *components: Component) -> int:
@@ -111,7 +126,7 @@ class World:
 
         self.clear_cache()
 
-    
+
     def remove_component(self, entity: int, component_type: Component) -> None:
         """
         Removes component by type.
@@ -128,7 +143,7 @@ class World:
         Removes components by type from a given entity id.
         """
         raise NotImplementedError
-    
+
 
     def add_component(self, entity: int, component: Component) -> None: 
         """
@@ -144,13 +159,13 @@ class World:
 
         self.entity_db[entity][component_type] = component
         self.clear_cache()
-    
+
 
     def has_component(self, entity: int, component_type: Component) -> bool:
         assert type(entity) == int, 'The entity need to be an integer'
         return component_type in self.entity_db[entity]
-    
-    
+
+
     def has_components(self, entity: int, *component_types: Component) -> bool:
         """Check if an Entity has all the specified Component types."""
         return all(comp_type in self.entity_db[entity] for comp_type in component_types)
@@ -174,7 +189,7 @@ class World:
         except:
             pass
 
-    
+
     def query(self, 
                     *component_types: Component, 
                     has: tuple[Component] = (),  
@@ -184,7 +199,7 @@ class World:
         Query in the same tuple all the wanted and `has` (tries to see if they 
         exists and only then it adds them to the tuple without adding the `has`)
         """
-        
+
         try:
             return self.components_caches[(component_types, has, without)]
         except KeyError:
@@ -208,7 +223,7 @@ class World:
         except:
             pass
 
-    
+
     def fast_query(self, *component_types: Component,) -> _Iterable[tuple[int, list[Component]]]:
         """
         Relatively to world.query() the fast_query is a faster implementation. as there are not more for loops while finding. 
@@ -217,7 +232,7 @@ class World:
             return self.components_caches[component_types]
         except KeyError:
             return self.components_caches.setdefault(component_types, list(self.__get_components(*component_types)))
-    
+
 
     def __get_component(self, component_type) -> _Iterable[tuple[int, Component]]:
         entity_db = self.entity_db
@@ -231,7 +246,7 @@ class World:
             return self.components_caches[component_type]
         except KeyError:
             return self.components_caches.setdefault(component_type, list(self.__get_component(component_type)))
-        
+
 
     def clear_cache(self) -> None:
         """
@@ -239,7 +254,23 @@ class World:
         """
         self.components_caches = {}
         self.component_caches = {}
+
+
+    def send(self, event) -> None:
+        raise NotImplementedError
     
+
+    def send_batch(self, *event) -> None:
+        raise NotImplementedError
+
+
+    def read(self, event_type: type) -> ...:
+        raise NotImplementedError
+
+
+    def read_batch(self, *event_type: type) -> ...:
+        raise NotImplementedError
+
 
     def use_schedule(self, schedule) -> None:
         """

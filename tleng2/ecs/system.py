@@ -18,6 +18,6 @@ class System:
 """
 class Movement(System):
     update(self):
-        for entity, (coordinate, are) in self.world.query(Coordinate2, AreaComponent):
+        for entity, (coordinate, area) in self.world.query(Coordinate2, AreaComponent):
         
 """

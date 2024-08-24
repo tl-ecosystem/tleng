@@ -1,5 +1,15 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+from ..ecs.world import World
+from ..ecs.schedule import Schedule
 from ..engine.properties import RendererProperties
+
+
+@dataclass
+class SceneComp:
+    world: World
+    schedule: Schedule
 
 
 class SceneCatcher:

@@ -1,6 +1,5 @@
 from os import environ#, path, getcwd
 # import json
-environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
 # core_engine Directory
 #from .core_engine.scene_manager import SceneManager
@@ -10,7 +9,7 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 from .engine.settings import GlobalSettings
 from .engine.properties import EngineProperties, SceneManagerProperties, RendererProperties
 from .engine.methods import EngineMethods, SceneManagerMethods, RendererMethods
-from .engine.game import Game
+from .engine.app import App
 # from .engine.ui_manager
 
 from . import ecs
@@ -52,6 +51,21 @@ from .services.font import FontService
 from .services.tilemap import TileMap, TileSet
 from .services.sprite_stack import SpriteStackService
 
+
+def hide_pygame_support_prompt() -> None:
+    environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
+
+
+def tleng_plugin(app: App) -> None:
+    """
+    The Game Engines Plugin.
+    """
+    # app.add_systems(
+    #     renderer=[
+    #         # Render
+    #     ]
+    # )
+
 __all__ = [
 'colors', 'convert_rad_to_deg', 'convert_deg_to_rad', 'get_parent_dir',
 'EngineMethods', 'SceneManagerMethods', 'SceneManagerProperties', 'RendererMethods', 'RendererProperties', 'EngineProperties',
@@ -62,7 +76,7 @@ __all__ = [
 'Scene', 
 'Camera', 
 'Scene', 'SceneCatcher',
-"Game",
+"App",
 'Label', 'Button',
 'Object', 
 'Projectile', 'Particles', 
@@ -74,7 +88,8 @@ __all__ = [
 'GlobalSettings',
 'debug_print',
 'SubPixelSurface',
-'ecs'
+'ecs',
+'hide_pygame_support_prompt', 'tleng_plugin'
 ]
 
 
@@ -117,11 +132,10 @@ SOFTWARE.
 '''
 
 # Engine Report:
-# TODO: Unverbose the engine. 
-#       Instead of globalsettings._win_res -> 
-#           (from .~.globalsettings import _win_res) _win_res
+# TODO: ECS Renderer additions
+#       Layers
+#       Camera Optimizations 
 # TODO: Settings Json support.
-# TODO: Animation Json Support.
 # TODO: Redo the Label system in update 2.2 and add:
 #       capitilize / lower
 #       striketrough, underlined

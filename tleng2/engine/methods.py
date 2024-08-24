@@ -4,9 +4,37 @@ from .properties import EngineProperties, SceneManagerProperties, RendererProper
 from .settings import GlobalSettings
 
 class EngineMethods:
+    """
+    A namespace of abstractions made over functions in pygame.
+
+    You can, if you want, to write these functions in your own code as there is a possible speedup.
+    But generally this exists to not think to much when writing your game.
+
+    Compatible methods with ECS implementation:
+    - `set_caption(caption: str) -> None`
+    - `set_icon(image_path: str) -> None`
+    - `set_icon_surface(image: pygame.SurfaceType) -> None`
+    """
+
     @staticmethod
     def set_caption(caption: str) -> None:
         pygame.display.set_caption(caption)
+
+
+    @staticmethod
+    def set_icon(image_path: str) -> None:
+        """
+        Pass as a parameter the location of the icon you want to use.
+        """
+        pygame.display.set_icon(pygame.image.load(image_path).convert_alpha())
+    
+
+    @staticmethod
+    def set_icon_surface(image: pygame.SurfaceType) -> None:
+        """
+        Pass a specific surface you want to use.
+        """
+        pygame.display.set_icon(image)
 
     
     @staticmethod
