@@ -38,28 +38,6 @@ from ..utils.debug import debug_print
 
 from typing import Any as _Any
 
-class ScenesManager:
-    """
-    The ECS manager of tleng2
-    """
-    def __init__(self) -> None:
-        self.worlds: dict[str, _Any] = {}
-        self.current_world: str = ""
-
-
-    def load_worlds(self, **worlds) -> None: 
-        self.worlds.update(worlds) 
-
-    
-    def change_world(self, new_world: str) -> None:
-        self.current_world = new_world
-
-
-    def run_current_world(self) -> None:
-        # runs the schedule of the scene
-        self.worlds[self.current_world].run_schedule()
-
-
 class SceneManager:
     """
     Manages the animation service, scenes how they are getting rendered. Game Engine Backend function.

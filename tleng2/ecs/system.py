@@ -5,6 +5,7 @@ class System:
     def __init__(self, priority: int = 0) -> None:
         self.priority: int = priority
         self.world = None
+        self.abled = True
 
 
     def change_world(self, world) -> None:

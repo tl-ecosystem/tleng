@@ -26,6 +26,8 @@ class WorldComp:
     components_caches: dict = field(default_factory=dict)
     component_caches: dict = field(default_factory=dict)
     resources: dict = field(default_factory=dict)
+    # event: Events = Events()
+
 
 
 class World:
@@ -44,6 +46,9 @@ class World:
         self.component_caches = {}
 
         self.resources: dict = {}
+
+
+        # self.event = Events(self)
 
 
     def get_resource(self, resource_type: type) -> None:
@@ -256,22 +261,6 @@ class World:
         self.component_caches = {}
 
 
-    def send(self, event) -> None:
-        raise NotImplementedError
-    
-
-    def send_batch(self, *event) -> None:
-        raise NotImplementedError
-
-
-    def read(self, event_type: type) -> ...:
-        raise NotImplementedError
-
-
-    def read_batch(self, *event_type: type) -> ...:
-        raise NotImplementedError
-
-
     def use_schedule(self, schedule) -> None:
         """
         Use the schedule that works best with the world created.
@@ -283,3 +272,24 @@ class World:
     def run_schedule(self) -> None:
         self.schedule.update()
 
+    
+    def load_world_component(self, world_component) -> None:
+        self.id_count = world_component.id_count
+        self.dead_entities = world_component.dead_entities
+        self.entity_db = world_component.entity_db
+        self.components_db = world_component.components_db
+        self.components_caches = world_component.components_caches
+        self.component_caches = world_component.component_caches
+        self.resources = world_component.resources
+
+
+    def return_world_component(self) -> WorldComp:
+        return WorldComp(
+            id_count = self.id_count,
+            dead_entities = self.dead_entities,
+            entity_db = self.entity_db,
+            components_db = self.components_db,
+            components_caches = self.components_caches,
+            component_caches = self.component_caches,
+            resources = self.resources
+        )

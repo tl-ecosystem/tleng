@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from ..ecs.world import World
+from ..ecs.world import WorldComp
 from ..ecs.schedule import Schedule
 from ..engine.properties import RendererProperties
 
 
 @dataclass
 class SceneComp:
-    world: World
+    world: WorldComp
     schedule: Schedule
 
 
@@ -41,7 +41,7 @@ class Scene(SceneCatcher, ABC):
         To handle the events of mouse and other.
         If you want to access Keys Pressed, you can do so, from 
         
-        `EngineProperties._events` `EngineProperties._keys_pressed`
+        `EngineProperties._events`
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -60,14 +60,3 @@ class Scene(SceneCatcher, ABC):
         '''
         what to render to the screen
         '''
-
-
-class SubSceneManagerCatcher:
-    """
-    Useful for split-screen gameplay were multiple subscenemanagers might need to be used
-    """
-    ...
-
-
-class SubSceneManager:
-    ...

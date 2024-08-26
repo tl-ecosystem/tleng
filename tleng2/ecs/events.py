@@ -46,46 +46,45 @@ class EventManagerSystem(System):
             events.curr_events.update(events.event_types)
 
 
+
 class Events:
-    def __init__(self, world) -> None:
-        self.world = world
+    """
+    ECS System
+    """
+    def __init__(self, events_comp: EventsComp) -> None:
+        self.events_comp = events_comp
     
 
     def send(self, event) -> None:
-        wuc = self.world.unique_components
-        if EventsComp in wuc:
-            events = wuc[EventsComp]
-            try:
-                events.curr_events[type(event)] += [event]
-            except:
-                raise KeyError (f'Event Type {type(event)} is not found in the Unique Component EventsComp')
+        events = self
+        try:
+            events.curr_events[type(event)] += [event]
+        except:
+            raise KeyError (f'Event Type {type(event)} is not found in the Unique Component EventsComp')
     
 
     def read(self, event_type) -> _Any:
-        wuc = self.world.unique_components
-        if EventsComp in wuc:
-            events = wuc[EventsComp]
-
-            return events.prev_events.get(event_type, []) + events.curr_events.get(event_type, [])
+        events = wuc[EventsComp]
+        return events.prev_events.get(event_type, [])
         
     
-    # def read_consume(self, event_type) -> _Any:
-    #     """
-    #     Instead of just reading the event, it also consumes it. Meaning that if there is no other sender after consumption
-    #     any other systme that tries to read this event_type will not find anything.
-    #     """
-    #     ...
+    def read_consume(self, event_type) -> _Any:
+        """
+        Instead of just reading the event, it also consumes it. Meaning that if there is no other sender after consumption
+        any other system that tries to read this event_type will not find anything.
+        """
+        ...
 
 
-    # def produce(self,) -> None:
-    #     """
-    #     Produces consumable events. Infinite lifespan
-    #     """        
-    #     ...
+    def produce(self,) -> None:
+        """
+        Produces consumable events. Infinite lifespan
+        """        
+        ...
 
 
-    # def consume(self,) -> None:
-    #     """
-    #     Consumes consumable events. 
-    #     """
-    #     ...
+    def consume(self,) -> None:
+        """
+        Consumes consumable events. 
+        """
+        ...

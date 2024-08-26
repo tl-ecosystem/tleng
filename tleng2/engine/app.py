@@ -1,31 +1,44 @@
 import sys
 import pygame
 
+
+
 from .settings import GlobalSettings
-from .scene_manager import SceneManager, ScenesManager
+from .scene_manager import SceneManager
 
 from .properties import EngineProperties, SceneManagerProperties, RendererProperties
 from .methods import  EngineMethods, RendererMethods, SceneManagerMethods
 from .renderer import Renderer
+
 from ..components.scene import SceneCatcher, SceneComp
-from ..utils.debug import debug_print
 
 from ..ecs.worlds_manager import WorldsManager, World
+from ..ecs.scenes_manager import ScenesManager
+from ..ecs.schedule import Schedule
+from ..ecs.events import Events
+
+from ..utils.debug import debug_print
 
 from typing import Callable as _Callable
 from typing import Any as _Any
 
 
 class App: 
-    def __init__(self):
+    def __init__(self) -> None:
         # pygame.init()
+        # for running old projects still in tleng v2.2.11.dev
         self.scene_manager = SceneManager()
         self.renderer = Renderer()
         
-        self.ecs_manager = WorldsManager()
+        # The new and improved ECS scene manager
         self.scenes_manager = ScenesManager()
 
+        self.resources_db = {}
+        self.scheduler_db = Schedule()
+
         self.world = World()
+        self.events = Events()
+
 
 
     def load_worlds(self, start_with: str, **worlds: World) -> None:
@@ -36,11 +49,7 @@ class App:
 
         self.ecs_manager.current_world = start_with
 
-        # global components and scheduler databases
-        self.components_db = {}
-        self.scheduler_db = {} 
 
-    
     def load_scenes(self, start_with: str, **scenes: SceneComp) -> None:
         """
         Loads worlds to scene manager
@@ -49,41 +58,48 @@ class App:
 
         self.scenes_manager.current_world = start_with
 
-    
+
     def use_plugins(self, *plugins: _Callable) -> None:
         for plugin in plugins:
             plugin(self)
 
-        
+
     def add_systems(self, **systems: _Any) -> None:
         self.scheduler_db.update(systems)
 
-    
-    def run(self, tleng2_intro: bool = False):
+
+    def run(self, tleng2_intro: bool = False) -> None:
         if tleng2_intro:
             raise NotImplementedError("A tleng2 intro has not been created yet.")
+        # if scheduler_res_dynamic_load is not True:
+        self.scheduler_db.load_systems_from_scenes(self.scenes_manager.scenes)
+
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:
             events = pygame.event.get()
-            EngineProperties._events = events                 
+            EngineProperties._events = events
+            # push pygame events in the TlengEventManager
 
-            self.ecs_manager.run_current_world()
+
+            # same as what world.run_schedule() would do
+            self.scheduler_db.update()
+
 
             if GlobalSettings._debug:
                 EngineMethods.set_caption(f"{EngineProperties._clock.get_fps()}")
-        
-        
+
+
         pygame.quit()
         sys.exit()
 
 
-
-    def run_old(self, tleng2_intro: bool = False):
+    def run_old(self, tleng2_intro: bool = False) -> None:
         '''
         Runs the Game Engine while loop with the game
         '''
-        
+        DeprecationWarning("Running old depracated architecture")
+
         if tleng2_intro:
             raise NotImplementedError("A tleng2 intro has not been created yet.")
 
@@ -92,7 +108,7 @@ class App:
             # handle the scene from here
             events = pygame.event.get()
             EngineProperties._events = events
-            
+
             for event in events:
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -104,20 +120,15 @@ class App:
             pygame.display.flip()
             RendererMethods.clear_render_calls()
 
-        
+
             EngineMethods.clock_tick_EP_dt(GlobalSettings._fps)
             SceneManagerMethods.update_scene()
-            
+
             if GlobalSettings._debug:
                 EngineMethods.set_caption(f"{EngineProperties._clock.get_fps()}")
 
-
-            # self.ecs_manager.update()
 
             debug_print(SceneCatcher.scenes, tags=["Rendering"])
 
         pygame.quit()
         sys.exit()
-
-
-    
