@@ -1,7 +1,6 @@
 import sys
 import pygame
-
-
+import warnings
 
 from .settings import GlobalSettings
 from .scene_manager import SceneManager
@@ -17,7 +16,7 @@ from ..ecs.scenes_manager import ScenesManager
 from ..ecs.schedule import Schedule
 from ..ecs.events import Events
 
-from ..utils.debug import debug_print
+from ..utils.debug import Debugging, debug_print
 
 from typing import Callable as _Callable
 from typing import Any as _Any
@@ -33,12 +32,30 @@ class App:
         # The new and improved ECS scene manager
         self.scenes_manager = ScenesManager()
 
-        self.resources_db = {}
         self.scheduler_db = Schedule()
+        self.properties_db = {}
 
         self.world = World()
-        self.events = Events()
+        # self.events = Events()
 
+
+    def get_property(self, property_type: type) -> _Any:
+        """
+        It will search if the World has this resources
+        """
+        raise NotImplementedError()
+
+
+    def append_properties(self, *properties: _Any) -> None:
+        """
+        Appends resources to the world.
+        
+        - Example:
+        {
+            ComponentType: Compoenent, ...
+        }
+        """
+        self.properties_db.update( {type(_property): _property for _property in properties})
 
 
     def load_worlds(self, start_with: str, **worlds: World) -> None:
@@ -85,23 +102,25 @@ class App:
             # same as what world.run_schedule() would do
             self.scheduler_db.update()
 
+            self.world.update()
 
-            if GlobalSettings._debug:
+            if self.properties_db[Debugging]:
                 EngineMethods.set_caption(f"{EngineProperties._clock.get_fps()}")
-
 
         pygame.quit()
         sys.exit()
 
 
-    def run_old(self, tleng2_intro: bool = False) -> None:
+    def run_old(self) -> None:
         '''
         Runs the Game Engine while loop with the game
         '''
-        DeprecationWarning("Running old depracated architecture")
-
-        if tleng2_intro:
-            raise NotImplementedError("A tleng2 intro has not been created yet.")
+        warnings.warn(
+            "run_old() is deprecated and will be removed in a future release."
+            "Please use run() instead.",
+            FutureWarning,
+            stacklevel=2
+        )
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:

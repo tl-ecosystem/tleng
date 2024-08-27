@@ -42,16 +42,19 @@ class World:
         #  a sparse list of every entities pointing to their respective components
         self.components_db: dict[_Any, set] = {} 
 
+        # cached for finding the compoenents faster and more effieciently 
+        # if there havent't been any changes to the entities.
         self.components_caches = {}
         self.component_caches = {}
 
+        # unique components that are stored in the world, can hold information such as settings info, goal of the game
+        # etc
         self.resources: dict = {}
-
 
         # self.event = Events(self)
 
 
-    def get_resource(self, resource_type: type) -> None:
+    def get_resource(self, resource_type: type) -> _Any:
         """
         It will search if the World has this resource
         """
@@ -94,7 +97,7 @@ class World:
         return entity
 
 
-    def despawn(self, entity: int, immediate: bool) -> None:
+    def despawn(self, entity: int, immediate: bool = False) -> None:
         """
         Despawns an entity from the id given.
         Every component that was associated with the entity is not deleted.
@@ -115,6 +118,24 @@ class World:
             self.clear_cache()
         else:
             self.dead_entities.add(entity)
+
+
+    def update(self) -> None:
+        """
+        Kills all the entities that are dead.
+        :returns: Nothing
+        """
+        for entity in self.dead_entities:
+            for component_type in self.entity_db[entity]:
+                self.components_db[component_type].discard(entity)
+
+                # if in turn the sparse list of that component type is empty then delete it
+                if not self.components_db[component_type]:
+                    del self.components_db[component_type]
+
+            del self.entity_db[entity]
+
+            self.clear_cache()
 
 
     def clear_components(self, entity: int) -> None: 

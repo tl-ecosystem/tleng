@@ -1,37 +1,52 @@
 from dataclasses import dataclass, field
+from email.policy import default
 
 from .system import System
-from ..components.scene import SceneComp
 
 from typing import Literal as _Literal
 
-scheduler_types = [
-    'StateTransition', 
-    'PreStartupStateTransition',
+class SceneComp:
+    """
+    Here for symbolic reasons
+    """
+
+scheduler_types: list[str] = [
+    'StateTransition', 'SceneTransition'
     'First', 
     'PreUpdate', 
-    'RunFixedMainLoop', 
     'Update', 
     'PostUpdate', 
     'Last',
+    'PreRenderer', 'Renderer',
     'PreStartup', 
     'Startup', 
     'PostStartup'
 ]
 
 SCHEDULER_TYPES = _Literal[
-    'StateTransition', 
-    'PreStartupStateTransition',
+    'StateTransition', 'SceneTransition'
     'First', 
     'PreUpdate', 
-    'RunFixedMainLoop', 
     'Update', 
     'PostUpdate', 
     'Last',
+    'PreRenderer', 'Renderer',
     'PreStartup', 
     'Startup', 
     'PostStartup'
 ]
+
+SCHEDULER_ORDER = _Literal[
+    'Update',
+    'Startup',
+    'SceneTransition',
+    'StateTransition'
+]
+
+update_order: list[str] = ['First', 'PreUpdate', 'Update', 'PostUpdate', 'PreRenderer', 'Renderer', 'Last']
+startup_order: list[str] = ['PreStartUp', 'Startup', 'PostStartup']
+scene_transition_order: list[str] = ['OnExit']
+state_transition_order: list[str] = ['OnExit']
 
 # TODO: POSSIBLE OPTIMIZATION OF THE DICTIONARY COMPREHENSION
 def _ScheduleComp_default_factory() -> dict[SCHEDULER_TYPES, list[System]]:
@@ -40,7 +55,8 @@ def _ScheduleComp_default_factory() -> dict[SCHEDULER_TYPES, list[System]]:
 @dataclass
 class ScheduleComp:
     system_schedule: dict[SCHEDULER_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
-    current_system_schedule: dict[SCHEDULER_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
+    cached_system_schedule: dict[SCHEDULER_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
+    queue: list[str] = field(default_factory=list)
 
 
 class Schedule:
@@ -48,11 +64,14 @@ class Schedule:
     Something like a system manager.
     """
     def __init__(self) -> None:
+        self.world = None
         self.system_schedule: dict[SCHEDULER_TYPES, list[System]] = {key: [] for key in scheduler_types}
         
         # can be used as the cached active systems.
-        self.current_system_schedule: dict[SCHEDULER_TYPES, list[System]] = {key: [] for key in scheduler_types}
-    
+        self.cached_system_schedule: dict[SCHEDULER_TYPES, list[System]] = {key: [] for key in scheduler_types}
+
+        self.current_order: SCHEDULER_ORDER = 'Update'
+
 
     def add_systems(self, scheduler_type: SCHEDULER_TYPES, *systems) -> None: 
         self.system_schedule[scheduler_type] += systems
@@ -63,15 +82,31 @@ class Schedule:
         for scene in scenes:
             self.system_schedule.update(scene.schedule.system_schedule)
 
-    
-    def init_systems(self, world) -> None:
+
+    def init(self, world) -> None:
+        """
+        Inits the schedule on what world to use, and inits the systems on what world for them to use.
+        """
+        self.world = world
         for system in self.system_schedule:
             system.change_world(world)
 
 
     def update(self) -> None:
-        for system in self.system_schedule:
-            system.update()
+        """
+        According to what the resources say the right systems will run.
+        """
+        for key in self.queue:
+            for system in self.system_schedule[key]:
+                if system.abled:
+                    system.update()
+
+    
+    def update_queue(self, queue) -> None: 
+        """
+        Adds to the end of the key queue the 
+        """
+        ...
 
     
     def disable_system(self,) -> None:
@@ -79,6 +114,14 @@ class Schedule:
 
 
     def enable_system(self,) -> None:
+        ...
+
+    
+    def return_schedule_component(self) -> ScheduleComp: 
+        ...
+
+    
+    def load_schedule_component(self, schedule_component) -> None:
         ...
 
 

@@ -2,6 +2,11 @@ from ..engine.settings import GlobalSettings
 from .colors import WHITE
 import pygame
 
+class Debugging:
+    """
+    Debugging compoenent, used inside the properties of the app.
+    """
+
 def debug_print(*values: object, sep: str | None = " ", end: str | None = "\n", file: None = None, flush = False, tags:list = [])->None:
     """
     Print statement that gets called only when the debug of the application is equal to `True`.
