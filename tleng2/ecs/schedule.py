@@ -23,7 +23,7 @@ scheduler_types: list[str] = [
     'PostStartup'
 ]
 
-SCHEDULER_TYPES = _Literal[
+SEQUENCE_TYPES = _Literal[
     'StateTransition', 'SceneTransition'
     'First', 
     'PreUpdate', 
@@ -36,7 +36,7 @@ SCHEDULER_TYPES = _Literal[
     'PostStartup'
 ]
 
-SCHEDULER_ORDER = _Literal[
+SEQUENCE_ORDER = _Literal[
     'Update',
     'Startup',
     'SceneTransition',
@@ -49,13 +49,13 @@ scene_transition_order: list[str] = ['OnExit']
 state_transition_order: list[str] = ['OnExit']
 
 # TODO: POSSIBLE OPTIMIZATION OF THE DICTIONARY COMPREHENSION
-def _ScheduleComp_default_factory() -> dict[SCHEDULER_TYPES, list[System]]:
+def _ScheduleComp_default_factory() -> dict[SEQUENCE_TYPES, list[System]]:
     return {key: [] for key in scheduler_types}
 
 @dataclass
 class ScheduleComp:
-    system_schedule: dict[SCHEDULER_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
-    cached_system_schedule: dict[SCHEDULER_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
+    system_schedule: dict[SEQUENCE_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
+    cached_system_schedule: dict[SEQUENCE_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
     queue: list[str] = field(default_factory=list)
 
 
@@ -65,15 +65,15 @@ class Schedule:
     """
     def __init__(self) -> None:
         self.world = None
-        self.system_schedule: dict[SCHEDULER_TYPES, list[System]] = {key: [] for key in scheduler_types}
+        self.system_schedule: dict[SEQUENCE_TYPES, list[System]] = {key: [] for key in scheduler_types}
         
         # can be used as the cached active systems.
-        self.cached_system_schedule: dict[SCHEDULER_TYPES, list[System]] = {key: [] for key in scheduler_types}
+        self.cached_system_schedule: dict[SEQUENCE_TYPES, list[System]] = {key: [] for key in scheduler_types}
 
-        self.current_order: SCHEDULER_ORDER = 'Update'
+        self.current_order: SEQUENCE_TYPES = 'Update'
 
 
-    def add_systems(self, scheduler_type: SCHEDULER_TYPES, *systems) -> None: 
+    def add_systems(self, scheduler_type: SEQUENCE_TYPES, *systems) -> None: 
         self.system_schedule[scheduler_type] += systems
         self.system_schedule[scheduler_type].sort(key=lambda syst: syst.priority, reverse=True)
 
@@ -83,7 +83,7 @@ class Schedule:
             self.system_schedule.update(scene.schedule.system_schedule)
 
 
-    def init(self, world) -> None:
+    def init(self, world, events, query, commands) -> None:
         """
         Inits the schedule on what world to use, and inits the systems on what world for them to use.
         """

@@ -188,13 +188,14 @@ class World:
 
 
     def has_component(self, entity: int, component_type: Component) -> bool:
-        assert type(entity) == int, 'The entity need to be an integer'
+        assert type(entity) == int #'The entity need to be an integer'
         return component_type in self.entity_db[entity]
 
 
     def has_components(self, entity: int, *component_types: Component) -> bool:
         """Check if an Entity has all the specified Component types."""
-        return all(comp_type in self.entity_db[entity] for comp_type in component_types)
+        components_dict = self.entity_db[entity]
+        return all(comp_type in components_dict for comp_type in component_types)
 
 
     def __get_components_has_without(self, 
@@ -239,7 +240,6 @@ class World:
     def __get_components(self, *component_types) -> _Iterable[tuple[int, list[Component]]]: 
         component_db = self.components_db
         entity_db = self.entity_db
-
 
         # for e in [{Comp1 e,e,e},{Comp2 e,e,e,e}]
         #   entity_db[e][ct] for ct in component_types

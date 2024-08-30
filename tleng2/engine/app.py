@@ -14,7 +14,7 @@ from ..components.scene import SceneCatcher, SceneComp
 from ..ecs.worlds_manager import WorldsManager, World
 from ..ecs.scenes_manager import ScenesManager
 from ..ecs.schedule import Schedule
-from ..ecs.events import Events
+from ..ecs.events import Events, EventsComp
 
 from ..utils.debug import Debugging, debug_print
 
@@ -37,6 +37,11 @@ class App:
 
         self.world = World()
         # self.events = Events()
+
+        #self.commands
+        #self.query
+        #self.events
+        
 
 
     def get_property(self, property_type: type) -> _Any:
@@ -67,13 +72,28 @@ class App:
         self.ecs_manager.current_world = start_with
 
 
-    def load_scenes(self, start_with: str, **scenes: SceneComp) -> None:
+    def load_scenes(self, **scenes: SceneComp) -> None:
         """
-        Loads worlds to scene manager
+        Loads worlds to scene manager.
+
+        Also creates the states for the world.
         """
         self.scenes_manager.load_worlds(**scenes)
 
-        self.scenes_manager.current_world = start_with
+    
+    def load_states(self,  *states: str) -> None:
+        ...
+
+
+    def start_with(self, start_with: str) -> None:
+        ...
+
+    
+    def register_events(self, *events_types: type) -> None:
+        """
+        Registers the Events Properties of the App (Tleng Plugin also registers some default events)
+        """
+        self.properties_db.update({EventsComp: EventsComp(events_types)})
 
 
     def use_plugins(self, *plugins: _Callable) -> None:
@@ -102,6 +122,7 @@ class App:
             # same as what world.run_schedule() would do
             self.scheduler_db.update()
 
+            # cleans the dead entities of the active world.
             self.world.update()
 
             if self.properties_db[Debugging]:
