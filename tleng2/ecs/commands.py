@@ -28,6 +28,7 @@ class Commands:
             )
         )
     
+    
     def despawn(self, entity, immediate) -> None:
         self.__world.despawn(entity=entity, immediate=immediate)
 

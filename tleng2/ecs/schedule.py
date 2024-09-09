@@ -1,27 +1,17 @@
+from inspect import signature
+from typing import get_args
 from dataclasses import dataclass, field
-from email.policy import default
 
 from .system import System
 
 from typing import Literal as _Literal
+from typing import Any as _Any
 
 class SceneComp:
     """
     Here for symbolic reasons
     """
 
-scheduler_types: list[str] = [
-    'StateTransition', 'SceneTransition'
-    'First', 
-    'PreUpdate', 
-    'Update', 
-    'PostUpdate', 
-    'Last',
-    'PreRenderer', 'Renderer',
-    'PreStartup', 
-    'Startup', 
-    'PostStartup'
-]
 
 SEQUENCE_TYPES = _Literal[
     'StateTransition', 'SceneTransition'
@@ -34,6 +24,10 @@ SEQUENCE_TYPES = _Literal[
     'PreStartup', 
     'Startup', 
     'PostStartup'
+]
+
+scheduler_types: list[str] = [
+    *get_args(SEQUENCE_TYPES)
 ]
 
 SEQUENCE_ORDER = _Literal[
@@ -83,14 +77,31 @@ class Schedule:
             self.system_schedule.update(scene.schedule.system_schedule)
 
 
-    def init(self, world, events, query, commands) -> None:
+    def init(self, parameters: dict[type, _Any]) -> None:
         """
         Inits the schedule on what world to use, and inits the systems on what world for them to use.
         """
-        self.world = world
-        for system in self.system_schedule:
-            system.change_world(world)
+        try:
+            for system in self.system_schedule:
+                syst_param_signature = signature(system.parameters)
+                params = syst_param_signature.parameters
 
+                # Determine which parameters to inject based on type annotations
+                injection_args = []
+
+                for param in params.values():
+                    annotation = param.annotation
+
+                    injection_args.append(parameters[annotation])
+
+                system.parameters(*annotation)
+
+        except KeyError as key:
+            print(f"""KeyError occured, 
+                      - <{key}> was wrongly typed in the parameters of the systems
+                      - key: <{key}> was either not initialized in app or 
+                      - <{key}> was not properly put in the parameter of the app""")
+            
 
     def update(self) -> None:
         """

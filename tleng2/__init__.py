@@ -12,6 +12,7 @@ from .engine.methods import EngineMethods, SceneManagerMethods, RendererMethods
 from .engine.app import App
 # from .engine.ui_manager
 
+# the whole ecs module
 from . import ecs
 
 # utils Directory
@@ -56,14 +57,28 @@ def hide_pygame_support_prompt() -> None:
     environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
 
-def tleng_plugin(app: App) -> None:
+def tleng_base_plugin(app: App) -> None:
+    """
+    The Game Engines Plugin.
+    """
+
+    app.parameters.update()
+
+    # app.add_systems(
+    #     renderer=[
+    #         # Render
+    #     ] 
+    # )
+
+
+def tleng_additional_plugin(app: App) -> None:
     """
     The Game Engines Plugin.
     """
     # app.add_systems(
     #     renderer=[
     #         # Render
-    #     ]
+    #     ] 
     # )
 
 __all__ = [
@@ -89,7 +104,8 @@ __all__ = [
 'debug_print',
 'SubPixelSurface',
 'ecs',
-'hide_pygame_support_prompt', 'tleng_plugin'
+'hide_pygame_support_prompt', 
+'tleng_base_plugin', 'tleng_additional_plugin'
 ]
 
 

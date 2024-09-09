@@ -97,6 +97,28 @@ class World:
         return entity
 
 
+    def _spawn_id(self, entity_id: int, *components: Component) -> None:
+        """
+        Spawns an entity with the components provided and returns the id of the entity. 
+        """
+        entity = entity_id
+
+        if entity not in self.entity_db:
+            self.entity_db[entity] = {}
+
+        for component_instance in components:
+            component_type = type(component_instance)
+
+            if component_type not in self.components_db:
+                self.components_db[component_type] = set()
+            
+            # we add the component type to the sparse list
+            self.components_db[component_type].add(entity)
+
+            # we create the entity with his components
+            self.entity_db[entity][component_type] = component_instance
+
+
     def despawn(self, entity: int, immediate: bool = False) -> None:
         """
         Despawns an entity from the id given.

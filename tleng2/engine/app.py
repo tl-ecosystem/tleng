@@ -36,6 +36,9 @@ class App:
         self.properties_db = {}
 
         self.world = World()
+
+        # injection parameters for the scheduler.init() method
+        self.inj_parameters = {}
         # self.events = Events()
 
         #self.commands
@@ -97,6 +100,15 @@ class App:
 
 
     def use_plugins(self, *plugins: _Callable) -> None:
+        '''
+        Registers Plugins in the main App. 
+
+        Plugins can setup crucial `systems`, `resources`, `events`, or even implement `queries`, `worlds` and more. The default plugin is the 
+        `tleng_base_plugin` there is also the `tleng_additionals_plugin` (not implemented)
+
+        **plugins**: Plugins must be `Any` callable that takes as a first and only parameter the `App` it self. \n
+        **return**: Returns nothing
+        '''
         for plugin in plugins:
             plugin(self)
 
@@ -106,11 +118,15 @@ class App:
 
 
     def run(self, tleng2_intro: bool = False) -> None:
+        """
+        ECS support for running ECS applications, that have worlds, schedules, scenecomps and more
+        """
         if tleng2_intro:
             raise NotImplementedError("A tleng2 intro has not been created yet.")
         # if scheduler_res_dynamic_load is not True:
         self.scheduler_db.load_systems_from_scenes(self.scenes_manager.scenes)
 
+        self.scheduler_db.init(self.inj_parameters)
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:
@@ -134,7 +150,7 @@ class App:
 
     def run_old(self) -> None:
         '''
-        Runs the Game Engine while loop with the game
+        Runs the Game Engine while loop with the game (deprecated, use run() instead)
         '''
         warnings.warn(
             "run_old() is deprecated and will be removed in a future release."
