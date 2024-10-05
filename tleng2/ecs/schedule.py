@@ -94,7 +94,7 @@ class Schedule:
 
                     injection_args.append(parameters[annotation])
 
-                system.parameters(*annotation)
+                system.parameters(*injection_args)
 
         except KeyError as key:
             print(f"""KeyError occured, 

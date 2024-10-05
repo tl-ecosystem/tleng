@@ -253,7 +253,7 @@ class World:
             return self.components_caches[(component_types, has, without)]
         except KeyError:
             return self.components_caches.setdefault(
-                component_types, list(
+                (component_types, has, without), list(
                     self.__get_components_has_without(component_types, has, without=without)
                     )
                 )
