@@ -6,9 +6,13 @@ from ..engine.settings import GlobalSettings
 
 
 class ClockTickSystem(System):
+    def parameters(self, world: World):
+        self.world = world
+
+
     def update(self):
         fps = GlobalSettings._fps
-        if FpsComp in self.world.unique_components:
-            fps = self.world.unique_components[FpsComp].fps
+        if FpsComp in self.world.resources:
+            fps = self.world.resources[FpsComp].fps
         
         EngineMethods.clock_tick_EP_dt(fps)

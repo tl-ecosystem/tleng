@@ -17,27 +17,47 @@ class ScenesManager:
     def __init__(self) -> None:
         self.scenes: dict[str, SceneComp] = {}
         self.current_scene: str = ""
-        self.changing_scene: bool = False
+        self.waiting_scene: str = ""
+        self.scene_is_changed: bool = False
 
 
-    def load_scene(self, **scenes: SceneComp) -> None: 
+    def load_scenes(self, **scenes: SceneComp) -> None: 
         self.scenes.update(scenes) 
 
     
     def change_scene(self, new_scene_name: str) -> None:
-        self.current_scene = new_scene_name
-        self.changing_scene = True
+        self.waiting_scene = new_scene_name
+        self.scene_is_changed = True
+
+    
+    def changing_scene(self, world, schedule) -> None:
+
+        new_scene_comp = self.scenes[self.waiting_scene]
+
+        # schedule.scene_transition_exit()
+
+        world.load_world_component(new_scene_comp.world)
+        schedule.load_schedule_component(new_scene_comp.schedule)
+
+        # schedule.scene_transition_start()
+        
+        self.current_scene = self.waiting_scene
 
 
     def get_scene(self, scene_name: str) -> SceneComp:
         return self.scenes[scene_name]
     
 
+    def from_scene_get(self) -> None:
+        """
+        TODO: It will give you only the schedule or world from the scene!
+        """
+        ...
+
+
     def get_schedules(self) -> _Iterator[list[Schedule]]:
+        """
+        Needed to initialize the systems to the central World
+        """
         for key, scene in self.scenes:
             yield scene.schedule
-    
-
-    def run_current_scene(self) -> None:
-        # runs the schedule of the scene
-        self.scenes[self.current_scene].run_schedule()

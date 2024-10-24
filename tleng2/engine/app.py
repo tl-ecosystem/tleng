@@ -5,56 +5,50 @@ import warnings
 from .settings import GlobalSettings
 from .scene_manager import SceneManager
 
-from .properties import EngineProperties, SceneManagerProperties, RendererProperties
+from .properties import EngineProperties, GlobalProperties, SceneManagerProperties, RendererProperties
 from .methods import  EngineMethods, RendererMethods, SceneManagerMethods
 from .renderer import Renderer
 
 from ..components.scene import SceneCatcher, SceneComp
 
-from ..ecs.worlds_manager import WorldsManager, World
+from ..ecs.worlds_manager import World
 from ..ecs.scenes_manager import ScenesManager
 from ..ecs.schedule import Schedule
-from ..ecs.events import Events, EventsComp
+from ..ecs.events import EventsComp
 
 from ..utils.debug import Debugging, debug_print
 
 from typing import Callable as _Callable
 from typing import Any as _Any
+from typing import TypeVar
 
+T = TypeVar('T')
 
 class App: 
     def __init__(self) -> None:
-        # pygame.init()
-        # for running old projects still in tleng v2.2.11.dev
+        # for backwards compatability
         self.scene_manager = SceneManager()
         self.renderer = Renderer()
         
-        # The new and improved ECS scene manager
+        # The new and improved ECS
         self.scenes_manager = ScenesManager()
-
-        self.scheduler_db = Schedule()
-        self.properties_db = {}
-
         self.world = World()
+        self.scheduler = Schedule()
+        self.properties = GlobalProperties()
 
         # injection parameters for the scheduler.init() method
         self.inj_parameters = {}
-        # self.events = Events()
-
-        #self.commands
-        #self.query
-        #self.events
         
 
 
-    def get_property(self, property_type: type) -> _Any:
+    def get_property(self, property_type: T) -> T:
         """
         It will search if the World has this resources
         """
-        raise NotImplementedError()
+        return self.properties.properties[property_type]
 
 
-    def append_properties(self, *properties: _Any) -> None:
+    def add_properties(self, *properties: _Any) -> None:
         """
         Appends resources to the world.
         
@@ -63,25 +57,18 @@ class App:
             ComponentType: Compoenent, ...
         }
         """
-        self.properties_db.update( {type(_property): _property for _property in properties})
+        self.properties.add_properties( 
+            *properties
+        )
 
 
-    def load_worlds(self, start_with: str, **worlds: World) -> None:
+    def load_scenes(self, start_with: str, **scenes: SceneComp) -> None:
         """
-        Loads worlds to Ecs Manager
+        Loads scenes to Ecs Manager
         """
-        self.ecs_manager.load_worlds(**worlds)
+        self.scenes_manager.load_scenes(**scenes)
 
-        self.ecs_manager.current_world = start_with
-
-
-    def load_scenes(self, **scenes: SceneComp) -> None:
-        """
-        Loads worlds to scene manager.
-
-        Also creates the states for the world.
-        """
-        self.scenes_manager.load_worlds(**scenes)
+        self.scenes_manager.waiting_scene = start_with
 
     
     def load_states(self,  *states: str) -> None:
@@ -96,10 +83,12 @@ class App:
         """
         Registers the Events Properties of the App (Tleng Plugin also registers some default events)
         """
-        self.properties_db.update({EventsComp: EventsComp(events_types)})
+        self.properties.add_properties(
+            EventsComp(events_types) 
+        )
 
 
-    def use_plugins(self, *plugins: _Callable) -> None:
+    def use_plugins(self, *plugins: _Callable[[_Any],None]) -> None:
         '''
         Registers Plugins in the main App. 
 
@@ -114,7 +103,15 @@ class App:
 
 
     def add_systems(self, **systems: _Any) -> None:
-        self.scheduler_db.update(systems)
+        self.scheduler.update(systems)
+
+
+    def injection_parameters(self, *parameters) -> None:
+        self.inj_parameters.update(
+            {
+                type(key): key for key in parameters
+            }
+        )
 
 
     def run(self, tleng2_intro: bool = False) -> None:
@@ -122,11 +119,15 @@ class App:
         ECS support for running ECS applications, that have worlds, schedules, scenecomps and more
         """
         if tleng2_intro:
-            raise NotImplementedError("A tleng2 intro has not been created yet.")
-        # if scheduler_res_dynamic_load is not True:
-        self.scheduler_db.load_systems_from_scenes(self.scenes_manager.scenes)
+            warnings.warn(
+                "A tleng2 intro has not been created yet nor implemented.",
+                FutureWarning,
+                stacklevel=2
+            )
 
-        self.scheduler_db.init(self.inj_parameters)
+        self.scenes_manager.changing_scene(self.world, self.scheduler)
+
+        self.scheduler.init(self.inj_parameters)
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:
@@ -136,13 +137,17 @@ class App:
 
 
             # same as what world.run_schedule() would do
-            self.scheduler_db.update()
+            self.scheduler.update()
 
             # cleans the dead entities of the active world.
             self.world.update()
 
-            if self.properties_db[Debugging]:
-                EngineMethods.set_caption(f"{EngineProperties._clock.get_fps()}")
+            if self.scenes_manager.scene_is_changed:
+                self.scenes_manager.changing_scene(self.world, self.scheduler)
+
+            # maybe this is not a good way to do it?
+            # if self.properties_db[Debugging]:
+            #     EngineMethods.set_caption(f"{EngineProperties._clock.get_fps()}")
 
         pygame.quit()
         sys.exit()

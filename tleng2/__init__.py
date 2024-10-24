@@ -1,4 +1,8 @@
-from os import environ#, path, getcwd
+from asyncio import events
+from os import environ
+
+
+#, path, getcwd
 # import json
 
 # core_engine Directory
@@ -32,6 +36,7 @@ from .components.scene import Scene, SceneCatcher
 from .components.camera import Camera
 from .components.renderable import Renderable
 from .components.map import Map
+from .components.events import default_events_bundle
 
 # ui_elements Directory
 from .uix.label import Label
@@ -54,6 +59,11 @@ from .services.sprite_stack import SpriteStackService
 
 
 def hide_pygame_support_prompt() -> None:
+    """
+    Hides the pygame support prompt. 
+
+    Cleaner Terminal :)
+    """
     environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
 
@@ -62,7 +72,19 @@ def tleng_base_plugin(app: App) -> None:
     The Game Engines Plugin.
     """
 
-    app.parameters.update()
+    app.register_events(
+        *default_events_bundle()
+    )
+
+    events = ecs.Events(app.properties.get(ecs.EventsComp))
+
+    # put here the initialized parameters, world, events.
+    app.injection_parameters(
+        app.world , # app already has a world, and it's the central world.
+        app.properties, # app resources, also named as properties
+        app.scenes_manager,
+        events
+    )
 
     # app.add_systems(
     #     renderer=[
@@ -73,13 +95,14 @@ def tleng_base_plugin(app: App) -> None:
 
 def tleng_additional_plugin(app: App) -> None:
     """
-    The Game Engines Plugin.
+    The Game Engines Additionals Plugin.
     """
     # app.add_systems(
     #     renderer=[
     #         # Render
     #     ] 
     # )
+
 
 __all__ = [
 'colors', 'convert_rad_to_deg', 'convert_deg_to_rad', 'get_parent_dir',
@@ -117,6 +140,7 @@ import platform
 print(f"tleng {__version__} (Python: {platform.python_version()})")
 
 del platform
+
 __name__ = "tleng"
 __doc__ = f'''
 TLeng is a 2d python game engine.
@@ -146,17 +170,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
-
-# Engine Report:
-# TODO: ECS Renderer additions
-#       Layers
-#       Camera Optimizations 
-# TODO: Settings Json support.
-# TODO: Redo the Label system in update 2.2 and add:
-#       capitilize / lower
-#       striketrough, underlined
-#       left|Center|Right
-#       find
-#       join
-#       change_{smt}
-#       __len__, __str__

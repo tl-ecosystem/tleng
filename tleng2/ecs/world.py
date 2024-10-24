@@ -1,13 +1,11 @@
 from dataclasses import dataclass, field
 from itertools import count
 
-from .events import Events, EventsComp
-# from ..engine.properties import EngineProperties
-
-
 from typing import Any as _Any
 from typing import Iterable as _Iterable
+from typing import TypeVar
 
+T = TypeVar('T')
 
 class Component:
     """
@@ -54,11 +52,11 @@ class World:
         # self.event = Events(self)
 
 
-    def get_resource(self, resource_type: type) -> _Any:
+    def get_resource(self, resource_type: T) -> T:
         """
         It will search if the World has this resource
         """
-        raise NotImplementedError()
+        return self.resources[resource_type]
 
 
     def append_resources(self, *resources: _Any) -> None:
@@ -336,3 +334,10 @@ class World:
             component_caches = self.component_caches,
             resources = self.resources
         )
+    
+
+    def merge_world_here(self, world: _Any) -> None:
+        """
+        Merge another World, with this one.
+        """
+        ...

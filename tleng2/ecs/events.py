@@ -1,7 +1,10 @@
-from dataclasses import dataclass
-
 from .system import System
+from .world import World
+
+from ..engine.properties import GlobalProperties
 # from ..engine.properties import EngineProperties
+
+
 
 from types import MethodType as _MethodType
 
@@ -43,10 +46,15 @@ class EventsComp:
 
 
 class EventManagerSystem(System):
+    def parameters(self, world: World, properties: GlobalProperties):
+        self.world = world
+        self.properties = properties
+    
     def update(self):
-        wuc = self.world.unique_components
-        if EventsComp in wuc:
-            events = wuc[EventsComp]
+        properties = self.properties.properties
+
+        if EventsComp in properties:
+            events = properties[EventsComp]
 
             # moving the new events to the old events to be "deleted" in the next call of this system 
             events.prev_events = {}
@@ -65,7 +73,7 @@ class Events:
     
 
     def send(self, event) -> None:
-        events = self
+        events = self.events_comp
         try:
             events.curr_events[type(event)] += [event]
         except:

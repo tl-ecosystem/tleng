@@ -1,10 +1,15 @@
-# have every not setting related variable stored here
-
-# from logging import getLogger
+"""
+Every variable that is not related as a setting is here
+"""
 
 import pygame
+
 from .settings import GlobalSettings
+
 from abc import abstractmethod, ABC
+
+from typing import TypeVar
+
 
 class LocalProperties(ABC):
     @abstractmethod
@@ -20,6 +25,36 @@ class LocalProperties(ABC):
         """    
 
 
+T = TypeVar('T')
+
+# New and improved Properties for tleng2.ecs
+class GlobalProperties:
+    """
+    A way to handle and access properties from systems in `tleng2.ecs`
+    """
+    def __init__(self) -> None:
+        self.properties: dict = {}
+
+
+    def add_properties(self, *new_properties) -> None:
+        self.properties.update(
+            {
+                type(key) : key for key in new_properties
+            }
+        )
+    
+
+    def get(self, property_type: T) -> T:
+        """
+        Gets you the property from type.
+        It throws errors if not correct.
+        """
+        return self.properties[property_type]
+
+
+    def exists(self, property_type: T) -> bool:
+        return property_type in self.properties
+
 class EngineProperties:
     """
     Engine properties, needed across the framework/game.
@@ -28,7 +63,7 @@ class EngineProperties:
     _dt: float = 0
     _events: list = []
     _keys_pressed: list = []
-    GAME_RUNNING: bool = True
+    GAME_RUNNING: bool = False
     # _logger = getLogger("EngineLogger")
 
     # _index_event = 1
