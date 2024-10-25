@@ -51,6 +51,7 @@ class EventManagerSystem(System):
         self.properties = properties
     
     def update(self):
+        print(self, self.world)
         properties = self.properties.properties
 
         if EventsComp in properties:

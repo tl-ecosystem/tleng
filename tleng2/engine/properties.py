@@ -55,6 +55,8 @@ class GlobalProperties:
     def exists(self, property_type: T) -> bool:
         return property_type in self.properties
 
+    #TODO: some dunder that support the `some_comp IN global_properties`
+
 class EngineProperties:
     """
     Engine properties, needed across the framework/game.

@@ -2,12 +2,15 @@
 Stores a dictionary of "name_of_scene" and 
 """
 
-from ..ecs.schedule import Schedule
-from ..components.scene import SceneComp
+from .schedule import Schedule
+from .ecs_scene import SceneComp
+
 from ..utils.debug import debug_print
 
 from typing import Any as _Any
 from typing import Iterator as _Iterator
+
+
 
 
 class ScenesManager:

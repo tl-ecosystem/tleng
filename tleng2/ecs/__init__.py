@@ -6,7 +6,8 @@ from dataclasses import dataclass as component
 from .world import World
 from .schedule import Schedule
 from .system import System
-from .worlds_manager import WorldsManager
+# from .worlds_manager import WorldsManager
+from .scenes_manager import ScenesManager
 from .events import EventsComp, Events, EventManagerSystem
 
 __all__ = [
@@ -14,6 +15,5 @@ __all__ = [
     "World",
     "Schedule",
     "System",
-    "WorldsManager",
     "EventsComp", "Events", "EventManagerSystem"
 ]

@@ -16,9 +16,6 @@ from .engine.methods import EngineMethods, SceneManagerMethods, RendererMethods
 from .engine.app import App
 # from .engine.ui_manager
 
-# the whole ecs module
-from . import ecs
-
 # utils Directory
 from .utils import colors
 from .utils.utils import convert_rad_to_deg, convert_deg_to_rad, get_parent_dir
@@ -56,6 +53,9 @@ from .services.sound import SoundService
 from .services.font import FontService
 from .services.tilemap import TileMap, TileSet
 from .services.sprite_stack import SpriteStackService
+
+# the whole ecs module
+from . import ecs
 
 
 def hide_pygame_support_prompt() -> None:

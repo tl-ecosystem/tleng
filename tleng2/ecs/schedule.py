@@ -92,12 +92,18 @@ class Schedule:
             self.system_schedule.update(scene.schedule.system_schedule)
 
 
-    def init(self, parameters: dict[type, _Any]) -> None:
+    def init(self, scenes: dict[str,SceneComp], parameters: dict[type, _Any]) -> None:
         """
         Inits the systems on their parameters. It analyzes the parameters and injects what they asked for.
         """
         try:
-            for key, systems in self.system_schedule.items():
+            all_systems: dict[SEQUENCE_TYPES, list[System]] = {key: [] for key in sequence_types}
+            for key, scene in scenes.items():
+                for seq_type, system_list in scene.schedule.system_schedule.items():
+                    all_systems[seq_type] += system_list
+
+            # self.system_schedule.items()
+            for key, systems in all_systems.items():
                 for system in systems:
                     syst_param_signature = signature(system.parameters)
                     params = syst_param_signature.parameters
