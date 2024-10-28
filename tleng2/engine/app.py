@@ -127,7 +127,7 @@ class App:
 
         self.scenes_manager.changing_scene(self.world, self.scheduler)
 
-        self.scheduler.init(self.scenes_manager.scenes, self.inj_parameters)
+        self.scheduler._scene_init(self.scenes_manager.scenes, self.inj_parameters)
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:

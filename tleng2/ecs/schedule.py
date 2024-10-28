@@ -92,7 +92,34 @@ class Schedule:
             self.system_schedule.update(scene.schedule.system_schedule)
 
 
-    def init(self, scenes: dict[str,SceneComp], parameters: dict[type, _Any]) -> None:
+    def init(self, parameters: dict[type, _Any]) -> None:
+        """
+        Inits the systems on their parameters. It analyzes the parameters and injects what they asked for.
+        """
+        try:
+            # self.system_schedule.items()
+            for key, systems in self.system_schedule.items():
+                for system in systems:
+                    syst_param_signature = signature(system.parameters)
+                    params = syst_param_signature.parameters
+
+                    # Determine which parameters to inject based on type annotations
+                    injection_args = []
+
+                    for param in params.values():
+                        annotation = param.annotation
+
+                        injection_args.append(parameters[annotation])
+
+                    system.parameters(*injection_args)
+        except KeyError as key:
+            print(f"""KeyError occured, 
+                      - <{key}> was wrongly typed in the parameters of the systems
+                      - key: <{key}> was either not initialized in app or 
+                      - <{key}> was not properly put in the parameter of the app""")
+            
+
+    def _scene_init(self, scenes: dict[str,SceneComp], parameters: dict[type, _Any]) -> None:
         """
         Inits the systems on their parameters. It analyzes the parameters and injects what they asked for.
         """

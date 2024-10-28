@@ -157,6 +157,8 @@ class World:
 
             self.clear_cache()
 
+        self.dead_entities.clear()
+
 
     def clear_components(self, entity: int) -> None: 
         """
