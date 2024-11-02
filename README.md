@@ -18,6 +18,42 @@ The C++ version of the engine is a work in progress, but it will be available so
 
 After the C++ section will be finished, the engine will change names from TLeng2 to TLeng3. TLeng2 aims only for support with python, TLeng3 aims to support python and C++ together.
 
+
+## 📖 Documentation
+
+Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
+
+## 🎮 Games that use this engine/framework:
+
+- [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
+- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.0.dev4)
+- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0.dev12)
+
+## 💾 Additional Bundled Software for TLengPy2 (in development)
+
+This software will have a GUI for the user
+
+- [SpriteStacking Viewer](https://github.com/tl-ecosystem/tl-ssv)
+- [Tilemap Editor](https://github.com/tl-ecosystem/tl-editor)
+- Level Creator
+- Assistant for inputing assets to your game (Import Wizard)
+- Scene/UI Creator
+- Animation Creator
+
+## 🛠️ Requirements
+
+- Python:
+  - python 3.11+
+  - Pygame Community Edition 2.2+
+  - PyMunk 6.5+
+  - NumPy 1.20+
+  - ModernGL (not needed yet)
+- C++ (WIP):
+  - SDL 3
+  - GLAD
+  - OpenGL
+  - CMake
+
 ## ⚡ Setting Up the Engine
 
 It is recommended that everytime you create a game in `Tleng` you create a `Virtual Enviroment`. That is to resolve any conflicts that might arise from namespaces and more (`Tleng` uses `Pygame-CE` which conflicts with `Pygame`).
@@ -81,41 +117,6 @@ Explanation:
 
 (*) If you want to make modifications to the game eninge, then it's recommended that you import all the game engines files into your src folder. 
 
-
-## 📖 Documentation
-
-Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
-
-## 🎮 Games that use this engine/framework:
-
-- [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
-- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.0.dev4)
-- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0.dev12)
-
-## 🛠️ Requirements
-
-- Python:
-  - python 3.11+
-  - Pygame Community Edition 2.2+
-  - PyMunk 6.5+
-  - NumPy 1.20+
-  - ModernGL (not needed yet)
-- C++ (WIP):
-  - SDL 3
-  - GLAD
-  - OpenGL
-  - CMake
-
-## 💾 Additional Bundled Software for TLengPy2 (in development)
-
-This software will have a GUI for the user
-
-- [SpriteStacking Viewer](https://github.com/tl-ecosystem/tl-ssv)
-- [Tilemap Editor](https://github.com/tl-ecosystem/tl-editor)
-- Level Creator
-- Assistant for inputing assets to your game (Import Wizard)
-- Scene/UI Creator
-- Animation Creator
 
 ## ❓ The meaning behind the symbolising of the updates are 2.x.y.z:
 
