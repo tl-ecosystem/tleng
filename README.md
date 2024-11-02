@@ -29,7 +29,7 @@ Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 - [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.0.dev4)
 - [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0.dev12)
 
-## 💾 Additional Bundled Software for TLengPy2 (in development)
+## 💾 Additional Software (in development)
 
 This software will have a GUI for the user
 
