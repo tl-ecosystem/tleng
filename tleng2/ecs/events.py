@@ -11,12 +11,17 @@ from types import MethodType as _MethodType
 from typing import Any as _Any
 from typing import Callable as _Callable
 from typing import Iterable as _Iterable
+from typing import TypeVar
 
 from weakref import WeakMethod as _WeakMethod
 from weakref import ref as _ref
 
 # def pygame_quit_handler(event) -> None:
 #     EngineProperties.GAME_RUNNING = False
+
+
+T = TypeVar('T')
+
 
 def load_event_list_to_dict(keys_list: _Iterable) -> dict[_Any, list]:
     """
@@ -51,7 +56,6 @@ class EventManagerSystem(System):
         self.properties = properties
     
     def update(self):
-        print(self, self.world)
         properties = self.properties.properties
 
         if EventsComp in properties:
@@ -74,15 +78,18 @@ class Events:
     
 
     def send(self, event) -> None:
-        events = self.events_comp
         try:
-            events.curr_events[type(event)] += [event]
-        except:
-            raise KeyError (f'Event Type {type(event)} is not found in the Unique Component EventsComp')
+            self.events_comp.curr_events[type(event)] += [event]
+        except KeyError:
+            raise KeyError (f'Event Type {type(event)} is not found in the Properties EventsComp')
     
 
-    def read(self, event_type) -> _Any:
-        return self.events_comp.prev_events.get(event_type, [])
+    def read(self, event_type: T) -> list[T]:
+        try:
+            return self.events_comp.prev_events[event_type]
+        except KeyError:
+            return self.events_comp.prev_events.get(event_type, [])
+
         
     
     def read_consume(self, event_type) -> _Any:

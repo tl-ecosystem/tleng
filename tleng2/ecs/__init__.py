@@ -9,11 +9,13 @@ from .system import System
 # from .worlds_manager import WorldsManager
 from .scenes_manager import ScenesManager
 from .events import EventsComp, Events, EventManagerSystem
+from .ecs_scene import SceneComp
 
 __all__ = [
     "component",
     "World",
     "Schedule",
     "System",
-    "EventsComp", "Events", "EventManagerSystem"
+    "EventsComp", "Events", "EventManagerSystem",
+    "SceneComp",
 ]

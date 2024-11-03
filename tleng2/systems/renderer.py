@@ -39,12 +39,10 @@ class RendererSystem(System):
 
 
     def update(self) -> None:
-        events = self.events.read(ResizeWindowEvent)
-        if events:        
-            self.resize_window()
-        # for event in EngineProperties._events:
-        #     if event.type == pygame.WINDOWRESIZED:
-        #         self.resize_window()
+        # events = self.events.read(ResizeWindowEvent)
+        # if events:        
+        #     self.resize_window()
+
 
 
         self._display.surface.fill(RendererProperties.fill_screen_color)

@@ -21,8 +21,6 @@ class Renderer:
         # debug_print(RendererProperties.render_calls,tags=['Renderer', 'Render_calls'])
         display = RendererProperties._display
 
-
-
         for call in RendererProperties.render_calls:
             renderable = call
             
@@ -36,8 +34,6 @@ class Renderer:
                 display.blit(renderable.surface, (renderable.x , renderable.y))
         
         debug_print(CameraCatcher.cameras, tags=["Renderer", "Camera"])
-
-
         
  
 

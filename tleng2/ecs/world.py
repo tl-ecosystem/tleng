@@ -6,6 +6,7 @@ from typing import Iterable as _Iterable
 from typing import TypeVar
 
 T = TypeVar('T')
+C = TypeVar('C')
 
 class Component:
     """
@@ -145,19 +146,20 @@ class World:
         Kills all the entities that are dead.
         :returns: Nothing
         """
-        for entity in self.dead_entities:
-            for component_type in self.entity_db[entity]:
-                self.components_db[component_type].discard(entity)
-
-                # if in turn the sparse list of that component type is empty then delete it
-                if not self.components_db[component_type]:
-                    del self.components_db[component_type]
-
-            del self.entity_db[entity]
-
-            self.clear_cache()
-
-        self.dead_entities.clear()
+        if self.dead_entities:
+            for entity in self.dead_entities:
+                for component_type in self.entity_db[entity]:
+                    self.components_db[component_type].discard(entity)
+    
+                    # if in turn the sparse list of that component type is empty then delete it
+                    if not self.components_db[component_type]:
+                        del self.components_db[component_type]
+    
+                del self.entity_db[entity]
+    
+                self.clear_cache()
+    
+            self.dead_entities.clear()
 
 
     def clear_components(self, entity: int) -> None: 
@@ -317,6 +319,7 @@ class World:
 
     
     def load_world_component(self, world_component) -> None:
+        print("LOADINGGGG")
         self.id_count = world_component.id_count
         self.dead_entities = world_component.dead_entities
         self.entity_db = world_component.entity_db

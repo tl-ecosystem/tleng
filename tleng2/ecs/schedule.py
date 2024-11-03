@@ -79,7 +79,7 @@ class Schedule:
         """
         Add systems in the scheduler.
 
-        :returns: Nothing
+        :Returns: Nothing
         """
         self.system_schedule[sequence_type] += systems
         self.cached_system_sequence_types.add(sequence_type)

@@ -46,6 +46,8 @@ class ScenesManager:
         
         self.current_scene = self.waiting_scene
 
+        self.scene_is_changed = False
+
 
     def get_scene(self, scene_name: str) -> SceneComp:
         return self.scenes[scene_name]

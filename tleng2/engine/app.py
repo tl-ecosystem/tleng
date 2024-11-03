@@ -153,6 +153,39 @@ class App:
         sys.exit()
 
 
+    def _run_test(self, s) -> None:
+        """
+        ONLY FOR TESTING
+        """
+        import time
+
+        self.scenes_manager.changing_scene(self.world, self.scheduler)
+
+        self.scheduler._scene_init(self.scenes_manager.scenes, self.inj_parameters)
+
+        t1 = time.time()
+        t2 = time.time()
+        while t2-t1 <= s:
+            events = pygame.event.get()
+            EngineProperties._events = events
+            # push pygame events in the TlengEventManager
+
+            # same as what world.run_schedule() would do
+            self.scheduler.update()
+
+            # cleans the dead entities of the active world.
+            self.world.update()
+
+            if self.scenes_manager.scene_is_changed:
+                self.scenes_manager.changing_scene(self.world, self.scheduler)
+
+
+            t2 = time.time()
+
+
+        pygame.quit()
+
+
     def run_old(self) -> None:
         '''
         Runs the Game Engine while loop with the game (deprecated, use run() instead)
