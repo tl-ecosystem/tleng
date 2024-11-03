@@ -2,6 +2,7 @@ from tleng2 import *
 from dataclasses import dataclass
 from pygame import Surface, SurfaceType, FRect
 
+# Components ______
 
 @dataclass
 class Transform:
@@ -20,6 +21,12 @@ class Animation:
 class Renderable:
     renderable: SurfaceType
     rect: FRect
+
+
+# Systems ______
+
+class LogicTransform(ecs.System):
+    ...
 
 # SCENE 1 ___________
 world1 = ecs.World()
@@ -44,7 +51,7 @@ world1.spawn(
 schedule1 = ecs.Schedule()
 
 schedule1.add_systems( 'Update',
-    ClockTickSystem()
+    
 )
 
 world1_scene = ecs.SceneComp(
@@ -74,7 +81,7 @@ world2.spawn(
 schedule2 = ecs.Schedule()
 
 schedule2.add_systems( 'Update',
-    ClockTickSystem()
+    
 )
 
 world2_scene = ecs.SceneComp(
