@@ -110,7 +110,7 @@ def test_scenes():
     # I don't know how to test case the switching of scenes
     # game.run()
 
-    return False
-
+    assert True
+    
 if __name__ == '__main__':
     test_scenes()

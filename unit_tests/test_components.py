@@ -73,20 +73,15 @@ def test_components() -> bool:
     __name__ = 'components'
 
     c = world1.fast_query(Transform)
-    if not len(c) == len(e_list):
-        return False
+    assert len(c) == len(e_list)
     
     c = world1.fast_query(Animation)
-    if not len(c) == 1:
-        return False
+    assert len(c) == 1
+
     
     c = world1.fast_query(Renderable)
-    if not len(c) == 2:
-        return False
+    assert len(c) == 2
 
-
-    
-    return True
 
 if __name__ == '__main__':
     print(test_components())

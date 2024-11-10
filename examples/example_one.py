@@ -1,5 +1,3 @@
-# from assets.scripts.Tleng2 import *
-# import assets.scripts.engine.Tleng2 as TL
 from tleng2 import *
 from tleng2.utils.colors import *
 import pygame 
