@@ -319,7 +319,7 @@ class World:
 
     
     def load_world_component(self, world_component) -> None:
-        print("LOADINGGGG")
+        # print("LOADINGGGG")
         self.id_count = world_component.id_count
         self.dead_entities = world_component.dead_entities
         self.entity_db = world_component.entity_db

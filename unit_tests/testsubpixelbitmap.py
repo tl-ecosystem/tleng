@@ -9,7 +9,7 @@ from pygame.locals import *
 
 
 try:
-    from ..tleng2 import SubPixelSurface
+    from tleng2 import SubPixelSurface
 except ImportError as e1:
     try: 
         # print(help(sys_path))

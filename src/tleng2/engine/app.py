@@ -35,6 +35,8 @@ class App:
         self.world = World()
         self.scheduler = Schedule()
         self.properties = GlobalProperties()
+        self.plugin_scheduler = Schedule()
+
 
         # injection parameters for the scheduler.init() method
         self.inj_parameters = {}
@@ -127,14 +129,13 @@ class App:
 
         self.scenes_manager.changing_scene(self.world, self.scheduler)
 
-        self.scheduler._scene_init(self.scenes_manager.scenes, self.inj_parameters)
+        # _merge_to_scenes_schedulers(self.scenes_manager.scenes, self.plugin_scheduler) #TODO static method
+        self.scheduler._scenes_init(self.scenes_manager.scenes, self.inj_parameters) #TODO static method
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:
             events = pygame.event.get()
             EngineProperties._events = events
-            # push pygame events in the TlengEventManager
-
 
             # same as what world.run_schedule() would do
             self.scheduler.update()
@@ -161,7 +162,11 @@ class App:
 
         self.scenes_manager.changing_scene(self.world, self.scheduler)
 
-        self.scheduler._scene_init(self.scenes_manager.scenes, self.inj_parameters)
+        self.scheduler._scenes_init(self.scenes_manager.scenes, self.inj_parameters)
+
+        scheduler = self.scheduler
+        world = self.world
+        scenes_manager = self.scenes_manager
 
         t1 = time.time()
         t2 = time.time()
@@ -171,13 +176,13 @@ class App:
             # push pygame events in the TlengEventManager
 
             # same as what world.run_schedule() would do
-            self.scheduler.update()
+            scheduler.update()
 
             # cleans the dead entities of the active world.
-            self.world.update()
+            world.update()
 
-            if self.scenes_manager.scene_is_changed:
-                self.scenes_manager.changing_scene(self.world, self.scheduler)
+            if scenes_manager.scene_is_changed:
+                scenes_manager.changing_scene(world, scheduler)
 
 
             t2 = time.time()

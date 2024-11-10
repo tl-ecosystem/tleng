@@ -89,10 +89,10 @@ class ExampleSceneOne(Scene):
 
 
 def main():
-    game = Game()
+    game = App()
     example_scene_one = ExampleSceneOne("Example")
     SceneManagerMethods.start_with_scene("Example")
-    game.run()
+    game.run_old()
 
 
 if __name__ == "__main__":

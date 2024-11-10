@@ -1,6 +1,7 @@
 from tleng2 import * 
 from dataclasses import dataclass
 from pygame import Surface, SurfaceType, FRect
+import pygame as pg
 
 # Components ______
 
@@ -89,7 +90,12 @@ world2_scene = ecs.SceneComp(
 )
 
 
-def main():
+def test_scenes():
+    """Testing ECS scenes with App"""
+    __name__ = "scenes"
+
+    pg.init()
+    
     game = App()
 
     game.use_plugins(
@@ -101,4 +107,10 @@ def main():
         scene1 = world1_scene
     )
 
-    game.run()
+    # I don't know how to test case the switching of scenes
+    # game.run()
+
+    return False
+
+if __name__ == '__main__':
+    test_scenes()

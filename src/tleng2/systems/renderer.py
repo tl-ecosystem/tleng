@@ -54,7 +54,9 @@ class RendererSystem(System):
 
         blit_seq = [(rc.surface, rc.rect.topleft) for e, rc in components]
 
-        self._display.surface.fblits(blit_seq)
+        # self._display.surface.fblits(blit_seq)
+        for e, rc in blit_seq:
+            self._display.surface.blit(e,rc)
 
 
         RendererProperties._window.blit(self._display.surface, (0,0))

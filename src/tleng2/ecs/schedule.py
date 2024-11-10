@@ -47,6 +47,7 @@ def _ScheduleComp_default_factory() -> dict[SEQUENCE_TYPES, list[System]]:
     return {key: [] for key in sequence_types}
 
 
+
 @dataclass
 class ScheduleComp:
     system_schedule: dict[SEQUENCE_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
@@ -118,8 +119,8 @@ class Schedule:
                       - key: <{key}> was either not initialized in app or 
                       - <{key}> was not properly put in the parameter of the app""")
             
-
-    def _scene_init(self, scenes: dict[str,SceneComp], parameters: dict[type, _Any]) -> None:
+    # what if this becomes a staticmethod
+    def _scenes_init(self, scenes: dict[str,SceneComp], parameters: dict[type, _Any]) -> None:
         """
         Inits the systems on their parameters. It analyzes the parameters and injects what they asked for.
         """
@@ -204,3 +205,9 @@ class Schedule:
         self.cached_system_schedule = schedule_component.cached_system_schedule
         self.cached_system_sequence_types = schedule_component.cached_system_sequence_types
         self.current_order = schedule_component.current_order
+
+
+def _merge_to_scene_schedulers(scene_comp_list: list[SceneComp], scheduler: Schedule) -> None:
+    # for scene in scene_comp_list:
+        # scene.
+    ...
