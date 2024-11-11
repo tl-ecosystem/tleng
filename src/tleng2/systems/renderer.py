@@ -44,7 +44,6 @@ class RendererSystem(System):
         #     self.resize_window()
 
 
-
         self._display.surface.fill(RendererProperties.fill_screen_color)
 
         # Basically render_calls but on steroids

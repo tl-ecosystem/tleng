@@ -1,6 +1,4 @@
-from asyncio import events
 from os import environ
-
 
 #, path, getcwd
 # import json
@@ -89,11 +87,11 @@ def tleng_base_plugin(app: App) -> None:
         events
     )
 
-    # app.add_systems(
-    #     renderer=[
-    #         # Render
-    #     ] 
-    # )
+    app.add_systems(
+        Renderer=[
+            RendererSystem()
+        ]
+    )
 
 
 def tleng_additional_plugin(app: App) -> None:

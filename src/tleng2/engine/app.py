@@ -2,6 +2,7 @@ import sys
 import pygame
 import warnings
 
+
 from .settings import GlobalSettings
 from .scene_manager import SceneManager
 
@@ -13,8 +14,9 @@ from ..components.scene import SceneCatcher, SceneComp
 
 from ..ecs.worlds_manager import World
 from ..ecs.scenes_manager import ScenesManager
-from ..ecs.schedule import Schedule
+from ..ecs.schedule import Schedule,  _scenes_init, _merge_to_scene_schedulers, SEQUENCE_TYPES
 from ..ecs.events import EventsComp
+from ..ecs.system import System
 
 from ..utils.debug import Debugging, debug_print
 
@@ -104,8 +106,16 @@ class App:
             plugin(self)
 
 
-    def add_systems(self, **systems: _Any) -> None:
-        self.scheduler.update(systems)
+    def add_systems(self, **systems: list[System]) -> None:
+        """
+        Syntax for add systems
+        """
+        for seq_type, l_systems in systems.items():
+            print(seq_type, type(seq_type), l_systems)
+            self.plugin_scheduler.add_systems(
+                seq_type,
+                *l_systems,
+            )
 
 
     def injection_parameters(self, *parameters) -> None:
@@ -129,8 +139,8 @@ class App:
 
         self.scenes_manager.changing_scene(self.world, self.scheduler)
 
-        # _merge_to_scenes_schedulers(self.scenes_manager.scenes, self.plugin_scheduler) #TODO static method
-        self.scheduler._scenes_init(self.scenes_manager.scenes, self.inj_parameters) #TODO static method
+        _merge_to_scene_schedulers(self.scenes_manager.scenes, self.plugin_scheduler) #TODO static method
+        _scenes_init(self.scenes_manager.scenes, self.inj_parameters) #TODO static method
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:
@@ -158,15 +168,20 @@ class App:
         """
         ONLY FOR TESTING
         """
+        #TODO this to match the above code
         import time
 
+        _merge_to_scene_schedulers(list(self.scenes_manager.scenes.values()), self.plugin_scheduler) #TODO static method
         self.scenes_manager.changing_scene(self.world, self.scheduler)
 
-        self.scheduler._scenes_init(self.scenes_manager.scenes, self.inj_parameters)
+        _scenes_init(self.scenes_manager.scenes, self.inj_parameters)
 
         scheduler = self.scheduler
         world = self.world
         scenes_manager = self.scenes_manager
+
+        print(scheduler)
+        print(scheduler.return_schedule_component())
 
         t1 = time.time()
         t2 = time.time()
