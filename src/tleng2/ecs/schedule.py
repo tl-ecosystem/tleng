@@ -42,9 +42,21 @@ SEQUENCE_ORDER = _Literal[
 
 
 update_order: list[str] = ['First', 'PreUpdate', 'Update', 'PostUpdate', 'PreRenderer', 'Renderer', 'Last']
-startup_order: list[str] = ['PreStartUp', 'Startup', 'PostStartup']
-scene_transition_order: list[str] = ['OnSceneExit']
-state_transition_order: list[str] = ['OnStateExit']
+startup_order: list[str] = ['PreStartUp', 'Startup']
+
+# scene_transition_order_enter: list[str] = ['OnSceneEnter']
+# scene_transition_order_exit: list[str] = ['OnSceneExit']
+
+# state_transition_order_enter: list[str] = ['OnStateEnter']
+# state_transition_order_exit: list[str] = ['OnStateExit']
+# TODO General ideas for states in scheduler
+# What if we treat our states like sequance orders, like what if when we create a Pause state, underneath it there are systems that work with that state, if the
+# game gets unpaused then then that sequence type gets removed from the list and the systems that it had don't run anymore..
+# 
+# The other more brutal idea is to just a good data structure (or use an existing one like hashmaps) that supports fast looksup for systems and
+# every time we switch state some systems are enabled some other are disabled.
+# 
+# Best of both worlds: Use both :)
 
 
 def _ScheduleComp_default_factory() -> dict[SEQUENCE_TYPES, list[System]]:
@@ -71,7 +83,6 @@ class Schedule:
 
 
         #TODO: can be used as the cached active systems, better if the lists change to sets.
-        #TODO not sure about this
         self.cached_system_schedule: dict[SEQUENCE_TYPES, list[System]] = {key: [] for key in sequence_types}
         self.current_order: SEQUENCE_TYPES = 'Update'
         # self.cached_queue: list = []
@@ -84,14 +95,13 @@ class Schedule:
         """
         self.cached_system_sequence_types.extend(new_sequence_type)
 
-
-        print(new_sequence_type)
-        print(self.cached_system_sequence_types)
-        print(type(self.cached_system_sequence_types))
+        # print(new_sequence_type)
+        # print(self.cached_system_sequence_types)
+        # print(type(self.cached_system_sequence_types))
 
         self.cached_system_sequence_types = sorted(
             self.cached_system_sequence_types, 
-            key= lambda x: update_order.index(x)
+            key=lambda x: update_order.index(x)
         )
 
 
@@ -101,6 +111,7 @@ class Schedule:
 
         :Returns: Nothing
         """
+        # I am not sure if the line below is slow
         self.system_schedule[sequence_type] += systems
         self.system_schedule[sequence_type].sort(
             key=lambda syst: syst.priority, reverse=True
@@ -117,7 +128,7 @@ class Schedule:
 
     def init(self, parameters: dict[type, _Any]) -> None:
         """
-        Inits the systems on their parameters. It analyzes the parameters 
+        Instantiates the systems on their parameters. It analyzes the parameters 
         and injects what they asked for.
         """
         try:
@@ -143,17 +154,17 @@ class Schedule:
                       - <{key}> was not properly put in the parameter of the app""")
             
     
-    # TODO refine the caching system
     def update(self) -> None:
         """
         According to what the resources say the right systems will run.
-        
-        slight optimization: a cached queue. So it doesnt try to iterate over empty lists.
         """      
+        # for state in self.cached_state_sequence:
+        #     for system in state:
+        #         
         for key in self.cached_system_sequence_types:
             for system in self.system_schedule.setdefault(key,[]):
                 if system.enabled:
-                    system.update()
+                    system.update() # by design (not a bug, it's a feature!)
 
     
     # for this to be done efficiently (from the schedule) we need to use sets
@@ -196,22 +207,30 @@ class Schedule:
 def _merge_to_scene_schedulers(scene_comp_list: list[SceneComp], scheduler: Schedule) -> None:
     """
     Takes the list from the scene components, and injects the schedule of the scenecomp the schedule of the App.
-
-    #TODO
-    Solution one Update everysingle dictionary attribute of the scene comp with the dictionary attributes of schedule.
-
-    solution two just inject the systems in the schedule of scene comp. (seems easier but more expensive) 
     """
     for scene in scene_comp_list:
         for seq_type in scheduler.cached_system_sequence_types:
-            scene.schedule.system_schedule.update({seq_type : scheduler.system_schedule[seq_type]})
+            # for some unknown reason, this is faster than calling the schedule.add_systems method.
+            if scene.schedule.system_schedule[seq_type]:
+                scene.schedule.system_schedule[seq_type].extend(scheduler.system_schedule[seq_type])
+            else:
+                scene.schedule.system_schedule.update(
+                    {
+                        seq_type :  scheduler.system_schedule[seq_type]
+                    }
+                )
+            # print(seq_type, scene.schedule.system_schedule[seq_type])
+            scene.schedule.system_schedule[seq_type].sort(
+                key=lambda syst: syst.priority, reverse=True
+            )
+            
         scene.schedule.cached_system_schedule.update(scheduler.cached_system_schedule)
         scene.schedule._add_cached_system_sequence(*scheduler.cached_system_sequence_types)
 
 
 def _scenes_init(scenes: dict[str,SceneComp], parameters: dict[type, _Any]) -> None:
     """
-    Inits the systems on their parameters. It analyzes the parameters and injects what they asked for.
+    Instantiates the systems on their parameters. It analyzes the parameters and injects what they asked for.
     """
 
     try:

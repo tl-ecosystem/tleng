@@ -51,13 +51,12 @@ class EngineMethods:
         EngineProperties._dt = EngineProperties._clock.tick(target_fps) / 1000
 
 
-    # micro optimization
     @staticmethod
     def lazy_clock_tick_GP_dt(target_fps: int) -> None:
         """
-        Stores the dt value in EngineProperties.
+        Stores the dt value in EngineProperties. Micro optimization.
         """
-        EngineProperties._dt = EngineProperties._clock.tick(target_fps) >> 10 # bit shift, clock.tick / 1024
+        EngineProperties._dt = EngineProperties._clock.tick(target_fps) >> 10 # bit shift, clock.tick // 1024
     
 
 
@@ -111,7 +110,7 @@ class RendererMethods:
 
     
     @staticmethod
-    def import_scene_renderer_params_list(params:dict) -> None:
+    def import_scene_renderer_params_dict(params: dict) -> None:
         params_keys = params.keys()
         for key in params_keys:
             RendererProperties.type_parameters.update({key: params[key]})
@@ -128,12 +127,15 @@ class RendererMethods:
         Initialize the display fast.
         """
         RendererProperties._default_display = pygame.Surface(GlobalSettings._disp_res) 
-        RendererProperties._window = pygame.display.set_mode(GlobalSettings._win_res,flags=flags)
-        RendererProperties.type_parameters.update({'default': {
-                                                        'display' : RendererProperties._default_display.copy(),
-                                                        'camera' : None 
-                                                    }
-                                                  })
+        RendererProperties._window = pygame.display.set_mode(GlobalSettings._win_res, flags = flags)
+        RendererProperties.type_parameters.update(
+            {'default': 
+                {
+                    'display' : RendererProperties._default_display.copy(),
+                    'camera' : None 
+                }
+            }
+        )
 
 
     @staticmethod
@@ -151,7 +153,7 @@ class RendererMethods:
         """
         Scaling the display to the size of the window.
         And updates the window with the upscale.
-        Warning may be very pixelated.
+        Warning may be pixelated.
         """
         __temp_disp = pygame.transform.scale(EngineProperties._display, new_res)
         EngineProperties._window.blit(__temp_disp, (0, 0))
@@ -161,7 +163,7 @@ class RendererMethods:
     def update_window() -> None:
         """
         UpScales or DownScales the display to fit the window. 
-        Warning, this might strect the render. 
+        Warning, this might strecth the render. 
         """
         
         RendererProperties._window.blit(pygame.transform.scale(RendererProperties._display, RendererProperties._window.get_size()),(0,0))

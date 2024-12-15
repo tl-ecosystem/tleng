@@ -75,14 +75,6 @@ class App:
         self.scenes_manager.waiting_scene = start_with
 
     
-    def load_states(self,  *states: str) -> None:
-        ...
-
-
-    def start_with(self, start_with: str) -> None:
-        ...
-
-    
     def register_events(self, *events_types: type) -> None:
         """
         Registers the Events Properties of the App (Tleng Plugin also registers some default events)
@@ -139,8 +131,8 @@ class App:
 
         self.scenes_manager.changing_scene(self.world, self.scheduler)
 
-        _merge_to_scene_schedulers(self.scenes_manager.scenes, self.plugin_scheduler) #TODO static method
-        _scenes_init(self.scenes_manager.scenes, self.inj_parameters) #TODO static method
+        _merge_to_scene_schedulers(list(self.scenes_manager.scenes.values()), self.plugin_scheduler)
+        _scenes_init(self.scenes_manager.scenes, self.inj_parameters) 
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:
@@ -164,28 +156,27 @@ class App:
         sys.exit()
 
 
-    def _run_test(self, s) -> None:
+    def _run_test(self, s=5) -> None:
         """
         ONLY FOR TESTING
         """
         #TODO this to match the above code
         import time
 
-        _merge_to_scene_schedulers(list(self.scenes_manager.scenes.values()), self.plugin_scheduler) #TODO static method
         self.scenes_manager.changing_scene(self.world, self.scheduler)
-
+        
+        # I don't know why this configuration is faster
+        _merge_to_scene_schedulers(list(self.scenes_manager.scenes.values()), self.plugin_scheduler) #TODO static method
         _scenes_init(self.scenes_manager.scenes, self.inj_parameters)
 
         scheduler = self.scheduler
         world = self.world
         scenes_manager = self.scenes_manager
 
-        print(scheduler)
-        print(scheduler.return_schedule_component())
-
         t1 = time.time()
         t2 = time.time()
         while t2-t1 <= s:
+            t3 = time.time()
             events = pygame.event.get()
             EngineProperties._events = events
             # push pygame events in the TlengEventManager
@@ -199,9 +190,8 @@ class App:
             if scenes_manager.scene_is_changed:
                 scenes_manager.changing_scene(world, scheduler)
 
-
             t2 = time.time()
-
+            # print("fps", 1/((t2-t3)))
 
         pygame.quit()
 

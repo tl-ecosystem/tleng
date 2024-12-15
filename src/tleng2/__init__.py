@@ -33,7 +33,7 @@ from .components.renderable import Renderable
 from .components.map import Map
 from .components.events import default_events_bundle
 
-from .systems.engine_syst import ClockTickSystem
+from .systems.engine_systems import ClockTickSystem
 from .systems.renderer import RendererSystem
 
 # ui_elements Directory
@@ -88,9 +88,13 @@ def tleng_base_plugin(app: App) -> None:
     )
 
     app.add_systems(
+
+        Update=[
+            ClockTickSystem()
+        ],
         Renderer=[
             RendererSystem()
-        ]
+        ],
     )
 
 

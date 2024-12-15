@@ -1,4 +1,6 @@
 import json
+import warnings
+
 from os import path, getcwd
 from abc import abstractmethod, ABC
 # from .debug import debug_print
@@ -12,33 +14,73 @@ class GlobalSettings:
     Can be overwritten with the LocalSettings class.
     """
 
-    _win_res = (1280,720)
-    _disp_res = (1280,720)
+    # _platform = 'pc' # on what platform is the game for, if for mobile then the display should be changed
+    _win_res = (1280, 720)
+    _disp_res = (1280, 720)
     _display_scaling = 1
     _scalable_window = False
-    _display_ratio_lock = True #if the game only supports 500x500 then the window will ony scale to that ration
+    _display_ratio_lock = True #if the game only supports 500x500 then the window will ony scale to that ratio (1:1)
     _fps = 60
     _physics_target_fps = 60 # for dt dependant values (delta-time)
 
-    _font = None # global font for the whole game.
     _debug = False
 
     _jsettings = {}
 
-    # _platform = 'pc' # on what platform is the game for, if for mobile then the display should be changed
     @staticmethod
     def update_bresolution(new_res:tuple[int,int]) -> None:
         """
         Updates the variable of the resolution of *both* the window, and the display.
         It doesn't update the surfaces themselves.
         """
+        warnings.warn(
+                "DEPRECATION WARNING: update_bresolution will be depracated in >v2.2.1 " 
+                "please change to update_resolutions()",
+                FutureWarning,
+                stacklevel=2
+            )
         GlobalSettings._win_res = new_res
         GlobalSettings._disp_res = new_res
 
 
     @staticmethod
+    def update_resolutions(new_window_res: tuple[int, int], new_display_res: tuple[int, int] = None) -> None:
+        """
+        It updates the global variables that store the resolution of the Window and the Display (Canvas for pixel art).
+
+        If you pass only a resolution for the Window, then the Window and the Wisplay resolution will get updated with the resolution you passed.
+        But if you pass resolutions for the Window and the Display then they will get updated respectively.  
+
+        It doesn't update the surfaces themselves.
+        """
+        GlobalSettings._win_res = new_window_res
+        if new_display_res:
+            print('yea')
+            GlobalSettings._disp_res = new_display_res
+        else:
+            print('noo')
+            GlobalSettings._disp_res = new_window_res
+
+
+    @staticmethod
     def update_resolution(new_res:tuple[int,int]) -> None:
+        warnings.warn(
+                "DEPRECATION WARNING: update_resolution will be depracated in >v2.2.0 "
+                "please change to update_window_resolution()",
+                FutureWarning,
+                stacklevel=2
+            )
         GlobalSettings._win_res = new_res
+
+
+    @staticmethod
+    def update_window_resolution(new_res:tuple[int,int]) -> None:
+        GlobalSettings._win_res = new_res
+
+
+    @staticmethod
+    def update_display_resolution(new_res:tuple[int,int]) -> None:
+        GlobalSettings._disp_res = new_res
 
 
     @staticmethod
@@ -58,4 +100,3 @@ class GlobalSettings:
                 #debug_print(f"Could not find the settings.json file, moving on. (Tried {file_name})", tags=debug_tags)
                 #debug_print(path.exists(file_name), tags=debug_tags)
                 ...
-
