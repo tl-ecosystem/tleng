@@ -51,6 +51,7 @@ world1.spawn(
 
 schedule1 = ecs.Schedule()
 
+# TODO add some systems here >:(
 schedule1.add_systems( 'Update',
     
 )
@@ -81,6 +82,7 @@ world2.spawn(
 
 schedule2 = ecs.Schedule()
 
+# TODO add some systems here also >:(
 schedule2.add_systems( 'Update',
     
 )

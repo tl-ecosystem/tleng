@@ -1,6 +1,6 @@
 # tleng2.ecs
 
-This is an ECS architecture implementation for the Game Engine TLeng.
+This is an ECS architecture implementation for the Game Engine TLeng2.
 
 Check the `tleng2.ecs` Documentation in [here](https://github.com/tl-ecosystem/tleng/wiki).
 
