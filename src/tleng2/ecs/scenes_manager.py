@@ -22,7 +22,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from .schedule import Schedule
+from .schedule import Schedule, Scheduler
 from .ecs_scene import SceneComp
 
 from ..utils.debug import debug_print
@@ -44,7 +44,10 @@ class ScenesManager:
         self.scene_is_changed: bool = False
 
 
-    def load_scenes(self, **scenes: SceneComp) -> None: 
+    def load_scenes(self, **scenes: SceneComp) -> None:
+        """
+        Stores them to the scenes dictionary of ScenesManager
+        """
         self.scenes.update(scenes) 
 
     
@@ -60,7 +63,8 @@ class ScenesManager:
         # schedule.scene_transition_exit()
 
         world.load_world_component(new_scene_comp.world)
-        schedule.load_schedule_component(new_scene_comp.schedule)
+        schedule.load_scheduler_component(new_scene_comp.scheduler)
+        
 
         # schedule.scene_transition_start()
         

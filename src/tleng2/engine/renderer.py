@@ -22,14 +22,14 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from ..utils.subpixel import SubPixelSurface
-from ..utils.annotations import Color
-from ..components.camera import CameraCatcher
-from ..utils.debug import debug_print
+import pygame
+from pygame import Vector2
+
 from .settings import GlobalSettings
 from .properties import RendererProperties, SceneManagerProperties
-
-import pygame
+from ..components.camera import CameraCatcher
+from ..utils.debug import debug_print
+from ..utils.subpixel import SubPixelSurface
 
 
 class Renderer:
@@ -44,16 +44,25 @@ class Renderer:
     def render(self) -> None:
         # debug_print(RendererProperties.render_calls,tags=['Renderer', 'Render_calls'])
         display = RendererProperties._display
+        
+        temp_vec = Vector2(0,0)
 
         for call in RendererProperties.render_calls:
             renderable = call
             
+            
             debug_print(renderable, tags=["Renderer"])
 
             if RendererProperties._local_default_camera != None:
+                temp_vec.x = 0
+                temp_vec.y = 0
+
                 pos = CameraCatcher.cameras[RendererProperties._local_default_camera].offset_pos
                 debug_print(pos, tags=["Renderer"])
-                display.blit(renderable.surface, (round(renderable.x - pos[0]) , round(renderable.y - pos[1])))
+
+                temp_vec = pos - renderable.pos
+
+                display.blit(renderable.surface, (round(renderable.x + pos.x), round(renderable.y + pos.y - temp_vec.y*2)))
             else:
                 display.blit(renderable.surface, (renderable.x , renderable.y))
         

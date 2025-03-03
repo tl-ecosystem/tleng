@@ -6,11 +6,9 @@
 
  ![Static Badge](https://img.shields.io/badge/pip_install-tleng-blue?style=flat) ![Static Badge](https://img.shields.io/badge/licence-MIT-blue?style=flat) ![Static Badge](https://img.shields.io/badge/python-3.11_3.12-blue?style=flat&logo=python)
 
-TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++.
+TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++ (work in progress).
 
-The reason I started this project is to see what it takes to create a 2d game engine, and for me to get an even better introduction to computer 2d graphics.
-
-The code is here to either inspire someone else to start a similar project, or to give some insight on a few things.
+A powerful and versatile 2d game engine that harneshes the power of ECS. It is fast, beautiful and most importantly extendable. Each and every user of TLeng2 can create and use pre-existing community plugins to enrich their games or help the community to create more games without worrying about the backend.
 
 On every single general release update there always will be an example game, in the `examples` folder.
 
@@ -35,8 +33,6 @@ This software will have a GUI for the user
 
 - [SpriteStacking Viewer](https://github.com/tl-ecosystem/tl-ssv)
 - [Tilemap Editor](https://github.com/tl-ecosystem/tl-editor)
-- Level Creator
-- Assistant for inputing assets to your game (Import Wizard)
 - Scene/UI Creator
 - Animation Creator
 
@@ -118,7 +114,7 @@ Explanation:
 (*) If you want to make modifications to the game eninge, then it's recommended that you import all the game engines files into your src folder. 
 
 
-## ❓ The meaning behind the symbolising of the updates are 2.x.y.z:
+## ❓ Versions meaning (2.x.y.z):
 
 2 = the engine is 2d (and because it's better than the previous try)
 

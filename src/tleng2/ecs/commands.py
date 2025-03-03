@@ -22,6 +22,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+from .schedule import Schedule
 from .world import World
 
 class Commands:
@@ -29,6 +30,8 @@ class Commands:
         # private members are written like this
         self.__command_queue = []
         self.__world: World = None
+
+        self.__schedule: Schedule = None
 
 
     def qspawn(self, *components) -> int:
@@ -48,7 +51,7 @@ class Commands:
     def qdespawn(self, entity_id) -> None:
         self.__command_queue.append(
             (
-                (entity_id,) , self.__world.despawn
+                (entity_id,), self.__world.despawn
             )
         )
     
@@ -87,9 +90,10 @@ class Commands:
 
 
     def update(self):
-        command_queue = self.__command_queue
+        if self.__command_queue:
+            command_queue = self.__command_queue
 
-        for args, command in command_queue:
-            command(*args)
+            for args, command in command_queue:
+                command(*args)
 
-        command_queue.clear()
+            command_queue.clear()

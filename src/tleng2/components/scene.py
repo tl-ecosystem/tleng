@@ -31,7 +31,10 @@ from ..engine.properties import RendererProperties
 
 
 @dataclass
-class SceneComp:
+class cSceneComp:
+    """
+    namespace conflict with ecs_scene, thus cSceneComp
+    """
     world: WorldComp
     schedule: Schedule
 

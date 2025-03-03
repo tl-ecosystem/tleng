@@ -211,6 +211,7 @@ class World:
             del self.components_db[component_type]
 
         self.clear_cache()
+        
 
     def remove_components(self, entity: int, *components: Component) -> None:
         """

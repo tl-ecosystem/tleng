@@ -82,13 +82,12 @@ def tleng_base_plugin(app: App) -> None:
     # put here the initialized parameters, world, events.
     app.injection_parameters(
         app.world , # app already has a world, and it's the central world.
-        app.properties, # app resources, also named as properties
-        app.scenes_manager,
+        app.properties, # app properties (they work like the resources of the world)
+        app.scenes_manager, # to change scenes duh
         events
     )
 
     app.add_systems(
-
         Update=[
             ClockTickSystem()
         ],

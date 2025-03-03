@@ -23,6 +23,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import pygame
+from pygame import Vector2
 from dataclasses import dataclass
 
 from ..engine.settings import GlobalSettings
@@ -70,10 +71,7 @@ class CameraCatcher:
         print(self.cameras)
 
 
-
-
-
-class Camera(CameraCatcher): 
+class Camera(CameraCatcher):
     '''
     Handles how the Surfaces are rendered to the screen. While keeping the world positions.
     '''
@@ -98,31 +96,37 @@ class Camera(CameraCatcher):
                                 height = height
                             )
 
-        self.directions = pygame.math.Vector2(0,0)
+        self.directions = Vector2(0,0)
         
-        self.offset_pos = pygame.math.Vector2(0,0)
+        # center of the camera
+        self.center = Vector2(0,0)
+        self.center_screen = Vector2(width//2, height//2)
+        self.offset_pos = self.center - self.center_screen
+        
         self.rect = pygame.FRect(0, 0, self.vert_area.width, self.vert_area.height)
 
         self.target_entity = None
+
+
+    def update_center(self, pos: tuple[float, float]) -> None:
+        self.center.x = pos[0]
+        self.center.y = pos[1]
+        self.offset_pos = self.center - self.center_screen
+
         
+    def update_center_screen(self, pos: tuple[float, float]) -> None:
+        self.center_screen.x = pos[0]
+        self.center_screen.y = pos[1]
 
 
-    
-    def update(self) -> None: ...
-
+    def update(self) -> None:
+        ...
 
     def set_target(self, new_target_entity: Sprite) -> None: 
         self.target_entity = new_target_entity
-        
-
-
-
 
 
 class Camera_3d: 
-    def __init__(self) -> None: ...
-
-
-
-
+    def __init__(self) -> None:
+        ...
 

@@ -26,16 +26,22 @@ from inspect import signature
 from typing import get_args
 from dataclasses import dataclass, field
 
+from .sequence import Sequence
 from .system import System
 
 from typing import Literal as _Literal
 from typing import Any as _Any
 
 
+
 class SceneComp:
     """
     Here for symbolic reasons
     """
+
+
+class StateNotFound(Exception):
+    pass
 
 
 SEQUENCE_TYPES = _Literal[
@@ -73,14 +79,6 @@ STARTUP_ORDER: list[str] = ['PreStartUp', 'Startup']
 
 # state_transition_order_enter: list[str] = ['OnStateEnter']
 # state_transition_order_exit: list[str] = ['OnStateExit']
-# TODO General ideas for states in scheduler
-# What if we treat our states like sequance orders, like what if when we create a Pause state, underneath it there are systems that work with that state, if the
-# game gets unpaused then then that sequence type gets removed from the list and the systems that it had don't run anymore..
-# 
-# The other more brutal idea is to just a good data structure (or use an existing one like hashmaps) that supports fast looksup for systems and
-# every time we switch state some systems are enabled some other are disabled.
-# 
-# Best of both worlds: Use both :) nope
 
 
 def _ScheduleComp_default_factory() -> dict[SEQUENCE_TYPES, list[System]]:
@@ -90,7 +88,7 @@ def _ScheduleComp_default_factory() -> dict[SEQUENCE_TYPES, list[System]]:
 @dataclass
 class ScheduleComp:
     system_schedule: dict[SEQUENCE_TYPES, list[System]] = field(default_factory=_ScheduleComp_default_factory)
-    cached_system_sequence_types: set[SEQUENCE_TYPES] = field(default_factory=set)
+    cached_system_sequence_types: list[SEQUENCE_TYPES] = field(default_factory=list)
 
     system_state_order: list[str] = field(default_factory=list)
 
@@ -106,10 +104,6 @@ class Schedule:
 
         self.system_state_order: list[str] = UPDATE_ORDER
         self.state_groups: dict[str, str] = {}
-
-        self.state_changed = False
-        self.temp_system_state_order: list[str] = UPDATE_ORDER
-        self.temp_state_groups: dict[str, str] = {}
 
 
     def _add_cached_system_sequence(self, *new_sequence_type: SEQUENCE_TYPES, order: list[str] = UPDATE_ORDER) -> None:
@@ -177,7 +171,8 @@ class Schedule:
                 self.system_state_order.insert(self.system_state_order.index(after_position) + 1, state_name)
             
         except ValueError as e:
-            print('Caught ValueError:', e, 'is not in the system_state_order. Make sure that you have created the state in this schedule')
+            print('Caught a ValueError:', e, 'is not in the system_state_order. Make sure that you have created the state in this schedule')
+            raise StateNotFound("State was not found in system_state_order") from e
 
 
     def move_state_group(self,
@@ -301,9 +296,6 @@ class Schedule:
                     system.update() # by design (not a bug, it's a feature!)
 
         # TODO Change the state, if it was changed here.
-        if self.state_changed:
-            self.state_groups = self.temp_state_groups
-            self.system_state_order = self.temp_system_state_order
 
     
     # for this to be done efficiently (from the schedule) we need to use sets
@@ -338,58 +330,141 @@ class Schedule:
         self.system_schedule = schedule_component.system_schedule
         self.cached_system_sequence_types = schedule_component.cached_system_sequence_types
 
+@dataclass
+class SchedulerComp:
+    sequences: dict[str, Sequence] = field(default_factory=_ScheduleComp_default_factory)
+    cached_system_sequence_types: list[SEQUENCE_TYPES] = field(default_factory=list)
 
-def _merge_to_scene_schedulers(scene_comp_list: list[SceneComp], scheduler: Schedule) -> None:
+
+class Scheduler:
+    def __init__(self) -> None:
+        self.sequences: dict[str, Sequence] = {key: Sequence() for key in sequence_types}
+        self.cached_system_sequence_types: list[SEQUENCE_TYPES] = []
+
+
+    def add_systems(self, sequence_type: SEQUENCE_TYPES, *systems) -> None:
+        if sequence_type not in self.cached_system_sequence_types:
+            self._add_cached_system_sequence(sequence_type)
+
+        self.sequences[sequence_type].add_systems(*systems)
+
+
+    def add_sequences(self, **sequences: Sequence) -> None:
+        """
+        write the name of the sequence as a parameter, and then the Sequence as the value of the parameter
+        """
+        for seq_type, sequence in sequences:
+            self.sequences[seq_type] = sequence
+
+        # Every sequence added here, should be new to the scheduler
+        self._add_cached_system_sequence(*list(sequences.keys()))
+
+    def init(self, parameters: dict[type, _Any]) -> None:
+        """
+        Initializes all the sequences that were added in the scheduler with the parameters.
+        """
+        for sequence in self.sequences.values():
+            sequence.init(parameters)
+
+        
+    def update(self) -> None:
+        # for sequence in self.sequences.values():
+        #     sequence.update()
+        for sequence in self.sequences.keys():
+            self.sequences[sequence].update()
+
+    def _add_cached_system_sequence(self, *new_sequence_type: SEQUENCE_TYPES, order: list[str] = UPDATE_ORDER) -> None:
+        """
+        Appends the new_sequence_type to the cached_system_sequence_types,
+        and then it sorts it out.
+        """
+        self.cached_system_sequence_types.extend(new_sequence_type)
+
+        self.cached_system_sequence_types = sorted(
+            self.cached_system_sequence_types, 
+            key = lambda x: order.index(x)
+        )
+
+    
+    def return_scheduler_component(self) -> SchedulerComp: 
+        """
+        Used from the scenes_manager to change scenes
+        
+        :schedule_component: It can be a `SchedulerComp` of even a plain `Scheduler`  
+        :returns: Nothing
+        """
+        return SchedulerComp(
+            self.sequences
+        )
+
+
+    def load_scheduler_component(self, scheduler_component: SchedulerComp) -> None:
+        """
+        Used from the scenes_manager to change scenes
+        
+        :schedule_component: It can be a `SchedulerComp` or even a plain `Scheduler`  
+        :returns: Nothing
+        """
+        self.sequences = scheduler_component.sequences
+
+
+
+def _merge_to_scene_schedulers(scene_comp_list: list[SceneComp], scheduler: Scheduler) -> None:
     """
-    Takes the list from the scene components, and injects the schedule of the scenecomp the schedule of the App.
+    Takes the list from the scene components, and injects the schedule of the scenecomp to the schedule of the App.
+
+    Should always be ran before the initilization of the sequences
     """
     for scene in scene_comp_list:
         for seq_type in scheduler.cached_system_sequence_types:
             # for some unknown reason, this is faster than calling the schedule.add_systems method.
-            if scene.schedule.system_schedule[seq_type]:
-                scene.schedule.system_schedule[seq_type].extend(scheduler.system_schedule[seq_type])
-            else:
-                scene.schedule.system_schedule.update(
-                    {
-                        seq_type :  scheduler.system_schedule[seq_type]
-                    }
-                )
-            # print(seq_type, scene.schedule.system_schedule[seq_type])
-            scene.schedule.system_schedule[seq_type].sort(
-                key=lambda syst: syst.priority, reverse=True
-            )
+            # if scene.scheduler.system_schedule[seq_type]:
+            #     scene.scheduler.system_schedule[seq_type].extend(scheduler.system_schedule[seq_type])
+            # else:
+            #     scene.scheduler.system_schedule.update(
+            #         {
+            #             seq_type :  scheduler.system_schedule[seq_type]
+            #         }
+            #     )
+            # # print(seq_type, scene.schedule.system_schedule[seq_type])
+            # scene.scheduler.system_schedule[seq_type].sort(
+            #     key=lambda syst: syst.priority, reverse=True
+            # )
+            # TODO When reimplementing the sequence handling of systems and sets
+            if scene.scheduler.sequences[seq_type]:
+                scene.scheduler.sequences[seq_type].system_sets.extend(scheduler.sequences[seq_type].system_sets)
+
             
-        scene.schedule._add_cached_system_sequence(*scheduler.cached_system_sequence_types)
+        scene.scheduler._add_cached_system_sequence(*scheduler.cached_system_sequence_types)
 
 
-def _scenes_init(scenes: dict[str,SceneComp], parameters: dict[type, _Any]) -> None:
+def _scenes_init(scenes: dict[str, SceneComp], parameters: dict[type, _Any]) -> None:
     """
     Instantiates the systems on their parameters. It analyzes the parameters and injects what they asked for.
     """
 
-    try:
-        all_systems: dict[SEQUENCE_TYPES, list[System]] = {key: [] for key in sequence_types}
-        for key, scene in scenes.items():
-            for seq_type, system_list in scene.schedule.system_schedule.items():
-                all_systems[seq_type] += system_list
+    for scene in scenes.values():
+        for sequence in scene.scheduler.sequences.values():
+            sequence.init(parameters)
 
-        # self.system_schedule.items()
-        for key, systems in all_systems.items():
-            for system in systems:
-                syst_param_signature = signature(system.parameters)
-                params = syst_param_signature.parameters
-
-                # Determine which parameters to inject based on type annotations
-                injection_args = []
-
-                for param in params.values():
-                    annotation = param.annotation
-                    injection_args.append(parameters[annotation])
-
-                system.parameters(*injection_args)
-
-    except KeyError as key:
-        print(f"""KeyError occured, 
-                  - <{key}> was wrongly typed in the parameters of the systems
-                  - key: <{key}> was either not initialized in app or 
-                  - <{key}> was not properly put in the parameter of the app""")
+    # try:
+    #     all_systems: dict[SEQUENCE_TYPES, list[System]] = {key: [] for key in sequence_types}
+    #     for key, scene in scenes.items():
+    #         for seq_type, system_list in scene.schedule.system_schedule.items():
+    #             all_systems[seq_type] += system_list
+    #     # self.system_schedule.items()
+    #     for key, systems in all_systems.items():
+    #         for system in systems:
+    #             syst_param_signature = signature(system.parameters)
+    #             params = syst_param_signature.parameters
+    #             # Determine which parameters to inject based on type annotations
+    #             injection_args = []
+    #             for param in params.values():
+    #                 annotation = param.annotation
+    #                 injection_args.append(parameters[annotation])
+    #             system.parameters(*injection_args)
+    # except KeyError as key:
+    #     print(f"""KeyError occured, 
+    #               - <{key}> was wrongly typed in the parameters of the systems
+    #               - key: <{key}> was either not initialized in app or 
+    #               - <{key}> was not properly put in the parameter of the app""")

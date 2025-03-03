@@ -24,12 +24,12 @@
 
 # Tilemap used for a map
 
+import pygame
+
 from ..services.tilemap import TileMap
 from ..engine.properties import RendererProperties
 from ..components.renderable import Renderable
 
-
-import pygame
 
 class Map(TileMap):
     '''
@@ -37,6 +37,7 @@ class Map(TileMap):
     '''
     def __init__(self) -> None:
         self.renderable = Renderable()
+        self.current_angle = 0
 
 
     def pre_render(self) -> None:
@@ -52,11 +53,34 @@ class Map(TileMap):
                 # self.renderable.update(x*self.tileset.width, y*self.tileset.height, self.tileset.set[tile_name])
                 # self.renderable.render()
 
+        # caching
+        self.or_surf = surf
         self.renderable.update_surf(surf)
+        self.center = surf.get_rect().center
 
 
     def render(self) -> None:
         # RendererProperties._display.blit
+        self.renderable.render()
+
+
+    def update_center(self) -> None:
+        ...
+
+
+    def render_angle(self, angle) -> None:
+        """
+        Angle must NOT be in radians
+        """
+        # RendererProperties._display.blit
+        if self.current_angle != angle:
+            surf = pygame.transform.rotate(self.or_surf, angle)
+            centered_rect = surf.get_rect(center = self.center)
+            self.renderable.update_cords_rect(centered_rect)
+            self.renderable.update_surf(surf)
+
+            self.current_angle = angle
+        
         self.renderable.render()
 
 

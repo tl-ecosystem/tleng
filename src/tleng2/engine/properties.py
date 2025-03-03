@@ -33,7 +33,7 @@ from .settings import GlobalSettings
 from abc import abstractmethod, ABC
 
 from typing import TypeVar
-
+from typing import Any as _Any
 
 class LocalProperties(ABC):
     @abstractmethod
@@ -58,6 +58,10 @@ class GlobalProperties:
     """
     def __init__(self) -> None:
         self.properties: dict = {}
+
+    
+    def __contains__(self, item: _Any) -> bool:
+        return item in self.properties
 
 
     def add_properties(self, *new_properties) -> None:

@@ -23,6 +23,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import pygame
+from pygame import Vector2
 from dataclasses import dataclass, field
 
 
@@ -50,6 +51,7 @@ class Renderable:
     def __init__(self,) -> None:
         self.x = 0
         self.y = 0
+        self.pos = Vector2(0,0)
         self.surface = None # pygame.Surface()
         self.render_method = None
 
@@ -87,6 +89,8 @@ class Renderable:
         )-> None: 
         self.x = x
         self.y = y
+        self.pos.x = x
+        self.pos.y = y
 
 
     def update_cords_rect(self, 
@@ -97,6 +101,8 @@ class Renderable:
         """
         self.x = rect.x
         self.y = rect.y
+        self.pos.x = rect.x
+        self.pos.y = rect.y
 
 
     def update_surf(self, 

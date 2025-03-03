@@ -1,8 +1,12 @@
+import os
+import pygame
+
+from typing import Optional as _Optional
+
 from ..components.renderable import Renderable
 from ..engine.properties import RendererProperties
 from ..utils.colors import COLOR_KEY, RED
-import os
-import pygame
+from ..utils.utils import convert_rad_to_deg
 
 class LazySpriteStackService:
     """
@@ -20,7 +24,7 @@ class SpriteStackService:
     """
     def __init__(self, caching: bool = False) -> None:
         """
-        Rotation is calculated with radians.
+        Rotation are calculated with radians.
         """
         self.renderable = Renderable()
         self.renderable.rendering_method(self.sprite_stacking, self)
@@ -87,7 +91,13 @@ class SpriteStackService:
         print(self.surf_rect, 'surface_rect')
 
 
-    def render(self,) -> None:
+    def render(self, angle: _Optional[float] = None) -> None:
+        """
+        angle in radians
+        """
+        if angle:
+            self.rotation = convert_rad_to_deg(angle)
+
         surf = pygame.Surface(pygame.transform.rotate(self.images[0], self.rotation).get_size())
         self.rect = surf.get_frect() 
         self.rect.center = self.center
@@ -111,7 +121,15 @@ class SpriteStackService:
         
     def update(self, params: dict = {}) -> None:
         """
-        Takes X,Y parameters
+        Takes x, y parameters
+        """
+        if params != {}:
+            self.center = (params['x'],params['y'])
+
+
+    def update_new(self, **params) -> None:
+        """
+        Takes x, y parameters
         """
         if params != {}:
             self.center = (params['x'],params['y'])

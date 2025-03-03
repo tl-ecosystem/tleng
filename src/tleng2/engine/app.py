@@ -26,7 +26,6 @@ import sys
 import pygame
 import warnings
 
-
 from .settings import GlobalSettings
 from .scene_manager import SceneManager
 
@@ -34,15 +33,16 @@ from .properties import EngineProperties, GlobalProperties, SceneManagerProperti
 from .methods import  EngineMethods, RendererMethods, SceneManagerMethods
 from .renderer import Renderer
 
-from ..components.scene import SceneCatcher, SceneComp
+from ..components.scene import SceneCatcher
 
 from ..ecs.worlds_manager import World
+from ..ecs.ecs_scene import SceneComp
 from ..ecs.scenes_manager import ScenesManager
-from ..ecs.schedule import Schedule,  _scenes_init, _merge_to_scene_schedulers, SEQUENCE_TYPES
+from ..ecs.schedule import Schedule, Scheduler,  _scenes_init, _merge_to_scene_schedulers, SEQUENCE_TYPES
 from ..ecs.events import EventsComp
 from ..ecs.system import System
 
-from ..utils.debug import Debugging, debug_print
+from ..utils.debug import debug_print
 
 from typing import Callable as _Callable
 from typing import Any as _Any
@@ -59,15 +59,14 @@ class App:
         # The new and improved ECS
         self.scenes_manager = ScenesManager()
         self.world = World()
-        self.scheduler = Schedule()
+        self.scheduler = Scheduler()
         self.properties = GlobalProperties()
-        self.plugin_scheduler = Schedule()
+        self.plugin_scheduler = Scheduler()
 
 
         # injection parameters for the scheduler.init() method
         self.inj_parameters = {}
         
-
 
     def get_property(self, property_type: T) -> T:
         """
@@ -127,7 +126,8 @@ class App:
         Syntax for add systems
         """
         for seq_type, l_systems in systems.items():
-            print(seq_type, type(seq_type), l_systems)
+            # l_systems = a list of systems from the dict systems
+            # print(seq_type, type(seq_type), l_systems)
             self.plugin_scheduler.add_systems(
                 seq_type,
                 *l_systems,
@@ -160,14 +160,15 @@ class App:
 
         EngineProperties.GAME_RUNNING = True
         while EngineProperties.GAME_RUNNING:
-            events = pygame.event.get()
-            EngineProperties._events = events
+            EngineProperties._events = pygame.event.get()
 
             # same as what world.run_schedule() would do
             self.scheduler.update()
 
             # cleans the dead entities of the active world.
             self.world.update()
+
+            # self.commands.update()
 
             if self.scenes_manager.scene_is_changed:
                 self.scenes_manager.changing_scene(self.world, self.scheduler)
@@ -211,6 +212,7 @@ class App:
             # cleans the dead entities of the active world.
             world.update()
 
+            # TODO: change the below lines to a scenes_manager.update() 
             if scenes_manager.scene_is_changed:
                 scenes_manager.changing_scene(world, scheduler)
 

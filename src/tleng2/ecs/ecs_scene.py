@@ -25,10 +25,18 @@
 from dataclasses import dataclass
 
 from .world import WorldComp
+from .schedule import SchedulerComp
+# Deprecate the old Schedule
 from .schedule import Schedule
 
 
+# @dataclass
+# class oSceneComp:
+#     world: WorldComp
+#     schedule: Schedule
+
+# safer scene ;)
 @dataclass
 class SceneComp:
     world: WorldComp
-    schedule: Schedule
+    scheduler: SchedulerComp
