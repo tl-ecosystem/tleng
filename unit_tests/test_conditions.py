@@ -24,22 +24,25 @@
 
 from tleng2 import * 
 
-output = []
 
-ctx = {
-    'run_a':True,
-    'run_b':True,
-    'run_c':True,
-    'set_a':True,
-    'set_b':True,
-    'set_c':True,
-}
 
-temp_ctx = ctx.copy()
+class TestingVars:
+    output = []
+
+    ctx = {
+        'run_a':True,
+        'run_b':True,
+        'run_c':True,
+        'set_a':True,
+        'set_b':True,
+        'set_c':True,
+    }
+
+temp_ctx = TestingVars.ctx.copy()
 
 class System_a(ecs.System):
     def update(self) -> None:
-        output.append(1)
+        TestingVars.output.append(1)
 
     def params(self):
         ...
@@ -47,7 +50,7 @@ class System_a(ecs.System):
 
 class System_b(ecs.System):
     def update(self) -> None:
-        output.append(2)
+        TestingVars.output.append(2)
 
     def params(self):
         ...
@@ -55,7 +58,7 @@ class System_b(ecs.System):
 
 class System_c(ecs.System):
     def update(self) -> None:
-        output.append(3)
+        TestingVars.output.append(3)
 
     def params(self):
         ...
@@ -66,7 +69,7 @@ class Run_a(ecs.RunCondition):
         ...    
     
     def update(self):
-        return ctx['run_a']
+        return TestingVars.ctx['run_a']
 
 
 class Run_b(ecs.RunCondition):
@@ -74,7 +77,7 @@ class Run_b(ecs.RunCondition):
         ...    
     
     def update(self):
-        return ctx['run_b']
+        return TestingVars.ctx['run_b']
     
 
 class Run_c(ecs.RunCondition):
@@ -82,7 +85,7 @@ class Run_c(ecs.RunCondition):
         ...    
     
     def update(self):
-        return ctx['run_c']
+        return TestingVars.ctx['run_c']
 
 # Nested Sets
 
@@ -91,7 +94,7 @@ class Level3(ecs.RunCondition):
         ...    
     
     def update(self):
-        return ctx['set_c']
+        return TestingVars.ctx['set_c']
 
 
 class Level2(ecs.RunCondition):
@@ -99,7 +102,7 @@ class Level2(ecs.RunCondition):
         ...    
     
     def update(self):
-        return ctx['set_b']
+        return TestingVars.ctx['set_b']
 
 
 class Level1(ecs.RunCondition):
@@ -107,7 +110,7 @@ class Level1(ecs.RunCondition):
         ...    
     
     def update(self):
-        return ctx['set_a']
+        return TestingVars.ctx['set_a']
 
 
 set_level_1 = ecs.SystemSet(condition=Level1())
@@ -119,51 +122,58 @@ system_a_instance = System_a(conditions=[Run_a()]).in_set(set_level_1)
 system_b_instance = System_b(conditions=[Run_b()]).in_set(set_level_2)
 system_c_instance = System_c(conditions=[Run_c()]).in_set(set_level_3)
 
+def test_set_conditions():
+    # Sequence
+    sequence = ecs.Sequence()
+    sequence.add_set(set_level_1)
+    sequence.init({})
 
-# Sequence
-sequence = ecs.Sequence()
-sequence.add_set(set_level_1)
-sequence.init()
+    # Testing run conditions
+    sequence.update()
+    assert TestingVars.output == [1,2,3]
 
-# Testing run conditions
-sequence.execute()
-assert output == [1,2,3]
+    TestingVars.ctx['run_a'] = False
+    TestingVars.output = []
+    sequence.update()
+    assert TestingVars.output == [2,3]
 
-ctx['run_a'] = False
-output = []
-sequence.execute()
-assert output == [2,3]
+    TestingVars.ctx['run_b'] = False
+    TestingVars.output = []
+    sequence.update()
+    assert TestingVars.output == [3]
 
-ctx['run_b'] = False
-output = []
-sequence.execute()
-assert output == [3]
+    # Resetting
+    TestingVars.output = []
+    TestingVars.ctx = temp_ctx.copy()
 
-# Resetting
-output = []
-ctx = temp_ctx.copy()
+    # Testing set conditions
+    TestingVars.ctx['set_a'] = False
+    TestingVars.output = []
+    sequence.update()
+    assert TestingVars.output == []
 
-# Testing set conditions
-ctx['set_a'] = False
-output = []
-sequence.execute()
-assert output == []
+    TestingVars.ctx['set_a'] = True
+    TestingVars.ctx['set_b'] = False
+    TestingVars.output = []
+    sequence.update()
+    assert TestingVars.output == [1]
 
-ctx['set_a'] = True
-ctx['set_b'] = False
-output = []
-sequence.execute()
-assert output == [1]
+    TestingVars.ctx['set_b'] = True
+    TestingVars.ctx['set_c'] = False
+    TestingVars.output = []
+    sequence.update()
+    assert TestingVars.output == [1,2]
 
-ctx['set_b'] = True
-ctx['set_c'] = False
-output = []
-sequence.execute()
-assert output == [1,2]
+    TestingVars.ctx['set_c'] = True
+    TestingVars.output = []
+    sequence.update()
+    assert TestingVars.output == [1,2,3]
 
-ctx['set_c'] = True
-output = []
-sequence.execute()
-assert output == [1,2,3]
 
-# TODO: Testing lazy conditions
+def test_lazy_conditions():
+    # TODO: Testing lazy conditions
+    assert True
+
+if __name__ == '__main__':
+    test_set_conditions()
+    test_lazy_conditions()

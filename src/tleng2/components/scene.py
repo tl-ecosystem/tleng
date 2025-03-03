@@ -26,7 +26,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 from ..ecs.world import WorldComp
-from ..ecs.schedule import Schedule
+from ..ecs.schedule import Scheduler
 from ..engine.properties import RendererProperties
 
 
@@ -36,7 +36,7 @@ class cSceneComp:
     namespace conflict with ecs_scene, thus cSceneComp
     """
     world: WorldComp
-    schedule: Schedule
+    schedule: Scheduler
 
 
 class SceneCatcher:

@@ -22,7 +22,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from .schedule import Schedule, Scheduler
+from .schedule import Scheduler
 from .ecs_scene import SceneComp
 
 from ..utils.debug import debug_print
@@ -56,17 +56,20 @@ class ScenesManager:
         self.scene_is_changed = True
 
     
-    def changing_scene(self, world, schedule) -> None:
+    def changing_scene(self, world, scheduler) -> None:
+        """
+        Pass the centrall world and the central scheduler
+        """
 
         new_scene_comp = self.scenes[self.waiting_scene]
 
-        # schedule.scene_transition_exit()
+        # scheduler.scene_transition_exit()
 
         world.load_world_component(new_scene_comp.world)
-        schedule.load_scheduler_component(new_scene_comp.scheduler)
+        scheduler.load_scheduler_component(new_scene_comp.scheduler)
         
 
-        # schedule.scene_transition_start()
+        # scheduler.scene_transition_start()
         
         self.current_scene = self.waiting_scene
 
@@ -79,14 +82,14 @@ class ScenesManager:
 
     def from_scene_get(self) -> None:
         """
-        TODO: It will give you only the schedule or world from the scene!
+        TODO: It will give you only the scheduler or world from the scene!
         """
         ...
 
 
-    def get_schedules(self) -> _Iterator[list[Schedule]]:
+    def get_schedules(self) -> _Iterator[list[Scheduler]]:
         """
         Needed to initialize the systems to the central World
         """
         for key, scene in self.scenes:
-            yield scene.schedule
+            yield scene.scheduler

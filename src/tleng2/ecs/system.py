@@ -80,11 +80,13 @@ class System:
     def _execute(self):
         if all(condition.update() for condition in self.conditions) and \
             all(self._lazy_look_up[condition] for condition in self.lazy_conditions):
+            
             self.update()
 
     
     def _update(self):
         if all(condition.update() for condition in self.conditions):
+
             self.update()
 
 

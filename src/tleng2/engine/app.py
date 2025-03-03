@@ -38,7 +38,7 @@ from ..components.scene import SceneCatcher
 from ..ecs.worlds_manager import World
 from ..ecs.ecs_scene import SceneComp
 from ..ecs.scenes_manager import ScenesManager
-from ..ecs.schedule import Schedule, Scheduler,  _scenes_init, _merge_to_scene_schedulers, SEQUENCE_TYPES
+from ..ecs.schedule import Scheduler,  _scenes_init, _merge_to_scene_schedulers, SEQUENCE_TYPES
 from ..ecs.events import EventsComp
 from ..ecs.system import System
 
@@ -140,26 +140,14 @@ class App:
                 type(key): key for key in parameters
             }
         )
-
-
-    def run(self, tleng2_intro: bool = False) -> None:
-        """
-        ECS support for running ECS applications, that have worlds, schedules, scenecomps and more
-        """
-        if tleng2_intro:
-            warnings.warn(
-                "A tleng2 intro has not been created yet nor implemented.",
-                FutureWarning,
-                stacklevel=2
-            )
-
+    
+    def _init_run(self) -> None:
         self.scenes_manager.changing_scene(self.world, self.scheduler)
 
         _merge_to_scene_schedulers(list(self.scenes_manager.scenes.values()), self.plugin_scheduler)
-        _scenes_init(self.scenes_manager.scenes, self.inj_parameters) 
+        _scenes_init(self.scenes_manager.scenes, self.inj_parameters)        
 
-        EngineProperties.GAME_RUNNING = True
-        while EngineProperties.GAME_RUNNING:
+    def _running(self) -> None:
             EngineProperties._events = pygame.event.get()
 
             # same as what world.run_schedule() would do
@@ -177,6 +165,24 @@ class App:
             # if self.properties_db[Debugging]:
             #     EngineMethods.set_caption(f"{EngineProperties._clock.get_fps()}")
 
+
+    def run(self, tleng2_intro: bool = False) -> None:
+        """
+        ECS support for running ECS applications, that have worlds, schedules, scenecomps and more
+        """
+        if tleng2_intro:
+            warnings.warn(
+                "A tleng2 intro has not been created yet nor implemented.",
+                FutureWarning,
+                stacklevel=2
+            )
+
+        self._init_run()
+
+        EngineProperties.GAME_RUNNING = True
+        while EngineProperties.GAME_RUNNING:
+            self._running()
+
         pygame.quit()
         sys.exit()
 
@@ -188,11 +194,7 @@ class App:
         #TODO this to match the above code
         import time
 
-        self.scenes_manager.changing_scene(self.world, self.scheduler)
-        
-        # I don't know why this configuration is faster
-        _merge_to_scene_schedulers(list(self.scenes_manager.scenes.values()), self.plugin_scheduler) #TODO static method
-        _scenes_init(self.scenes_manager.scenes, self.inj_parameters)
+        self._init_run()
 
         scheduler = self.scheduler
         world = self.world
@@ -202,19 +204,7 @@ class App:
         t2 = time.time()
         while t2-t1 <= s:
             t3 = time.time()
-            events = pygame.event.get()
-            EngineProperties._events = events
-            # push pygame events in the TlengEventManager
-
-            # same as what world.run_schedule() would do
-            scheduler.update()
-
-            # cleans the dead entities of the active world.
-            world.update()
-
-            # TODO: change the below lines to a scenes_manager.update() 
-            if scenes_manager.scene_is_changed:
-                scenes_manager.changing_scene(world, scheduler)
+            self._running()
 
             t2 = time.time()
             # print("fps", 1/((t2-t3)))

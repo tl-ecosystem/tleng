@@ -28,7 +28,7 @@
 from dataclasses import dataclass as component
 
 from .world import World
-from .schedule import Schedule, Scheduler
+from .schedule import Scheduler
 from .system import System, RunCondition, SystemSet
 from .sequence import Sequence
 from .scenes_manager import ScenesManager
@@ -38,7 +38,7 @@ from .ecs_scene import SceneComp
 __all__ = [
     "component",
     "World",
-    "Schedule", "Scheduler",
+    "Scheduler",
     "System", "RunCondition", "SystemSet",
     "Sequence",
     "ScenesManager",

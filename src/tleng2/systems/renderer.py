@@ -84,7 +84,8 @@ class RendererSystem(System):
         # for e, rc in blit_seq:
         #     self._display.surface.blit(e,rc)
 
-
+        # TODO Scaling detection
         RendererProperties._window.blit( pygame.transform.scale(self._display.surface, GlobalSettings._win_res), (0,0))
+        # RendererProperties._window.blit( self._display.surface, (0,0))
         pygame.display.flip()
         

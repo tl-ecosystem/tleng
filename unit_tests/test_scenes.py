@@ -27,6 +27,11 @@ from dataclasses import dataclass
 from pygame import Surface, SurfaceType, FRect
 import pygame as pg
 
+
+# Testing Variable ______
+class TestingVars:
+    scene_changed = False
+
 # Components ______
 
 @dataclass
@@ -73,7 +78,7 @@ world1.spawn(
     Animation([])
 )
 
-schedule1 = ecs.Schedule()
+schedule1 = ecs.Scheduler()
 
 # TODO add some systems here >:(
 schedule1.add_systems( 'Update',
@@ -104,11 +109,17 @@ world2.spawn(
     Animation([])
 )
 
-schedule2 = ecs.Schedule()
+schedule2 = ecs.Scheduler()
 
-# TODO add some systems here also >:(
+class System2(ecs.System):
+    def parameters(self):
+        ...
+
+    def update(self):
+        TestingVars.scene_changed = True
+
 schedule2.add_systems( 'Update',
-    
+    System2()
 )
 
 world2_scene = ecs.SceneComp(
@@ -124,19 +135,20 @@ def test_scenes():
     
     game = App()
 
-    game.use_plugins(
-        tleng_base_plugin
-    )
-
     game.load_scenes(
         start_with = 'scene1',
-        scene1 = world1_scene
+        scene1 = world1_scene,
+        scene2 = world2_scene
     )
 
-    # I don't know how to test case the switching of scenes
-    # game.run()
+    game._init_run()
 
-    assert True
+    game._running()
+    game.scenes_manager.change_scene('scene2')
+    game._running()
+    game._running()
+
+    assert TestingVars.scene_changed
     
 if __name__ == '__main__':
     test_scenes()
