@@ -8,7 +8,7 @@
 
 TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++ (work in progress).
 
-A powerful and versatile 2d game engine that harneshes the power of ECS. It is fast, beautiful and most importantly extendable. Each and every user of TLeng2 can create and use pre-existing community plugins to enrich their games or help the community to create more games without worrying about the backend.
+A powerful and versatile 2D game engine that harnesses the power of ECS. It is fast, visually appealing, and, most importantly, highly extendable. Every TLeng2 user can create and utilize pre-existing community plugins to enhance their games or contribute to the community, enabling more game development without worrying about the backend.
 
 On every single general release update there always will be an example game, in the `examples` folder.
 
