@@ -33,7 +33,7 @@ from ..utils.annotations import Color
 
 @dataclass
 class RenderableComp:
-    surface: pygame.SurfaceType = None
+    surface: pygame.Surface = None
     rect: pygame.FRect = None
     layer: int = 0
 
@@ -51,9 +51,10 @@ class Renderable:
     def __init__(self,) -> None:
         self.x = 0
         self.y = 0
-        self.pos = Vector2(0,0)
+        self.world_pos = Vector2(0,0)
         self.surface = None # pygame.Surface()
         self.render_method = None
+        self.centered = False
 
 
     def __repr__(self):
@@ -61,7 +62,7 @@ class Renderable:
     
 
     @staticmethod
-    def rect(rect: pygame.FRect, color: Color, thickness: int, radius: int) -> pygame.SurfaceType:
+    def rect(rect: pygame.FRect, color: Color, thickness: int, radius: int) -> pygame.Surface:
         """
         To get only the rect, use this method but with the thickness set at 0.
         """   
@@ -80,7 +81,7 @@ class Renderable:
     
 
     @staticmethod
-    def sprite_stack(images, rotation, spread) -> pygame.SurfaceType: ...
+    def sprite_stack(images, rotation, spread) -> pygame.Surface: ...
 
 
     def update_cords(self, 
@@ -89,8 +90,8 @@ class Renderable:
         )-> None: 
         self.x = x
         self.y = y
-        self.pos.x = x
-        self.pos.y = y
+        self.world_pos.x = x
+        self.world_pos.y = y
 
 
     def update_cords_rect(self, 
@@ -101,12 +102,12 @@ class Renderable:
         """
         self.x = rect.x
         self.y = rect.y
-        self.pos.x = rect.x
-        self.pos.y = rect.y
+        self.world_pos.x = rect.x
+        self.world_pos.y = rect.y
 
 
     def update_surf(self, 
-            new_surface: pygame.SurfaceType
+            new_surface: pygame.Surface
         ) -> None: 
         self.surface = new_surface
 
@@ -114,7 +115,7 @@ class Renderable:
     def update(self,
             x: float,
             y: float,
-            new_surface: pygame.SurfaceType
+            new_surface: pygame.Surface
         ) -> None: 
         self.update_cords(x,y)
         self.update_surf(new_surface)

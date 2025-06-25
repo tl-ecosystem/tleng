@@ -35,7 +35,8 @@ class SpriteStackService:
         self.spread = 1
         self.rect = None
 
-        self.center = (0,0)
+        # basically the center of the sprite stack (of the first image)
+        self.world_pos = (0,0)
 
         self.first_layer_rect = None
 
@@ -60,7 +61,7 @@ class SpriteStackService:
         for i in images:
             temp_images += [i.convert_alpha()]
 
-        self.images: list[pygame.SurfaceType] = temp_images 
+        self.images: list[pygame.Surface] = temp_images 
         self.rect = self.images[0].get_frect()
         # self.renderable.update
     
@@ -72,7 +73,7 @@ class SpriteStackService:
     def sprite_stacking(self, display) -> None:
         surf = pygame.Surface(pygame.transform.rotate(self.images[0], self.rotation).get_size())
         self.rect = surf.get_frect() 
-        self.rect.center = self.center
+        self.rect.center = self.world_pos
         sprite_surf = pygame.Surface((surf.get_width(),
                                           surf.get_height() + len(self.images)*self.spread))
         sprite_surf.fill(COLOR_KEY)
@@ -95,42 +96,38 @@ class SpriteStackService:
         """
         angle in radians
         """
-        if angle:
+        if angle is not None:
             self.rotation = convert_rad_to_deg(angle)
 
         surf = pygame.Surface(pygame.transform.rotate(self.images[0], self.rotation).get_size())
-        self.rect = surf.get_frect() 
-        self.rect.center = self.center
         sprite_surf = pygame.Surface((surf.get_width(),
-                                          surf.get_height() + len(self.images)*self.spread))
+                                    surf.get_height() + len(self.images)*self.spread))
         sprite_surf.fill(COLOR_KEY)
         sprite_surf.set_colorkey(COLOR_KEY)
         for i, img in enumerate(self.images):
             rotated_img = pygame.transform.rotate(img, self.rotation)
             if self.fill:
                 for j in range(self.spread):
-                    sprite_surf.blit(rotated_img, (0,rotated_img.get_height() // 2 -i*self.spread -j))
-            sprite_surf.blit(rotated_img, (0,len(self.images*self.spread) - i*self.spread))
-        
+                    sprite_surf.blit(rotated_img, (0, rotated_img.get_height() // 2 - i*self.spread - j))
+            sprite_surf.blit(rotated_img, (0, len(self.images*self.spread) - i*self.spread))
+
         self.renderable.update_surf(sprite_surf)
-        self.surf_rect = sprite_surf.get_frect()
-        self.surf_rect.bottomleft = self.rect.bottomleft
-        self.renderable.update_cords_rect(self.surf_rect)
+        self.renderable.world_pos = self.world_pos  # Only pass world position!
         self.renderable.render()
 
         
     def update(self, params: dict = {}) -> None:
         """
-        Takes x, y parameters
+        Takes x, y parameters (world coordinates)
         """
-        if params != {}:
-            self.center = (params['x'],params['y'])
+        if params:
+            if params.get('x') or params.get('y'):
+                self.world_pos = (params['x'], params['y'])
 
 
     def update_new(self, **params) -> None:
         """
-        Takes x, y parameters
+        Takes x, y parameters (world coordinates)
         """
-        if params != {}:
-            self.center = (params['x'],params['y'])
-            
+        if params:
+            self.world_pos = (params['x'], params['y'])

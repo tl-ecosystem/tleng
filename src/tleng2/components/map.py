@@ -64,23 +64,30 @@ class Map(TileMap):
         self.renderable.render()
 
 
-    def update_center(self) -> None:
-        ...
-
+    def update_center(self, new_center) -> None:
+        """
+        Update the center of the map surface.
+        new_center: tuple or pygame.Vector2
+        """
+        self.center = pygame.Vector2(new_center)
 
     def render_angle(self, angle) -> None:
         """
-        Angle must NOT be in radians
+        Angle must NOT be in radians.
+        Rotates and renders the map centered on its own surface.
         """
-        # RendererProperties._display.blit
         if self.current_angle != angle:
             surf = pygame.transform.rotate(self.or_surf, angle)
-            centered_rect = surf.get_rect(center = self.center)
-            self.renderable.update_cords_rect(centered_rect)
-            self.renderable.update_surf(surf)
-
+            self.rotated_surf = surf
+            self.rotated_rect = surf.get_rect()
             self.current_angle = angle
-        
+        else:
+            surf = getattr(self, 'rotated_surf', self.or_surf)
+            self.rotated_rect = surf.get_rect()
+
+        centered_rect = surf.get_rect(center=self.center)
+        self.renderable.update_cords_rect(centered_rect)
+        self.renderable.update_surf(surf)
         self.renderable.render()
 
 

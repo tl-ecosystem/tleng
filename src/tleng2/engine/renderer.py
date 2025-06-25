@@ -31,6 +31,15 @@ from ..components.camera import CameraCatcher
 from ..utils.debug import debug_print
 from ..utils.subpixel import SubPixelSurface
 
+def pymunk_to_pygame(pos, surface_height):
+    """
+    Convert pymunk (world) coordinates to pygame (screen) coordinates.
+    pos: tuple or Vec2d (x, y) in pymunk world coordinates
+    surface_height: height of the pygame surface (window)
+    Returns: tuple (x, y) in pygame screen coordinates
+    """
+    x, y = pos
+    return (x, surface_height - y)
 
 class Renderer:
     """
@@ -47,169 +56,31 @@ class Renderer:
         
         temp_vec = Vector2(0,0)
 
-        for call in RendererProperties.render_calls:
-            renderable = call
-            
+        default_camera = CameraCatcher.cameras.get(RendererProperties._local_default_camera, None)
+
+        transform = default_camera.get_transform() if default_camera != None else None
+
+        for renderable in RendererProperties.render_calls:
             
             debug_print(renderable, tags=["Renderer"])
 
-            if RendererProperties._local_default_camera != None:
+            if default_camera != None:
                 temp_vec.x = 0
                 temp_vec.y = 0
+                #step 1: Find the offset vector from the center of the camera to the renderable's world position
+                #step 2: Rotate the offset vector by the camera's angle
+                offset = renderable.world_pos - default_camera.get_position()
+                screen_pos = transform(Vector2(renderable.world_pos), renderable.centered)
+                debug_print(screen_pos, tags=["Renderer"])
 
-                pos = CameraCatcher.cameras[RendererProperties._local_default_camera].offset_pos
-                debug_print(pos, tags=["Renderer"])
+                surface = renderable.surface
 
-                temp_vec = pos - renderable.pos
-
-                display.blit(renderable.surface, (round(renderable.x + pos.x), round(renderable.y + pos.y - temp_vec.y*2)))
+                rect = surface.get_rect(center=(pymunk_to_pygame(
+                                 (round(screen_pos.x), round(screen_pos.y)), 
+                                 RendererProperties._display.get_height()
+                             )))
+                display.blit(surface, rect)
             else:
                 display.blit(renderable.surface, (renderable.x , renderable.y))
         
         debug_print(CameraCatcher.cameras, tags=["Renderer", "Camera"])
-        
- 
-
-# reference only
-class Renderer_dep:
-    """
-    Depracated renderer
-    """
-    layers = []
-    layers_order = None
-    camera = None
-    target_surf = None # defalut is Renderer._dis
-    _display = None
-    _window = None
-
-
-    @staticmethod
-    def pass_scene_parameters() -> None:
-        ...
-
-
-    @staticmethod
-    def add_layer(
-            width: int | None = None,
-            height: int | None = None
-        ) -> None:
-        """
-        Either you input the width and the height, or leave it blank.
-        """
-        if width == None and height == None:
-            Renderer.layers += [pygame.Surface(GlobalSettings._disp_res)]
-        else:
-            Renderer.layers += [pygame.Surface((width, height))]
-
-
-    @staticmethod
-    def add_layers(
-            layers: list[pygame.SurfaceType]
-        ) -> None:
-        """
-        Adds multiple layers at once.
-        """
-        Renderer.layers += layers
-
-
-    @staticmethod
-    def change_layers_order() -> None: ...
-
-
-    @staticmethod
-    def render_surface(
-            object: pygame.Surface,
-            game_pos: pygame.math.Vector2 | tuple[float,float], 
-            area: pygame.Rect = None,
-            special_flags: int = 0,
-            layer_key: str = None,
-            camera: str = None
-        ) -> None:
-
-        Renderer.rect.x, Renderer.rect.y = Renderer.offset_pos[0], Renderer.offset_pos[1]
-        
-        if area != None:
-            Renderer._display.blit(object,
-                               (game_pos[0]-Renderer.offset_pos[0], 
-                                game_pos[1]-Renderer.offset_pos[1]),
-                                area,
-                                special_flags=special_flags
-                              )
-        else:
-            Renderer._display.blit(object,
-                               (game_pos[0], 
-                                game_pos[1]),
-                                Renderer.rect,
-                                special_flags=special_flags
-                              )
-        # Renderer.draw_rect((255,0,0),Renderer.rect,5) # debug
-
-    @staticmethod
-    def render_sub_exp(
-            object: SubPixelSurface,
-            game_pos: pygame.math.Vector2 | tuple[float,float], 
-            area: pygame.Rect = None,
-            special_flags: int = 0 
-        ) -> None:
-        """
-        experimental renderer
-        """
-        Renderer.rect.x, Renderer.rect.y = Renderer.offset_pos[0], Renderer.offset_pos[1]
-
-        # GlobalSettings._display.blit(object,
-        #                              (game_pos[0]-Renderer.offset_pos[0], 
-        #                               game_pos[1]-Renderer.offset_pos[1]),
-        #                               area,
-        #                               special_flags=special_flags
-        #                             )
-        Renderer._display.blit(object.at(game_pos[0], game_pos[1]),
-                                     (game_pos[0], 
-                                      game_pos[1]),
-                                      Renderer.rect,
-                                      special_flags=special_flags
-                                    )
-
-    @staticmethod
-    def draw_rect(
-            color: tuple[int,int,int],
-            rect: pygame.Rect,
-            width: int,
-            border_radius: int = -1,
-            border_top_left_radius: int = -1,
-            border_top_right_radius: int = -1,
-            border_bottom_left_radius: int = -1,
-            border_bottom_right_radius: int = -1,
-        ) -> None:
-        '''
-        Renders the rectangle into the window, with the camera offset.
-        '''
-        dummy_rect = rect.copy()
-        dummy_rect.x -= int(Renderer.offset_pos[0])
-        dummy_rect.y -= int(Renderer.offset_pos[1])
-        pygame.draw.rect(Renderer._display, 
-                        color,
-                        dummy_rect,
-                        width,
-                        border_radius,
-                        border_top_left_radius,
-                        border_top_right_radius,
-                        border_bottom_left_radius,
-                        border_bottom_right_radius)
-
-    @staticmethod
-    def render_tiles( layer, camera) -> None:
-        """
-        It will render every single tile in the level that is provided.
-        """
-        if Renderer.layers == []:
-            ...
-        else:
-            # usage of layer
-            ...
-
-    @staticmethod
-    def lazy_render_tiles(layer, camera) -> None:
-        """
-        Will only render where the camera is hovering at from the chunks that are provided (Even if it is rotated).
-        """
-        # Require the tilemap to be broken up into chunks

@@ -25,6 +25,7 @@
 import pygame
 from pygame import Vector2
 from dataclasses import dataclass
+from math import cos, sin
 
 from ..engine.settings import GlobalSettings
 from ..object.area import AreaComp, VertAreaComp, VertArea
@@ -44,9 +45,11 @@ class CameraComp:
 
 @dataclass
 class VertCamera:
-    surface: pygame.SurfaceType
+    surface: pygame.Surface
     vert_area: VertAreaComp
 
+
+z_vec = Vector2(0, 0)
 
 class CameraCatcher:
     cameras = {}
@@ -73,7 +76,11 @@ class CameraCatcher:
 
 class Camera(CameraCatcher):
     '''
-    Handles how the Surfaces are rendered to the screen. While keeping the world positions.
+    Handles how the Surfaces are rendered to the screen, keeping the world positions.
+    center: world position the camera is focused on (e.g., the player)
+    center_screen: pixel position on the display where the camera's center appears (usually screen center)
+    offset_pos: vector to translate world positions to screen positions
+    angle: rotation of the camera in radians (for rotating the world around the player)
     '''
     def __init__(
             self,
@@ -82,49 +89,72 @@ class Camera(CameraCatcher):
             camera_name: str  = "",
             default_camera: bool = False
         ) -> None:
-        """
-        self.offset_pos: the coordinates of the camera as a Vector
-        self.angle: is measured in radians
-        """
-        CameraCatcher.__init__(self, 
+        super().__init__(
             camera_key = camera_name, 
             default_camera = default_camera
         )
 
+        self.camera_run_setup = False
+
         self.vert_area = VertArea(
-                                width = width, 
-                                height = height
-                            )
+            width = width, 
+            height = height
+        )
+        self.width = width
+        self.height = height
 
         self.directions = Vector2(0,0)
         
-        # center of the camera
+        # World position the camera is focused on
         self.center = Vector2(0,0)
+        # Pixel position on the display where the camera's center appears
         self.center_screen = Vector2(width//2, height//2)
+        # Offset for rendering: world-to-screen translation
         self.offset_pos = self.center - self.center_screen
-        
-        self.rect = pygame.FRect(0, 0, self.vert_area.width, self.vert_area.height)
 
+        # Camera rotation (in radians)
+        self.angle = 0.0
+
+        self.rect = pygame.FRect(0, 0, self.vert_area.width, self.vert_area.height)
         self.target_entity = None
 
-
     def update_center(self, pos: tuple[float, float]) -> None:
+        '''Set the world position the camera is focused on.'''
         self.center.x = pos[0]
         self.center.y = pos[1]
         self.offset_pos = self.center - self.center_screen
 
-        
     def update_center_screen(self, pos: tuple[float, float]) -> None:
+        '''Set the pixel position on the display where the camera's center appears.'''
         self.center_screen.x = pos[0]
         self.center_screen.y = pos[1]
+        self.offset_pos = self.center - self.center_screen
 
+    def set_angle(self, angle_rad: float) -> None:
+        '''Set the camera rotation (in radians).'''
+        self.angle = angle_rad
+
+    def get_transform(self):
+        '''
+        Returns a function that transforms world coordinates to screen coordinates,
+        applying translation and rotation around the camera center.
+        '''
+        def transform(world_pos: Vector2, center: bool = False) -> Vector2:
+            # Translate so camera center is at (0,0), then rotate, then move to screen center
+            rel = world_pos - self.center
+            # Rotate by -self.angle (so world rotates opposite to camera)
+            cos_a = cos(-self.angle)
+            sin_a = sin(-self.angle)
+            x = rel.x * cos_a - rel.y * sin_a
+            y = rel.x * sin_a + rel.y * cos_a
+            return Vector2(x, y) + (self.center_screen if center else z_vec)
+        return transform
 
     def update(self) -> None:
         ...
 
     def set_target(self, new_target_entity: Sprite) -> None: 
         self.target_entity = new_target_entity
-
 
 class Camera_3d: 
     def __init__(self) -> None:
