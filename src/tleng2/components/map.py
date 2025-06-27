@@ -27,7 +27,6 @@
 import pygame
 
 from ..services.tilemap import TileMap
-from ..engine.properties import RendererProperties
 from ..components.renderable import Renderable
 
 
@@ -67,9 +66,10 @@ class Map(TileMap):
     def update_center(self, new_center) -> None:
         """
         Update the center of the map surface.
-        new_center: tuple or pygame.Vector2
+        new_center: pygame.Vector2
         """
-        self.center = pygame.Vector2(new_center)
+        self.center = new_center
+
 
     def render_angle(self, angle) -> None:
         """
@@ -86,7 +86,7 @@ class Map(TileMap):
             self.rotated_rect = surf.get_rect()
 
         centered_rect = surf.get_rect(center=self.center)
-        self.renderable.update_cords_rect(centered_rect)
+        self.renderable.world_pos = self.center
         self.renderable.update_surf(surf)
         self.renderable.render()
 

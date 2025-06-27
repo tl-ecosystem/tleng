@@ -24,6 +24,7 @@
 
 import pygame
 from pygame import Vector2
+from math import cos, sin
 
 from .settings import GlobalSettings
 from .properties import RendererProperties, SceneManagerProperties
@@ -31,6 +32,7 @@ from ..components.camera import CameraCatcher
 from ..utils.debug import debug_print
 from ..utils.subpixel import SubPixelSurface
 
+# pymunk coordinates are typically in a Cartesian coordinate system
 def pymunk_to_pygame(pos, surface_height):
     """
     Convert pymunk (world) coordinates to pygame (screen) coordinates.
@@ -67,20 +69,28 @@ class Renderer:
             if default_camera != None:
                 temp_vec.x = 0
                 temp_vec.y = 0
-                #step 1: Find the offset vector from the center of the camera to the renderable's world position
-                #step 2: Rotate the offset vector by the camera's angle
-                offset = renderable.world_pos - default_camera.get_position()
-                screen_pos = transform(Vector2(renderable.world_pos), renderable.centered)
+
+                rel = renderable.world_pos - default_camera.center
+                rel = rel.rotate_rad(default_camera.angle)
+                screen_pos = rel + default_camera.center_screen
+                print(rel, renderable.world_pos, default_camera.center, default_camera.angle, screen_pos)
                 debug_print(screen_pos, tags=["Renderer"])
+
+                if renderable.centered:
+                    # if the renderable is centered, we need to adjust the position
+                    screen_pos.x = RendererProperties._display.get_width() // 2
+                    screen_pos.y = RendererProperties._display.get_height() // 2
 
                 surface = renderable.surface
 
+                # because the game is using a cartesian coordinate system
                 rect = surface.get_rect(center=(pymunk_to_pygame(
-                                 (round(screen_pos.x), round(screen_pos.y)), 
+                                 (int(screen_pos.x), int(screen_pos.y)), 
                                  RendererProperties._display.get_height()
                              )))
-                display.blit(surface, rect)
+
+                display.blit(surface, rect.topleft)
             else:
-                display.blit(renderable.surface, (renderable.x , renderable.y))
+                display.blit(renderable.surface, (renderable.world_pos.x , renderable.world_pos.y))
         
         debug_print(CameraCatcher.cameras, tags=["Renderer", "Camera"])

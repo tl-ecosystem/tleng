@@ -1,5 +1,6 @@
 import os
 import pygame
+from pygame.math import Vector2
 
 from typing import Optional as _Optional
 
@@ -36,7 +37,7 @@ class SpriteStackService:
         self.rect = None
 
         # basically the center of the sprite stack (of the first image)
-        self.world_pos = (0,0)
+        self.world_pos = Vector2(0,0)
 
         self.first_layer_rect = None
 
@@ -66,7 +67,7 @@ class SpriteStackService:
         # self.renderable.update
     
 
-    def scale_images(self, scalar) -> None:
+    def scale_images(self, scalar: float) -> None:
         ...
 
 
@@ -122,7 +123,8 @@ class SpriteStackService:
         """
         if params:
             if params.get('x') or params.get('y'):
-                self.world_pos = (params['x'], params['y'])
+                self.world_pos.x = params['x']
+                self.world_pos.y = params['y']
 
 
     def update_new(self, **params) -> None:
@@ -130,4 +132,6 @@ class SpriteStackService:
         Takes x, y parameters (world coordinates)
         """
         if params:
-            self.world_pos = (params['x'], params['y'])
+            if params.get('x') or params.get('y'):
+                self.world_pos.x = params['x']
+                self.world_pos.y = params['y']

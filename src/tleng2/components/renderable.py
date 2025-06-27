@@ -49,8 +49,6 @@ class DisplayCanvasComp:
 
 class Renderable:
     def __init__(self,) -> None:
-        self.x = 0
-        self.y = 0
         self.world_pos = Vector2(0,0)
         self.surface = None # pygame.Surface()
         self.render_method = None
@@ -88,8 +86,6 @@ class Renderable:
             x: float,
             y: float
         )-> None: 
-        self.x = x
-        self.y = y
         self.world_pos.x = x
         self.world_pos.y = y
 
@@ -100,10 +96,8 @@ class Renderable:
         """
         Update the coordinates with a rectangle
         """
-        self.x = rect.x
-        self.y = rect.y
-        self.world_pos.x = rect.x
-        self.world_pos.y = rect.y
+        self.world_pos.x = rect.center[0]
+        self.world_pos.y = rect.center[1]
 
 
     def update_surf(self, 

@@ -107,6 +107,8 @@ class Camera(CameraCatcher):
         
         # World position the camera is focused on
         self.center = Vector2(0,0)
+        self.topleft = Vector2(- self.width // 2, self.height // 2)
+
         # Pixel position on the display where the camera's center appears
         self.center_screen = Vector2(width//2, height//2)
         # Offset for rendering: world-to-screen translation
@@ -118,11 +120,15 @@ class Camera(CameraCatcher):
         self.rect = pygame.FRect(0, 0, self.vert_area.width, self.vert_area.height)
         self.target_entity = None
 
+
     def update_center(self, pos: tuple[float, float]) -> None:
         '''Set the world position the camera is focused on.'''
         self.center.x = pos[0]
         self.center.y = pos[1]
+        self.topleft.x = pos[0] - self.width // 2
+        self.topleft.y = pos[1] + self.height // 2
         self.offset_pos = self.center - self.center_screen
+
 
     def update_center_screen(self, pos: tuple[float, float]) -> None:
         '''Set the pixel position on the display where the camera's center appears.'''
@@ -130,9 +136,13 @@ class Camera(CameraCatcher):
         self.center_screen.y = pos[1]
         self.offset_pos = self.center - self.center_screen
 
+
     def set_angle(self, angle_rad: float) -> None:
-        '''Set the camera rotation (in radians).'''
+        '''
+        Set the camera rotation (in radians).
+        '''
         self.angle = angle_rad
+
 
     def get_transform(self):
         '''
@@ -147,7 +157,7 @@ class Camera(CameraCatcher):
             sin_a = sin(-self.angle)
             x = rel.x * cos_a - rel.y * sin_a
             y = rel.x * sin_a + rel.y * cos_a
-            return Vector2(x, y) + (self.center_screen if center else z_vec)
+            return (Vector2(x, y) + self.center_screen) if not center else self.center_screen
         return transform
 
     def update(self) -> None:
