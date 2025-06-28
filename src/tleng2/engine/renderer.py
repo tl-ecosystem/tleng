@@ -23,14 +23,12 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import pygame
-from pygame import Vector2
-from math import cos, sin
 
 from .settings import GlobalSettings
 from .properties import RendererProperties, SceneManagerProperties
 from ..components.camera import CameraCatcher
 from ..utils.debug import debug_print
-from ..utils.subpixel import SubPixelSurface
+# from ..utils.subpixel import SubPixelSurface
 
 # pymunk coordinates are typically in a Cartesian coordinate system
 def pymunk_to_pygame(pos, surface_height):

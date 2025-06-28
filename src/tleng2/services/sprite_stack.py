@@ -36,6 +36,8 @@ class SpriteStackService:
         self.spread = 1
         self.frect = None
 
+        self.tile_size = 0  # Default tile size, can be changed if needed
+
         # basically the center of the sprite stack (of the first image)
         self.world_pos = Vector2(0,0)
 
@@ -64,8 +66,29 @@ class SpriteStackService:
 
         self.images: list[pygame.Surface] = temp_images 
         self.frect = self.images[0].get_frect()
+
+        self.tile_size = self.images[0].get_width()
         # self.renderable.update
     
+
+    def load_from_spritesheet(self, spritesheet_path: str, frame_height: int, frame_count: int) -> None:
+        """
+        Loads images from a vertical spritesheet (read from bottom to top).
+        Each frame is assumed to be the full width of the image and frame_height tall.
+        """
+        sheet = pygame.image.load(spritesheet_path).convert_alpha()
+        sheet_width, sheet_height = sheet.get_size()
+        frames = []
+        for i in range(frame_count):
+            # Read from bottom to top
+            y = sheet_height - (i + 1) * frame_height
+            frame = sheet.subsurface(pygame.Rect(0, y, sheet_width, frame_height)).copy()
+            frames.append(frame)
+        self.images = frames
+        self.frect = self.images[0].get_frect()
+
+        self.tile_size = self.images[0].get_width()
+
 
     def scale_images(self, scalar: float) -> None:
         ...
