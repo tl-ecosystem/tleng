@@ -103,10 +103,11 @@ class SpriteStackService:
         # The first layer determines the center
         base_img = self.images[0]
         rotated_base = pygame.transform.rotate(base_img, self.rotation)
+
         surf = pygame.Surface(rotated_base.get_size(), pygame.SRCALPHA)
         surf.blit(rotated_base, (0, 0))
-        self.rect = surf.get_frect()
-        self.rect.center = self.world_pos  # <--- This line ensures the center is always world_pos
+        self.first_layer_frect = surf.get_frect()
+        self.first_layer_frect.center = tuple(self.world_pos)  # <--- This line ensures the center is always world_pos
 
         # Build the full sprite stack surface
         sprite_surf = pygame.Surface(
@@ -122,10 +123,11 @@ class SpriteStackService:
                     sprite_surf.blit(rotated_img, (0, rotated_img.get_height() // 2 - i * self.spread - j))
             sprite_surf.blit(rotated_img, (0, len(self.images * self.spread) - i * self.spread))
 
-        self.renderable.frect = surf.get_frect()
-        self.renderable.frect.center = self.world_pos  # <--- Also set the renderable's frect center
-        self.renderable.update_surf(sprite_surf)
         self.renderable.ysort = bysort
+
+        self.renderable.frect = self.first_layer_frect
+
+        self.renderable.update_surf(sprite_surf)
         self.renderable.world_pos = self.world_pos  # Only pass world position!
         self.renderable.render()
 
@@ -138,6 +140,10 @@ class SpriteStackService:
             if params.get('x') or params.get('y'):
                 self.world_pos.x = params['x']
                 self.world_pos.y = params['y']
+        
+        self.frect.center = self.world_pos
+        self.renderable.world_pos = self.world_pos  # Update the renderable's world position
+
 
 
     def update_new(self, **params) -> None:
@@ -148,3 +154,4 @@ class SpriteStackService:
             if params.get('x') or params.get('y'):
                 self.world_pos.x = params['x']
                 self.world_pos.y = params['y']
+

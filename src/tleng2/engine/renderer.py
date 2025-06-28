@@ -70,6 +70,7 @@ class Renderer:
                 rel = renderable.world_pos - default_camera.center
                 rel = rel.rotate_rad(default_camera.angle)
                 screen_pos = rel + default_camera.center_screen
+
                 print(rel, renderable.world_pos, default_camera.center, default_camera.angle, screen_pos, default_camera.center_screen)
                 debug_print(screen_pos, tags=["Renderer"])
 
@@ -86,16 +87,23 @@ class Renderer:
                                 RendererProperties._display.get_height()
                             )
                 # instead of frect it is renderable.frect.center
-                renderable._screen_pos.x = renderable.frect.topleft[0]
-                renderable._screen_pos.y = renderable.frect.topleft[1]
+                frect = renderable.surface.get_frect(bottomleft=renderable.frect.bottomleft)
+                renderable._screen_pos.x = frect.topleft[0]
+                renderable._screen_pos.y = frect.topleft[1]
 
                 if renderable.ysort:
                     ysort.append(renderable)
                 else:
                     display.blit(surface, renderable.frect.topleft)
+                    if GlobalSettings._debug:
+                        pygame.draw.rect(
+                            display, 
+                            (255, 0, 0), 
+                            renderable.frect, 
+                            1
+                        )
 
             else:
-                print(renderable)
                 renderable.frect.center = (renderable.world_pos.x, renderable.world_pos.y)
                 display.blit(renderable.surface, renderable.frect.topleft)
 
@@ -105,5 +113,34 @@ class Renderer:
 
             for renderable in ysort:
                 display.blit(renderable.surface, renderable._screen_pos)
+                if GlobalSettings._debug:
+                    pygame.draw.rect(
+                        display, 
+                        (255, 0, 0), 
+                        renderable.frect, 
+                        2
+                    )
+                    pygame.draw.rect(
+                        display, 
+                        (0, 255, 0), 
+                        renderable.surface.get_frect(topleft = renderable.frect.topleft), 
+                        1
+                    )
+                    pygame.draw.circle(
+                        display, 
+                        (0, 0, 255), 
+                        renderable.frect.topleft,
+                        3
+                    )
+
+
+        if GlobalSettings._debug:
+            pygame.draw.circle(
+                display, 
+                (255, 0, 0), 
+                (RendererProperties._display.get_width() // 2, RendererProperties._display.get_height() // 2), 
+                5
+            )
 
         debug_print(CameraCatcher.cameras, tags=["Renderer", "Camera"])
+
