@@ -114,10 +114,10 @@ class RendererProperties:
     """Exposing pygame functionality"""
     __temp_disp = None
 
-    _default_display: pygame.SurfaceType = None
+    _default_display: pygame.Surface = None
 
-    _display: pygame.SurfaceType = None
-    _window: pygame.SurfaceType  = None
+    _display: pygame.Surface = None
+    _window: pygame.Surface  = None
 
     _local_default_camera = None
 

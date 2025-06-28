@@ -34,12 +34,12 @@ class SpriteStackService:
 
         self.fill = False
         self.spread = 1
-        self.rect = None
+        self.frect = None
 
         # basically the center of the sprite stack (of the first image)
         self.world_pos = Vector2(0,0)
 
-        self.first_layer_rect = None
+        self.first_layer_frect = None
 
         self.caching = caching
         if caching:
@@ -63,7 +63,7 @@ class SpriteStackService:
             temp_images += [i.convert_alpha()]
 
         self.images: list[pygame.Surface] = temp_images 
-        self.rect = self.images[0].get_frect()
+        self.frect = self.images[0].get_frect()
         # self.renderable.update
     
 
@@ -73,8 +73,8 @@ class SpriteStackService:
 
     def sprite_stacking(self, display) -> None:
         surf = pygame.Surface(pygame.transform.rotate(self.images[0], self.rotation).get_size())
-        self.rect = surf.get_frect() 
-        self.rect.center = self.world_pos
+        self.frect = surf.get_frect() 
+        self.frect.center = self.world_pos
         sprite_surf = pygame.Surface((surf.get_width(),
                                           surf.get_height() + len(self.images)*self.spread))
         sprite_surf.fill(COLOR_KEY)
@@ -87,32 +87,45 @@ class SpriteStackService:
             sprite_surf.blit(rotated_img, (0,len(self.images*self.spread) - i*self.spread))
         
         self.renderable.update_surf(sprite_surf)
-        self.surf_rect = sprite_surf.get_frect()
-        self.surf_rect.bottomleft = self.rect.bottomleft
+        self.surf_frect = sprite_surf.get_frect()
+        self.surf_frect.bottomleft = self.frect.bottomleft
         #pygame.draw.rect(RendererProperties._display,RED,pygame.FRect(self.renderable.x+20,self.renderable.y,sprite_surf.get_width(),sprite_surf.get_height()),3)
-        print(self.surf_rect, 'surface_rect')
+        print(self.surf_frect, 'surface_rect')
 
 
-    def render(self, angle: _Optional[float] = None) -> None:
+    def render(self, angle: _Optional[float] = None, bysort: bool = False) -> None:
         """
         angle in radians
         """
         if angle is not None:
             self.rotation = convert_rad_to_deg(angle)
 
-        surf = pygame.Surface(pygame.transform.rotate(self.images[0], self.rotation).get_size())
-        sprite_surf = pygame.Surface((surf.get_width(),
-                                    surf.get_height() + len(self.images)*self.spread))
+        # The first layer determines the center
+        base_img = self.images[0]
+        rotated_base = pygame.transform.rotate(base_img, self.rotation)
+        surf = pygame.Surface(rotated_base.get_size(), pygame.SRCALPHA)
+        surf.blit(rotated_base, (0, 0))
+        self.rect = surf.get_frect()
+        self.rect.center = self.world_pos  # <--- This line ensures the center is always world_pos
+
+        # Build the full sprite stack surface
+        sprite_surf = pygame.Surface(
+            (surf.get_width(), surf.get_height() + len(self.images) * self.spread),
+            pygame.SRCALPHA
+        )
         sprite_surf.fill(COLOR_KEY)
         sprite_surf.set_colorkey(COLOR_KEY)
         for i, img in enumerate(self.images):
             rotated_img = pygame.transform.rotate(img, self.rotation)
             if self.fill:
                 for j in range(self.spread):
-                    sprite_surf.blit(rotated_img, (0, rotated_img.get_height() // 2 - i*self.spread - j))
-            sprite_surf.blit(rotated_img, (0, len(self.images*self.spread) - i*self.spread))
+                    sprite_surf.blit(rotated_img, (0, rotated_img.get_height() // 2 - i * self.spread - j))
+            sprite_surf.blit(rotated_img, (0, len(self.images * self.spread) - i * self.spread))
 
+        self.renderable.frect = surf.get_frect()
+        self.renderable.frect.center = self.world_pos  # <--- Also set the renderable's frect center
         self.renderable.update_surf(sprite_surf)
+        self.renderable.ysort = bysort
         self.renderable.world_pos = self.world_pos  # Only pass world position!
         self.renderable.render()
 

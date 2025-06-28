@@ -53,25 +53,31 @@ class Renderable:
         self.surface = None # pygame.Surface()
         self.render_method = None
         self.centered = False
+        self.frect = None # pygame.FRect()
+
+        self.ysort = False
+        
+        # only changed by the renderer
+        self._screen_pos = Vector2(0,0)
 
 
     def __repr__(self):
-        return f'x: {self.x}, y: {self.y}, surface: {self.surface}'
+        return f'x: {self.world_pos}, y: {self.world_pos}, surface: {self.surface}'
     
 
     @staticmethod
-    def rect(rect: pygame.FRect, color: Color, thickness: int, radius: int) -> pygame.Surface:
+    def rect(frect: pygame.FRect, color: Color, thickness: int, radius: int) -> pygame.Surface:
         """
-        To get only the rect, use this method but with the thickness set at 0.
+        To get only the frect, use this method but with the thickness set at 0.
         """   
         surface = None
         if thickness > 0:
-            surface = pygame.Surface((rect.w + (thickness<<1), rect.w + (thickness<<1)))
-            rect = pygame.Rect(rect.x - thickness, rect.y - thickness, rect.width + thickness*2 , rect.height + thickness*2)
+            surface = pygame.Surface((frect.w + (thickness<<1), frect.w + (thickness<<1)))
+            frect = pygame.FRect(frect.x - thickness, frect.y - thickness, frect.width + thickness*2 , frect.height + thickness*2)
         else:
-            surface = pygame.Surface(rect.size)
+            surface = pygame.Surface(frect.size)
 
-        temp_rect = rect.copy()
+        temp_rect = frect.copy()
         temp_rect.center = surface.get_frect().center
 
         pygame.draw.rect(surface, color, temp_rect, abs(thickness), radius)
@@ -91,13 +97,13 @@ class Renderable:
 
 
     def update_cords_rect(self, 
-            rect: pygame.FRect
+            frect: pygame.FRect
         )-> None: 
         """
         Update the coordinates with a rectangle
         """
-        self.world_pos.x = rect.center[0]
-        self.world_pos.y = rect.center[1]
+        self.world_pos.x = frect.center[0]
+        self.world_pos.y = frect.center[1]
 
 
     def update_surf(self, 

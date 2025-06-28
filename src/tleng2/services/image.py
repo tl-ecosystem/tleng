@@ -21,6 +21,8 @@ class ImageService:
         self.image = pygame.image.load(img_filename).convert_alpha() #setting the idle image 
         self.image = pygame.transform.rotate(pygame.transform.scale(self.image, (width,height)), self.rotation) #transforming the idle image
         self.rect = pygame.FRect(0,0,self.image.get_width(),self.image.get_height())
+        self.renderable.update_surf(self.image)
+        self.renderable.frect = self.rect
     
 
     def render_surface(self)-> pygame.Surface:
@@ -31,6 +33,8 @@ class ImageService:
             ...
         else:
             self.renderable.update_cords_rect(self.rect)
+            self.renderable.world_pos.x = self.rect.centerx
+            self.renderable.world_pos.y = self.rect.centery
 
     def render(self) -> None:
         self.renderable.update_surf(self.render_surface())

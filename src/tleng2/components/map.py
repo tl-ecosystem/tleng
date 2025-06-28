@@ -37,6 +37,8 @@ class Map(TileMap):
     def __init__(self) -> None:
         self.renderable = Renderable()
         self.current_angle = 0
+        self.rotated_surf = None
+        self.rotated_frect = None
 
 
     def pre_render(self) -> None:
@@ -53,9 +55,11 @@ class Map(TileMap):
                 # self.renderable.render()
 
         # caching
-        self.or_surf = surf
+        self.or_surf = surf.convert_alpha()
+        self.rotated_surf = surf.convert_alpha()
+        self.rotated_frect = surf.get_frect()
         self.renderable.update_surf(surf)
-        self.center = surf.get_rect().center
+        self.center = surf.get_frect().center
 
 
     def render(self) -> None:
@@ -73,21 +77,20 @@ class Map(TileMap):
 
     def render_angle(self, angle) -> None:
         """
-        Angle must NOT be in radians.
+        Angle is in radians.
         Rotates and renders the map centered on its own surface.
         """
+        
         if self.current_angle != angle:
-            surf = pygame.transform.rotate(self.or_surf, angle)
-            self.rotated_surf = surf
-            self.rotated_rect = surf.get_rect()
+            surf = pygame.transform.rotate(self.or_surf, angle).convert_alpha()
+            self.rotated_frect = surf.get_frect()
             self.current_angle = angle
-        else:
-            surf = getattr(self, 'rotated_surf', self.or_surf)
-            self.rotated_rect = surf.get_rect()
+            self.rotated_surf = surf
 
-        centered_rect = surf.get_rect(center=self.center)
+        # centered_frect = surf.get_frect(center=self.center)
         self.renderable.world_pos = self.center
-        self.renderable.update_surf(surf)
+        self.renderable.frect = self.rotated_frect
+        self.renderable.update_surf(self.rotated_surf)
         self.renderable.render()
 
 

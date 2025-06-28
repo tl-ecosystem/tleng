@@ -54,7 +54,7 @@ class EngineMethods:
     
 
     @staticmethod
-    def set_icon_surface(image: pygame.SurfaceType) -> None:
+    def set_icon_surface(image: pygame.Surface) -> None:
         """
         Pass a specific surface you want to use.
         """
@@ -163,12 +163,12 @@ class RendererMethods:
 
 
     @staticmethod
-    def load_local_display(width, height) -> pygame.SurfaceType:
+    def load_local_display(width, height) -> pygame.Surface:
         ...
 
 
     @staticmethod
-    def load_local_display_ratio(ratio) -> pygame.SurfaceType:
+    def load_local_display_ratio(ratio) -> pygame.Surface:
         return pygame.Surface((GlobalSettings._win_res[0]*ratio, GlobalSettings._win_res[1]*ratio)) 
 
 
@@ -194,7 +194,7 @@ class RendererMethods:
 
 
     @staticmethod
-    def update_window_exp(display: pygame.SurfaceType) -> None:
+    def update_window_exp(display: pygame.Surface) -> None:
         """
         UpScales or DownScales the display to fit the window. 
         Warning, this might stretch the render. 

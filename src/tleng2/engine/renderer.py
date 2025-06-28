@@ -55,42 +55,55 @@ class Renderer:
     def render(self) -> None:
         # debug_print(RendererProperties.render_calls,tags=['Renderer', 'Render_calls'])
         display = RendererProperties._display
-        
-        temp_vec = Vector2(0,0)
 
         default_camera = CameraCatcher.cameras.get(RendererProperties._local_default_camera, None)
 
-        transform = default_camera.get_transform() if default_camera != None else None
+        # transform = default_camera.get_transform() if default_camera != None else None
+
+        ysort = []
 
         for renderable in RendererProperties.render_calls:
             
             debug_print(renderable, tags=["Renderer"])
 
             if default_camera != None:
-                temp_vec.x = 0
-                temp_vec.y = 0
-
                 rel = renderable.world_pos - default_camera.center
                 rel = rel.rotate_rad(default_camera.angle)
                 screen_pos = rel + default_camera.center_screen
-                print(rel, renderable.world_pos, default_camera.center, default_camera.angle, screen_pos)
+                print(rel, renderable.world_pos, default_camera.center, default_camera.angle, screen_pos, default_camera.center_screen)
                 debug_print(screen_pos, tags=["Renderer"])
 
                 if renderable.centered:
                     # if the renderable is centered, we need to adjust the position
-                    screen_pos.x = RendererProperties._display.get_width() // 2
-                    screen_pos.y = RendererProperties._display.get_height() // 2
+                    screen_pos.x = default_camera.center_screen.x
+                    screen_pos.y = default_camera.center_screen.y
 
                 surface = renderable.surface
 
                 # because the game is using a cartesian coordinate system
-                rect = surface.get_rect(center=(pymunk_to_pygame(
-                                 (int(screen_pos.x), int(screen_pos.y)), 
-                                 RendererProperties._display.get_height()
-                             )))
+                renderable.frect.center = pymunk_to_pygame(
+                                (int(screen_pos.x), int(screen_pos.y)), 
+                                RendererProperties._display.get_height()
+                            )
+                # instead of frect it is renderable.frect.center
+                renderable._screen_pos.x = renderable.frect.topleft[0]
+                renderable._screen_pos.y = renderable.frect.topleft[1]
 
-                display.blit(surface, rect.topleft)
+                if renderable.ysort:
+                    ysort.append(renderable)
+                else:
+                    display.blit(surface, renderable.frect.topleft)
+
             else:
-                display.blit(renderable.surface, (renderable.world_pos.x , renderable.world_pos.y))
-        
+                print(renderable)
+                renderable.frect.center = (renderable.world_pos.x, renderable.world_pos.y)
+                display.blit(renderable.surface, renderable.frect.topleft)
+
+        if len(ysort) > 0:
+            # sort renderables by their y position
+            ysort = sorted(ysort, key=lambda r: r._screen_pos.y)
+
+            for renderable in ysort:
+                display.blit(renderable.surface, renderable._screen_pos)
+
         debug_print(CameraCatcher.cameras, tags=["Renderer", "Camera"])

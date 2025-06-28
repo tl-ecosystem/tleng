@@ -111,13 +111,11 @@ class Camera(CameraCatcher):
 
         # Pixel position on the display where the camera's center appears
         self.center_screen = Vector2(width//2, height//2)
-        # Offset for rendering: world-to-screen translation
-        self.offset_pos = self.center - self.center_screen
 
         # Camera rotation (in radians)
         self.angle = 0.0
 
-        self.rect = pygame.FRect(0, 0, self.vert_area.width, self.vert_area.height)
+        self.frect = pygame.FRect(0, 0, self.vert_area.width, self.vert_area.height)
         self.target_entity = None
 
 
@@ -127,14 +125,12 @@ class Camera(CameraCatcher):
         self.center.y = pos[1]
         self.topleft.x = pos[0] - self.width // 2
         self.topleft.y = pos[1] + self.height // 2
-        self.offset_pos = self.center - self.center_screen
 
 
     def update_center_screen(self, pos: tuple[float, float]) -> None:
         '''Set the pixel position on the display where the camera's center appears.'''
         self.center_screen.x = pos[0]
         self.center_screen.y = pos[1]
-        self.offset_pos = self.center - self.center_screen
 
 
     def set_angle(self, angle_rad: float) -> None:
@@ -169,4 +165,3 @@ class Camera(CameraCatcher):
 class Camera_3d: 
     def __init__(self) -> None:
         ...
-
