@@ -61,5 +61,15 @@ class DebugTags:
     def import_tags(tags:list) -> None:
         DebugTags.debug_tags += tags  
 
+    @staticmethod
+    def has_tags(tags:list) -> bool:
+        '''
+        Check if the tags are in the debug_tags list.
+        '''
+        for tag in tags:
+            if tag not in DebugTags.debug_tags:
+                return False
+        return True
+
 # ScreenDebug is a UI element 
 #        go find it in ui_elements/label.py 

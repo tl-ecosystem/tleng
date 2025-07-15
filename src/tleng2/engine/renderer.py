@@ -27,7 +27,8 @@ import pygame
 from .settings import GlobalSettings
 from .properties import RendererProperties, SceneManagerProperties
 from ..components.camera import CameraCatcher
-from ..utils.debug import debug_print
+from ..components.renderable import Renderable
+from ..utils.debug import debug_print, DebugTags
 # from ..utils.subpixel import SubPixelSurface
 
 # pymunk coordinates are typically in a Cartesian coordinate system
@@ -60,17 +61,25 @@ class Renderer:
 
         ysort = []
 
+        if GlobalSettings._debug and DebugTags.has_tags(["POINTS"]):
+            temp_renderable = Renderable()
+            temp_renderable.world_pos = pygame.Vector2(0,0)
+            temp_renderable.surface = pygame.Surface((5, 5), pygame.SRCALPHA)
+            pygame.draw.circle(temp_renderable.surface, (255, 0, 0), (2, 2), 2)
+            temp_renderable.frect = pygame.FRect(0, 0, 5, 5)
+            RendererProperties.render_calls += [temp_renderable]
+
         for renderable in RendererProperties.render_calls:
             
-            debug_print(renderable, tags=["Renderer"])
+            debug_print(renderable, tags=["RENDERER"])
 
             if default_camera != None:
                 rel = renderable.world_pos - default_camera.center
                 rel = rel.rotate_rad(default_camera.angle)
                 screen_pos = rel + default_camera.center_screen
 
-                print(rel, renderable.world_pos, default_camera.center, default_camera.angle, screen_pos, default_camera.center_screen)
-                debug_print(screen_pos, tags=["Renderer"])
+                #print(rel, renderable.world_pos, default_camera.center, default_camera.angle, screen_pos, default_camera.center_screen)
+                debug_print(screen_pos, tags=["RENDERER"])
 
                 if renderable.centered:
                     # if the renderable is centered, we need to adjust the position
@@ -93,7 +102,7 @@ class Renderer:
                     ysort.append(renderable)
                 else:
                     display.blit(surface, renderable.frect.topleft)
-                    if GlobalSettings._debug:
+                    if GlobalSettings._debug and DebugTags.has_tags(["RENDERABLE_RECT"]):
                         pygame.draw.rect(
                             display, 
                             (255, 0, 0), 
@@ -111,7 +120,7 @@ class Renderer:
 
             for renderable in ysort:
                 display.blit(renderable.surface, renderable._screen_pos)
-                if GlobalSettings._debug:
+                if GlobalSettings._debug and DebugTags.has_tags(["RENDERABLE_RECT"]):
                     pygame.draw.rect(
                         display, 
                         (255, 0, 0), 
@@ -132,7 +141,7 @@ class Renderer:
                     )
 
 
-        if GlobalSettings._debug:
+        if GlobalSettings._debug and DebugTags.has_tags(["POINTS"]):
             pygame.draw.circle(
                 display, 
                 (255, 0, 0), 
@@ -140,5 +149,5 @@ class Renderer:
                 5
             )
 
-        debug_print(CameraCatcher.cameras, tags=["Renderer", "Camera"])
+        debug_print(CameraCatcher.cameras, tags=["RENDERER", "CAMERA"])
 
