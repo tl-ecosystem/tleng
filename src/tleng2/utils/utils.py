@@ -23,6 +23,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import os
+import sys
 
 from math import pi
 from time import time
@@ -72,11 +73,20 @@ def timer_func_debug(func):
     return wrap_func 
 
 
+def resource_path(relative_path):
+    """ Get path to resource, compatible with dev and frozen """
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS  # set by cx_Freeze / PyInstaller
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
 def get_parent_dir(path, directories=1) -> str:
-	path_result = None
-	for i in range(directories):
-		path_result = get_parent_dir(path.rpartition(os.sep)[0], i)
-	return path_result or path
+    path_result = None
+    for i in range(directories):
+        path_result = get_parent_dir(path.rpartition(os.sep)[0], i)
+    return path_result or path
 
 
 def first(s: set) -> TypeVar:
