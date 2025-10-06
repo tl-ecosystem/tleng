@@ -79,10 +79,10 @@ class GlobalSettings:
         """
         GlobalSettings._win_res = new_window_res
         if new_display_res:
-            print('yea')
+            # print('yea')
             GlobalSettings._disp_res = new_display_res
         else:
-            print('noo')
+            # print('noo')
             GlobalSettings._disp_res = new_window_res
 
 

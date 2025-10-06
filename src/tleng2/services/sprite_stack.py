@@ -86,7 +86,7 @@ class SpriteStackService:
         for y in range(0,sheet_height,frame_height):
             frame = sheet.subsurface((0, y, frame_width, frame_height))
             self.images.append(frame)
-            print(frame)
+            # print(frame)
 
         self.frect = self.images[0].get_frect()
         self.tile_size = frame_width
@@ -136,7 +136,7 @@ class SpriteStackService:
         """
         angle = round(angle) % 360
         closest_angle = min(self.cached_angles.keys(), key=lambda a: abs(a - angle))
-        print(angle, closest_angle)
+        # print(angle, closest_angle)
         return self.cached_angles.get(closest_angle, None)
 
 

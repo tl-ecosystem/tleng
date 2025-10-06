@@ -152,11 +152,11 @@ class App:
 
             # same as what world.run_schedule() would do
             self.scheduler.update()
+            # self.commands.update()
 
             # cleans the dead entities of the active world.
             self.world.update()
 
-            # self.commands.update()
 
             if self.scenes_manager.scene_is_changed:
                 self.scenes_manager.changing_scene(self.world, self.scheduler)

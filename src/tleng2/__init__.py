@@ -29,9 +29,9 @@ from .object.sprite import Sprite
 # object Directory
 from .components.scene import Scene, SceneCatcher
 from .components.camera import Camera
-from .components.renderable import Renderable
+from .components.renderable import Renderable, RenderableComp, DisplayCanvasComp
 from .components.map import Map
-from .components.events import default_events_bundle
+from .components.events import default_events_bundle, LeftMouseClick, RightMouseClick, QuitGameEvent, ResizeWindowEvent
 
 from .systems.engine_systems import ClockTickSystem
 from .systems.renderer import RendererSystem
@@ -111,7 +111,7 @@ def tleng_additional_plugin(app: App) -> None:
 __all__ = [
 'colors', 'convert_rad_to_deg', 'convert_deg_to_rad', 'get_parent_dir',
 'EngineMethods', 'SceneManagerMethods', 'SceneManagerProperties', 'RendererMethods', 'RendererProperties', 'EngineProperties',
-'Renderable',
+'Renderable', 'RenderableComp', "DisplayCanvasComp",
 'Map',
 'Area', 
 'Sprite', 
@@ -130,7 +130,7 @@ __all__ = [
 'GlobalSettings',
 'debug_print',
 'SubPixelSurface',
-'ecs',
+'ecs', 'LeftMouseClick', 'RightMouseClick', 'QuitGameEvent', 'ResizeWindowEvent',
 'hide_pygame_support_prompt', 
 'tleng_base_plugin', 'tleng_additional_plugin',
 'RendererSystem',
@@ -139,7 +139,7 @@ __all__ = [
 
 
 __author__ = "TheooKing/Theolaos"
-__version__ = "v2.2.0.dev12"
+__version__ = "v2.2.1a"
 
 import platform
 

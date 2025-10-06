@@ -26,12 +26,37 @@
 All the Events that tleng2 uses
 """
 
+from dataclasses import dataclass
+
+
 class QuitGameEvent: ...
 
+
 class ResizeWindowEvent: ...
+
+
+@dataclass
+class LeftMouseClick:
+    """
+    The position is relative to the window not to the world.
+    """
+    x: float
+    y: float
+    
+
+@dataclass
+class RightMouseClick:
+    """
+    The position is relative to the window not to the world.
+    """
+    x: float
+    y: float
+
 
 def default_events_bundle() -> list:
     return [
         QuitGameEvent,
-        ResizeWindowEvent
+        ResizeWindowEvent,
+        LeftMouseClick,
+        RightMouseClick,
     ]

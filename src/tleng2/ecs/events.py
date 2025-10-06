@@ -22,13 +22,15 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import pygame
+
 from .system import System
 from .world import World
 
 from ..engine.properties import GlobalProperties
-# from ..engine.properties import EngineProperties
+from ..engine.properties import EngineProperties
 
-
+from ..components.events import *
 
 from types import MethodType as _MethodType
 
@@ -92,7 +94,6 @@ class EventManagerSystem(System):
             events.curr_events.update(events.event_types)
 
 
-
 class Events:
     """
     ECS System
@@ -119,21 +120,21 @@ class Events:
     def read_consume(self, event_type) -> _Any:
         """
         Instead of just reading the event, it also consumes it. Meaning that if there is no other sender after consumption
-        any other system that tries to read this event_type will not find anything.
+        any other system that tries to read this event_type will not find anything. WIP
         """
         ...
 
 
     def produce(self, event) -> None:
         """
-        Produces consumable events. Infinite lifespan
+        Produces consumable events. Infinite lifespan WIP
         """        
         ...
 
 
     def consume(self, event_type) -> None:
         """
-        Consumes consumable events. 
+        Consumes consumable events. WIP
         """
         ...
 
@@ -200,3 +201,20 @@ class Events:
         event_registry[event_type].remove(func)
         if not event_registry[event_type]:
             del event_registry[event_type]
+
+
+
+
+class EventsTranslation(System):
+    # one event loop to rule them all!!1!1!1
+    def parameters(self, events: Events) -> None:
+        self.events = events
+    
+    def update(self) -> None:
+        for event in EngineProperties._events:
+            if event.type == pygame.QUIT:
+                self.events.send(QuitGameEvent)
+            if event.type == pygame.BUTTON_LEFT:
+                self.events.send(LeftMouseClick(*pygame.mouse.get_pos()))
+            if event.type == pygame.BUTTON_RIGHT:
+                self.events.send(RightMouseClick(*pygame.mouse.get_pos()))

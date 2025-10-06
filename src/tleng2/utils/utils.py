@@ -79,6 +79,8 @@ def resource_path(relative_path):
         base_path = sys._MEIPASS  # set by cx_Freeze / PyInstaller
     else:
         base_path = os.path.abspath(".")
+    
+    print(f"Base path: {base_path}")
     return os.path.join(base_path, relative_path)
 
 
