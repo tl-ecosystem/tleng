@@ -85,6 +85,7 @@ class EventManagerSystem(System):
         properties = self.properties.properties
 
         if EventsComp in properties:
+            print('lol')
             events = properties[EventsComp]
 
             # moving the new events to the old events to be "deleted" in the next call of this system 
@@ -201,20 +202,3 @@ class Events:
         event_registry[event_type].remove(func)
         if not event_registry[event_type]:
             del event_registry[event_type]
-
-
-
-
-class EventsTranslation(System):
-    # one event loop to rule them all!!1!1!1
-    def parameters(self, events: Events) -> None:
-        self.events = events
-    
-    def update(self) -> None:
-        for event in EngineProperties._events:
-            if event.type == pygame.QUIT:
-                self.events.send(QuitGameEvent)
-            if event.type == pygame.BUTTON_LEFT:
-                self.events.send(LeftMouseClick(*pygame.mouse.get_pos()))
-            if event.type == pygame.BUTTON_RIGHT:
-                self.events.send(RightMouseClick(*pygame.mouse.get_pos()))

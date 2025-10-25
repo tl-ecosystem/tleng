@@ -101,13 +101,15 @@ class App:
     def register_events(self, *events_types: type) -> None:
         """
         Registers the Events Properties of the App (Tleng Plugin also registers some default events)
+
+        The events are registered temporarily before they are fully initialised in the world properties
         """
         self.properties.add_properties(
-            EventsComp(events_types) 
+            EventsComp(events_types)
         )
 
 
-    def use_plugins(self, *plugins: _Callable[[_Any],None]) -> None:
+    def use_plugins(self, *plugins: _Callable[[_Any], None]) -> None:
         '''
         Registers Plugins in the main App. 
 
@@ -145,6 +147,7 @@ class App:
         self.scenes_manager.changing_scene(self.world, self.scheduler)
 
         _merge_to_scene_schedulers(list(self.scenes_manager.scenes.values()), self.plugin_scheduler)
+        print(self.inj_parameters)
         _scenes_init(self.scenes_manager.scenes, self.inj_parameters)        
 
     def _running(self) -> None:

@@ -22,10 +22,15 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import pygame
+
 from ..ecs import *
 from ..components.engine import FpsComp
+from ..components.events import QuitGameEvent, RightMouseClick, LeftMouseClick
+
 from ..engine.methods import EngineMethods
 from ..engine.settings import GlobalSettings
+from ..engine.properties import EngineProperties 
 # from ..engine.settings import GlobalSettings
 
 
@@ -40,3 +45,29 @@ class ClockTickSystem(System):
             fps = self.world.resources[FpsComp].fps
         
         EngineMethods.clock_tick_EP_dt(fps)
+
+
+class EventsTranslation(System):
+    # one event loop to rule them all!!1!1!1
+    def parameters(self, events: Events) -> None:
+        self.events = events
+    
+
+    def update(self) -> None:
+        for event in EngineProperties._events:
+            if event.type == pygame.QUIT:
+                self.events.send(QuitGameEvent)
+            if event.type == pygame.BUTTON_LEFT:
+                self.events.send(LeftMouseClick(*pygame.mouse.get_pos()))
+            if event.type == pygame.BUTTON_RIGHT:
+                self.events.send(RightMouseClick(*pygame.mouse.get_pos()))
+
+
+class QuitSystem(System):
+    def parameters(self, events: Events):
+        self.events = events
+
+
+    def update(self):
+        if self.events.read(QuitGameEvent):
+            EngineProperties.GAME_RUNNING = False

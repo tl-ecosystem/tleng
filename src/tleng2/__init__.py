@@ -33,7 +33,7 @@ from .components.renderable import Renderable, RenderableComp, DisplayCanvasComp
 from .components.map import Map
 from .components.events import default_events_bundle, LeftMouseClick, RightMouseClick, QuitGameEvent, ResizeWindowEvent
 
-from .systems.engine_systems import ClockTickSystem
+from .systems.engine_systems import ClockTickSystem, EventsTranslation
 from .systems.renderer import RendererSystem
 
 # ui_elements Directory
@@ -55,6 +55,7 @@ from .services.font import FontService
 from .services.tilemap import TileMap, TileSet
 from .services.sprite_stack import SpriteStackService
 
+
 # the whole ecs module
 from . import ecs
 
@@ -73,10 +74,6 @@ def tleng_base_plugin(app: App) -> None:
     The Game Engines Plugin.
     """
 
-    app.register_events(
-        *default_events_bundle()
-    )
-
     events = ecs.Events(app.properties.get(ecs.EventsComp))
 
     # put here the initialized parameters, world, events.
@@ -88,8 +85,12 @@ def tleng_base_plugin(app: App) -> None:
     )
 
     app.add_systems(
+        PreUpdate=[
+            ecs.EventManagerSystem(),
+        ],
         Update=[
-            ClockTickSystem()
+            ClockTickSystem(),
+            EventsTranslation()
         ],
         Renderer=[
             RendererSystem()
@@ -100,6 +101,8 @@ def tleng_base_plugin(app: App) -> None:
 def tleng_additional_plugin(app: App) -> None:
     """
     The Game Engines Additionals Plugin.
+
+    This plugin is dependent to the base one.
     """
     # app.add_systems(
     #     renderer=[
@@ -130,11 +133,11 @@ __all__ = [
 'GlobalSettings',
 'debug_print',
 'SubPixelSurface',
-'ecs', 'LeftMouseClick', 'RightMouseClick', 'QuitGameEvent', 'ResizeWindowEvent',
+'ecs', 'LeftMouseClick', 'RightMouseClick', 'QuitGameEvent', 'ResizeWindowEvent', 'default_events_bundle',
 'hide_pygame_support_prompt', 
 'tleng_base_plugin', 'tleng_additional_plugin',
 'RendererSystem',
-'ClockTickSystem', 
+'ClockTickSystem', 'EventsTranslation'
 ]
 
 

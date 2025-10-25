@@ -31,7 +31,7 @@ from ..engine.properties import RendererProperties
 
 
 @dataclass
-class cSceneComp:
+class SceneComp:
     """
     namespace conflict with ecs_scene, thus cSceneComp
     """
