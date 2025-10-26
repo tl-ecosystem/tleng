@@ -56,7 +56,7 @@ class EventsTranslation(System):
     def update(self) -> None:
         for event in EngineProperties._events:
             if event.type == pygame.QUIT:
-                self.events.send(QuitGameEvent)
+                self.events.send(QuitGameEvent())
             if event.type == pygame.BUTTON_LEFT:
                 self.events.send(LeftMouseClick(*pygame.mouse.get_pos()))
             if event.type == pygame.BUTTON_RIGHT:

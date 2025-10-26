@@ -25,16 +25,16 @@ from .utils.subpixel import SubPixelSurface
 from .object.area import Area
 from .object.sprite import Sprite
 
+# systems Directory
+from . import systems
 
-# object Directory
+# components Directory
+from .components import events
+
 from .components.scene import Scene, SceneCatcher
 from .components.camera import Camera
 from .components.renderable import Renderable, RenderableComp, DisplayCanvasComp
 from .components.map import Map
-from .components.events import default_events_bundle, LeftMouseClick, RightMouseClick, QuitGameEvent, ResizeWindowEvent
-
-from .systems.engine_systems import ClockTickSystem, EventsTranslation
-from .systems.renderer import RendererSystem
 
 # ui_elements Directory
 from .uix.label import Label
@@ -43,8 +43,8 @@ from .uix.button import Button
 
 
 # physics Directory
-from .physics.object import Object
-from .physics.projectile import Projectile, Particles
+# from .physics.object import Object
+# from .physics.projectile import Projectile, Particles
 
 
 # services Directory
@@ -74,6 +74,8 @@ def tleng_base_plugin(app: App) -> None:
     The Game Engines Plugin.
     """
 
+    # the developer should type what are the events that he will be using.
+
     events = ecs.Events(app.properties.get(ecs.EventsComp))
 
     # put here the initialized parameters, world, events.
@@ -89,11 +91,12 @@ def tleng_base_plugin(app: App) -> None:
             ecs.EventManagerSystem(),
         ],
         Update=[
-            ClockTickSystem(),
-            EventsTranslation()
+            systems.ClockTickSystem(),
+            systems.EventsTranslation(),
+            systems.QuitSystem()
         ],
         Renderer=[
-            RendererSystem()
+            systems.RendererSystem()
         ],
     )
 
@@ -103,6 +106,8 @@ def tleng_additional_plugin(app: App) -> None:
     The Game Engines Additionals Plugin.
 
     This plugin is dependent to the base one.
+
+    WIP (Doesn't add anything yet.)
     """
     # app.add_systems(
     #     renderer=[
@@ -112,37 +117,48 @@ def tleng_additional_plugin(app: App) -> None:
 
 
 __all__ = [
-'colors', 'convert_rad_to_deg', 'convert_deg_to_rad', 'get_parent_dir',
-'EngineMethods', 'SceneManagerMethods', 'SceneManagerProperties', 'RendererMethods', 'RendererProperties', 'EngineProperties',
-'Renderable', 'RenderableComp', "DisplayCanvasComp",
-'Map',
-'Area', 
-'Sprite', 
-'Scene', 
-'Camera', 
-'Scene', 'SceneCatcher',
-"App",
-'Label', 'Button',
-'Object', 
-'Projectile', 'Particles', 
-'LazyAnimationService', 
-'SoundService',
-'ImageService', 
-'FontService', 'SpriteStackService',
-'TileMap', 'TileSet', 
-'GlobalSettings',
-'debug_print',
-'SubPixelSurface',
-'ecs', 'LeftMouseClick', 'RightMouseClick', 'QuitGameEvent', 'ResizeWindowEvent', 'default_events_bundle',
-'hide_pygame_support_prompt', 
-'tleng_base_plugin', 'tleng_additional_plugin',
-'RendererSystem',
-'ClockTickSystem', 'EventsTranslation'
+    # core_engine Directory
+    'GlobalSettings',
+    'EngineProperties', 'SceneManagerProperties', 'RendererProperties',
+    'EngineMethods', 'SceneManagerMethods', 'RendererMethods',
+    'App',
+    # utils Directory
+    'colors',
+    'convert_rad_to_deg', 'convert_deg_to_rad', 'get_parent_dir',
+    'debug_print',
+    'SubPixelSurface',
+    # object Directory
+    'Area',
+    'Sprite',
+    # systems Directory
+    'systems',
+    # components Directory
+    'events',
+    'Scene', 'SceneCatcher',
+    'Camera',
+    'Renderable', 'RenderableComp', 'DisplayCanvasComp',
+    'Map',
+    # ui_elements Directory
+    'Label',
+    'Button',
+    # services Directory
+    'LazyAnimationService', 
+    'ImageService',
+    'SoundService',
+    'FontService',
+    'TileMap', 'TileSet',
+    'SpriteStackService',
+    # the ecs module
+    'ecs',
+    # plugins & misc
+    'hide_pygame_support_prompt',
+    'tleng_base_plugin',
+    'tleng_additional_plugin',
 ]
 
 
 __author__ = "TheooKing/Theolaos"
-__version__ = "v2.2.1a"
+__version__ = "v2.2.12a"
 
 import platform
 
@@ -155,6 +171,8 @@ __doc__ = f'''
 TLeng is a 2d python game engine.
 
 Current version is {__version__}.
+
+Find the wiki of the game engine here: https://github.com/tl-ecosystem/tleng/wiki
 '''
 
 __license__ = '''MIT License

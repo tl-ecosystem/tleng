@@ -53,7 +53,17 @@ class RightMouseClick:
     y: float
 
 
+class PygameEvent:
+    """
+    All the events in pygame are presented with an integer number.
+    """
+    e: int
+
+
 def default_events_bundle() -> list:
+    """
+    All the default events that tleng2 uses.
+    """
     return [
         QuitGameEvent,
         ResizeWindowEvent,
