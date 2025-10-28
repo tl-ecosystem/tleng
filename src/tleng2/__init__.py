@@ -35,6 +35,7 @@ from .components.scene import Scene, SceneCatcher
 from .components.camera import Camera
 from .components.renderable import Renderable, RenderableComp, DisplayCanvasComp
 from .components.map import Map
+from .components.engine import FpsComp, RendererParamsComp
 
 # ui_elements Directory
 from .uix.label import Label
@@ -138,6 +139,7 @@ __all__ = [
     'Camera',
     'Renderable', 'RenderableComp', 'DisplayCanvasComp',
     'Map',
+    'FpsComp', 'RendererParamsComp',
     # ui_elements Directory
     'Label',
     'Button',
