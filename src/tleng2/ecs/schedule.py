@@ -231,7 +231,6 @@ def _merge_to_scene_schedulers(scene_comp_list: list[SceneComp], scheduler: Sche
 
             # TODO When reimplementing the sequence handling of systems and sets
             # TODO Somehow implement some kind of ordering for single threaded applications 
-            # (maybe sequences are not needed...)
             try:
                 scene.scheduler.sequences[seq_type].system_sets.extend(scheduler.sequences[seq_type].system_sets)
             except KeyError as key:

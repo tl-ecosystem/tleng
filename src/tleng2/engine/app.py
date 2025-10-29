@@ -47,6 +47,7 @@ from ..utils.debug import debug_print
 from typing import Callable as _Callable
 from typing import Any as _Any
 from typing import TypeVar
+from typing import Union as _Union
 
 T = TypeVar('T')
 
@@ -68,11 +69,12 @@ class App:
         self.inj_parameters = {}
         
 
-    def get_property(self, property_type: T) -> T:
+    def get_property(self, property_type: T) -> _Union[T, None]:
         """
-        It will search if the World has this resources
+        It will search if the World has this resources. 
+        If it doesn't have it, then it returns `None`.
         """
-        return self.properties.properties[property_type]
+        return self.properties.properties.get(property_type)
 
 
     def add_properties(self, *properties: _Any) -> None:
@@ -102,7 +104,9 @@ class App:
         """
         Registers the Events Properties of the App (Tleng Plugin also registers some default events)
 
-        The events are registered temporarily before they are fully initialised in the world properties
+        The events are registered fully in the world properties.
+
+        Use this before you run the App object.
         """
         self.properties.add_properties(
             EventsComp(events_types)
@@ -126,6 +130,8 @@ class App:
     def add_systems(self, **systems: list[System]) -> None:
         """
         Syntax for add systems
+
+        For plugins.
         """
         for seq_type, l_systems in systems.items():
             # l_systems = a list of systems from the dict systems
@@ -143,6 +149,7 @@ class App:
             }
         )
     
+
     def _init_run(self) -> None:
         self.scenes_manager.changing_scene(self.world, self.scheduler, True)
 

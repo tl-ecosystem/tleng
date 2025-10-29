@@ -31,10 +31,14 @@ from ..engine.properties import RendererProperties
 from ..utils.annotations import Color
 
 
+def frect() -> pygame.FRect:
+    return pygame.FRect(0,0,0,0)
+
+
 @dataclass
 class RenderableComp:
     surface: pygame.Surface = None
-    rect: pygame.FRect = field(default=pygame.FRect(0,0,0,0))
+    rect: pygame.FRect = field(default_factory=frect)
     layer: int = 0
 
 
