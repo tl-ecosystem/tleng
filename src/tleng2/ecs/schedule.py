@@ -22,16 +22,17 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from inspect import signature
+# from inspect import signature
 from typing import get_args
 from dataclasses import dataclass, field
 
 from .sequence import Sequence
 from .system import System
 
+from ..utils.debug import debug_print
+
 from typing import Literal as _Literal
 from typing import Any as _Any
-
 
 
 class SceneComp:
@@ -51,10 +52,15 @@ SEQUENCE_TYPES = _Literal[
     'PostUpdate', 
     'PreRenderer', 'Renderer',
     'Last',
-    'StateTransition', 'SceneTransition'
+    # Transitional "Events"
+    'StateTransition',
+    'SceneTransitionEnter',
+    'SceneTransitionExit',
+    # Init of game.
     'PreStartup', 
     'Startup', 
-    'PostStartup'
+    'PostStartup',
+    'init'
 ]
 
 
@@ -98,16 +104,30 @@ class Scheduler:
 
 
     def add_systems(self, sequence_type: SEQUENCE_TYPES, *systems) -> None:
-        print(sequence_type)
+        """
+        Add systems to the specified sequence type.
+        """
+        # print(sequence_type)
         self._add_cached_system_sequence(sequence_type)
-        print(self.cached_system_sequence_types)
+        # print(self.cached_system_sequence_types)
 
         self.sequences[sequence_type].add_systems(*systems)
 
 
+    def add_init_systems(self, *systems) -> None:
+        """
+        Adds the systems that are needed to initilize the entities, or any other 
+        information that needs to be generated.
+        """
+        self.sequences['init'].add_systems(*systems)
+        debug_print('ran Add Init Systems', tags=["Scheduler"])
+
+
     def add_sequences(self, **sequences: Sequence) -> None:
         """
-        write the name of the sequence as a parameter, and then the Sequence as the value of the parameter
+        Write the name of the sequence as a parameter, and then the Sequence as the value of the parameter.
+
+        NOTE: Every new sequence that you add, should be different than the existing ones (refer to sequence types)
         """
         for seq_type, sequence in sequences:
             self.sequences[seq_type] = sequence
@@ -119,9 +139,15 @@ class Scheduler:
     def init(self, parameters: dict[type, _Any]) -> None:
         """
         Initializes all the sequences that were added in the scheduler with the parameters.
+
+        Also runs the init sequence
         """
+        print('ran init of systems')
         for sequence in self.sequences.values():
             sequence.init(parameters)
+
+        self.sequences['init'].update()
+        print('ran init of systems')
 
         
     def update(self) -> None:
@@ -130,6 +156,16 @@ class Scheduler:
         # print(self.cached_system_sequence_types)
         for key in self.cached_system_sequence_types:
             self.sequences[key].update()
+
+    
+    def scene_transition_exit(self) -> None:
+        if 'SceneTransitionExit' in self.cached_system_sequence_types:
+            self.sequences['SceneTransitionExit'].update()
+
+
+    def scene_transition_enter(self) -> None:
+        if 'SceneTransitionEnter' in self.cached_system_sequence_types:
+            self.sequences['SceneTransitionEnter'].update()
 
 
     def _add_cached_system_sequence(self, *new_sequence_type: SEQUENCE_TYPES, order: list[str] = UPDATE_ORDER) -> None:
@@ -152,10 +188,11 @@ class Scheduler:
         Used from the scenes_manager to change scenes
         
         :schedule_component: It can be a `SchedulerComp` of even a plain `Scheduler`  
-        :returns: Nothing
+        :returns: returns a SchedulerComp
         """
         return SchedulerComp(
-            self.sequences
+            self.sequences,
+            self.cached_system_sequence_types
         )
 
 
@@ -202,7 +239,7 @@ def _merge_to_scene_schedulers(scene_comp_list: list[SceneComp], scheduler: Sche
                 scene.scheduler.sequences[seq_type] = scheduler.sequences[seq_type].system_sets
 
         scene.scheduler._add_cached_system_sequence(*scheduler.cached_system_sequence_types)
-        print(scene.scheduler.cached_system_sequence_types)
+        # print(scene.scheduler.cached_system_sequence_types)
 
 
 def _scenes_init(scenes: dict[str, SceneComp], parameters: dict[type, _Any]) -> None:
@@ -213,6 +250,10 @@ def _scenes_init(scenes: dict[str, SceneComp], parameters: dict[type, _Any]) -> 
     for scene in scenes.values():
         for sequence in scene.scheduler.sequences.values():
             sequence.init(parameters)
+
+        # instantiates the init sequence of a scene, to get the components of the scene ready.
+        # Init runs one time on startup.
+        scene.scheduler.sequences['init'].update()
 
     # try:
     #     all_systems: dict[SEQUENCE_TYPES, list[System]] = {key: [] for key in sequence_types}

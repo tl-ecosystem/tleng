@@ -144,11 +144,12 @@ class App:
         )
     
     def _init_run(self) -> None:
-        self.scenes_manager.changing_scene(self.world, self.scheduler)
+        self.scenes_manager.changing_scene(self.world, self.scheduler, True)
 
         _merge_to_scene_schedulers(list(self.scenes_manager.scenes.values()), self.plugin_scheduler)
-        print(self.inj_parameters)
+        # print(self.inj_parameters)
         _scenes_init(self.scenes_manager.scenes, self.inj_parameters)        
+
 
     def _running(self) -> None:
             EngineProperties._events = pygame.event.get()

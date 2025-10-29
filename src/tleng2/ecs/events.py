@@ -85,7 +85,6 @@ class EventManagerSystem(System):
         properties = self.properties.properties
 
         if EventsComp in properties:
-            print('lol')
             events = properties[EventsComp]
 
             # moving the new events to the old events to be "deleted" in the next call of this system 

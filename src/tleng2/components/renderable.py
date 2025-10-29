@@ -34,7 +34,7 @@ from ..utils.annotations import Color
 @dataclass
 class RenderableComp:
     surface: pygame.Surface = None
-    rect: pygame.FRect = None
+    rect: pygame.FRect = field(default=pygame.FRect(0,0,0,0))
     layer: int = 0
 
 

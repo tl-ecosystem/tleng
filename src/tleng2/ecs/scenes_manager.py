@@ -56,20 +56,20 @@ class ScenesManager:
         self.scene_is_changed = True
 
     
-    def changing_scene(self, world, scheduler) -> None:
+    def changing_scene(self, world, scheduler, startup: bool = False) -> None:
         """
         Pass the centrall world and the central scheduler
         """
 
         new_scene_comp = self.scenes[self.waiting_scene]
 
-        # scheduler.scene_transition_exit()
+        if startup == False:
+            scheduler.scene_transition_exit()
 
         world.load_world_component(new_scene_comp.world)
         scheduler.load_scheduler_component(new_scene_comp.scheduler)
         
-
-        # scheduler.scene_transition_start()
+        scheduler.scene_transition_enter()
         
         self.current_scene = self.waiting_scene
 
