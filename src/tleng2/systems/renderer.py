@@ -22,13 +22,10 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from dataclasses import dataclass
-from time import time
 import pygame
 
-
 from ..ecs import *
-from ..components.renderable import DisplayCanvasComp, RenderableComp
+from ..components.renderable import DisplayCanvasComp, RenderableComp, RenderablesComp
 from ..components.events import ResizeWindowEvent
 from ..engine.properties import EngineProperties, GlobalProperties, RendererProperties
 from ..engine.methods import RendererMethods
@@ -40,8 +37,8 @@ class RendererSystem(System):
     """
     Experimental ECS Renderer
     """
-    def __init__(self, priority: int = 0) -> None:
-        System.__init__(self, priority)
+    def __init__(self) -> None:
+        System.__init__(self)
         self._display = None
         self._displays = None
         self._window = None
@@ -71,19 +68,22 @@ class RendererSystem(System):
 
         self._display.surface.fill(RendererProperties.fill_screen_color)
         # RendererProperties._window.fill(RendererProperties.fill_screen_color)
+        
+        blit_seq = []
 
-        # Basically render_calls but on steroids
-        components = self.world.single_fast_query(
-            RenderableComp
+        renderables = self.world.single_fast_query(
+            RenderablesComp
         )
 
-        blit_seq = [(rc.surface, rc.rect.topleft) for e, rc in components]
+        renderable = []
+        for e, rc in renderables:
+            renderable.extend(rc.renderable)
 
+        blit_seq = [(rc.surface, rc.rect.topleft) for rc in renderable]
+
+        # TODO Add layering
         self._display.surface.fblits(blit_seq)
-        # print([rc.rect.topleft for e, rc in components])
-        # RendererProperties._window.fblits(blit_seq)
-        # for e, rc in blit_seq:
-        #     self._display.surface.blit(e,rc)
+
 
         # TODO Scaling detection
         RendererProperties._window.blit( pygame.transform.scale(self._display.surface, GlobalSettings._win_res), (0,0))

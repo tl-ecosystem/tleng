@@ -40,6 +40,14 @@ class RenderableComp:
     surface: pygame.Surface = None
     rect: pygame.FRect = field(default_factory=frect)
     layer: int = 0
+    ysort: bool = False
+
+
+@dataclass
+class RenderablesComp:
+    renderable: list[RenderableComp] = field(default_factory=list)
+    layer: int = 0
+    ysort: bool = False
 
 
 @dataclass

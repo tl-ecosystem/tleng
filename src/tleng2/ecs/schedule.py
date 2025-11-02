@@ -234,7 +234,7 @@ def _merge_to_scene_schedulers(scene_comp_list: list[SceneComp], scheduler: Sche
             try:
                 scene.scheduler.sequences[seq_type].system_sets.extend(scheduler.sequences[seq_type].system_sets)
             except KeyError as key:
-                print(f"Key error occured <{key}>, error handled")
+                print(f"KeyError occured <{key}>, error handled")
                 scene.scheduler.sequences[seq_type] = scheduler.sequences[seq_type].system_sets
 
         scene.scheduler._add_cached_system_sequence(*scheduler.cached_system_sequence_types)

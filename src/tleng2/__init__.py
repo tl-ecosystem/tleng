@@ -33,7 +33,7 @@ from .components import events
 
 from .components.scene import Scene, SceneCatcher
 from .components.camera import Camera
-from .components.renderable import Renderable, RenderableComp, DisplayCanvasComp
+from .components.renderable import Renderable, RenderableComp, RenderablesComp, DisplayCanvasComp
 from .components.map import Map
 from .components.engine import FpsComp, RendererParamsComp
 
@@ -137,7 +137,7 @@ __all__ = [
     'events',
     'Scene', 'SceneCatcher',
     'Camera',
-    'Renderable', 'RenderableComp', 'DisplayCanvasComp',
+    'Renderable', 'RenderableComp', 'RenderablesComp', 'DisplayCanvasComp',
     'Map',
     'FpsComp', 'RendererParamsComp',
     # ui_elements Directory
@@ -170,7 +170,7 @@ del platform
 
 __name__ = "tleng"
 __doc__ = f'''
-TLeng is a 2d python game engine.
+TLeng is a 2d game engine written in python.
 
 Current version is {__version__}.
 
