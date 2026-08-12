@@ -12,11 +12,6 @@ A powerful and versatile 2D game engine that harnesses the power of ECS. It is f
 
 On every single general release update there always will be an example game, in the `examples` folder.
 
-The C++ version of the engine is a work in progress, but it will be available soon! 
-
-After the C++ section will be finished, the engine will change names from TLeng2 to TLeng3. TLeng2 aims only for support with python, TLeng3 aims to support python and C++ together.
-
-
 ## 📖 Documentation
 
 Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
@@ -24,17 +19,17 @@ Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 ## 🎮 Games that use this engine/framework:
 
 - [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
-- [ScalarTux](https://github.com/theolaos/ScalarTux) (In development, Framework ver: v2.2.0.dev4)
+- [ScalarTux](https://github.com/theolaos/ScalarTux) (Abandoned, Framework ver: v2.2.0.dev4)
 - [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0.dev12)
+- [CoulombHelper](https://github.com/theolaos/CoulombHelper) (In development, Framework ver: v2.2.0.dev12)
 
 ## 💾 Additional Software (in development)
 
 This software will have a GUI for the user
 
 - [SpriteStacking Viewer](https://github.com/tl-ecosystem/tl-ssv)
-- [Tilemap Editor](https://github.com/tl-ecosystem/tl-editor)
-- Scene/UI Creator
-- Animation Creator
+- [Game Maps Editor](https://github.com/tl-ecosystem/tl-editor)
+- [UI Creator](https://github.com/tl-ecosystem/tlang)
 
 ## 🛠️ Requirements
 
@@ -44,11 +39,6 @@ This software will have a GUI for the user
   - PyMunk 6.5+
   - NumPy 1.20+
   - ModernGL (not needed yet)
-- C++ (WIP):
-  - SDL 3
-  - GLAD
-  - OpenGL
-  - CMake
 
 ## ⚡ Setting Up the Engine
 
