@@ -4,7 +4,7 @@
 >
 > Though the Game Engine is nearing it's completion, it is not guaranteed that specific components would stay the same until the end.
 
- ![Static Badge](https://img.shields.io/badge/pip_install-tleng-blue?style=flat) ![Static Badge](https://img.shields.io/badge/licence-MIT-blue?style=flat) ![Static Badge](https://img.shields.io/badge/python-3.11_3.12-blue?style=flat&logo=python) [![Python package](https://github.com/tl-ecosystem/tleng/actions/workflows/python-package.yml/badge.svg)](https://github.com/tl-ecosystem/tleng/actions/workflows/python-package.yml)
+ ![Static Badge](https://img.shields.io/badge/pip_install-tleng-blue?style=flat) ![Static Badge](https://img.shields.io/badge/licence-MIT-blue?style=flat) ![Static Badge](https://img.shields.io/badge/python-3.12_3.13_3.14-blue?style=flat&logo=python) [![Python package](https://github.com/tl-ecosystem/tleng/actions/workflows/python-package.yml/badge.svg)](https://github.com/tl-ecosystem/tleng/actions/workflows/python-package.yml)
 
 TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++ (work in progress).
 
