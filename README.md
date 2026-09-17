@@ -1,16 +1,14 @@
 # TLeng2
 
-> ## :warning: WARNING 
+> [!warning]
 >
-> The game engine is still in the early stages, so please note that for every new push it is not guranteed that the new code will reliably work with your previous or current projects. Check the releases before attempting to get the newest from source.
+> Though the Game Engine is nearing it's completion, it is not guaranteed that specific components would stay the same until the end.
 
  ![Static Badge](https://img.shields.io/badge/pip_install-tleng-blue?style=flat) ![Static Badge](https://img.shields.io/badge/licence-MIT-blue?style=flat) ![Static Badge](https://img.shields.io/badge/python-3.11_3.12-blue?style=flat&logo=python) [![Python package](https://github.com/tl-ecosystem/tleng/actions/workflows/python-package.yml/badge.svg)](https://github.com/tl-ecosystem/tleng/actions/workflows/python-package.yml)
 
 TLeng2 (pronounced: tlenk-two) is a game engine that supports python (with the pygame-ce, pymunmk and NumPy modules) and C++ (work in progress).
 
 A powerful and versatile 2D game engine that harnesses the power of ECS. It is fast, visually appealing, and, most importantly, highly extendable. Every TLeng2 user can create and utilize pre-existing community plugins to enhance their games or contribute to the community, enabling more game development without worrying about the backend.
-
-On every single general release update there always will be an example game, in the `examples` folder.
 
 ## 📖 Documentation
 
@@ -20,12 +18,10 @@ Check the github [wiki](https://github.com/tl-ecosystem/tleng/wiki)!
 
 - [RainCoin](https://github.com/theolaos/RainCoin) (Framework ver: 2.0-dev)
 - [ScalarTux](https://github.com/theolaos/ScalarTux) (Abandoned, Framework ver: v2.2.0.dev4)
-- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.2.0.dev12)
-- [CoulombHelper](https://github.com/theolaos/CoulombHelper) (In development, Framework ver: v2.2.0.dev12)
+- [PixelWheel](https://github.com/Omilos-Plhroforikis-17o-GEL-13o-GYM/pixel-wheel) (In development, Framework ver: v2.3.0a)
+- [CoulombHelper](https://github.com/theolaos/CoulombHelper) (In development, Framework ver: v2.3.0a)
 
 ## 💾 Additional Software (in development)
-
-This software will have a GUI for the user
 
 - [SpriteStacking Viewer](https://github.com/tl-ecosystem/tl-ssv)
 - [Game Maps Editor](https://github.com/tl-ecosystem/tl-editor)
@@ -34,11 +30,11 @@ This software will have a GUI for the user
 ## 🛠️ Requirements
 
 - Python:
-  - python 3.11+
-  - Pygame Community Edition 2.2+
-  - PyMunk 6.5+
-  - NumPy 1.20+
-  - ModernGL (not needed yet)
+  - python 3.14+
+  - Pygame Community Edition 2.5+
+  - PyMunk 7.3+
+  - NumPy 2.5+
+  - ModernGL 5.12+
 
 ## ⚡ Setting Up the Engine
 
