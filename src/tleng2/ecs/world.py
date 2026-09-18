@@ -26,11 +26,20 @@ from dataclasses import dataclass, field
 from itertools import count
 
 from typing import Any as _Any
+from typing import Union as _Union
 from typing import Iterable as _Iterable
 from typing import TypeVar
 
 T = TypeVar('T')
 C = TypeVar('C')
+
+
+class EntityIsDespawnedError(Exception):
+    """
+    The Entity is Despawned and it is tried to access it.
+    """
+    pass
+
 
 class Component:
     """
@@ -122,7 +131,7 @@ class World:
 
     def _spawn_id(self, entity_id: int, *components: Component) -> None:
         """
-        Spawns an entity with the components provided and returns the id of the entity. 
+        Spawn an entity with the entity_id that has been provided.
         """
         entity = entity_id
 
@@ -234,6 +243,35 @@ class World:
 
         self.entity_db[entity][component_type] = component
         self.clear_cache()
+
+
+    def get_component(self, entity: int, component_type: Component) -> Component:
+        """
+        Returns the component_type of the entity that is provided.
+
+        In case the component is not found, it will throw a KeyError.
+
+        In case the entity does not exist in the database then a KeyError will happen.
+
+        Meaning that if the entity still exists even after a despawn then it will still run.  
+        """
+        return self.entity_db[entity][component_type]
+
+
+    def retrieve_component(self, entity: int) -> _Union[Component | None]:
+        """
+        Returns the component_type of of the entity that is provided.
+
+        In case he component is not found, it will return None.
+
+        In case the entity does not exist in the database, then it will throw a KeyError.
+
+        If the Entity was despawned, then it will throw a EntityIsDespawnedError().
+        """
+        if entity in self.dead_entities:
+            raise EntityIsDespawnedError()
+
+        return self.entity_db[entity].get(component_type, None)
 
 
     def has_component(self, entity: int, component_type: Component) -> bool:
