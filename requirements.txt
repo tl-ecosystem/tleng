@@ -1,6 +1,6 @@
 pygame-ce
 numpy
-moderngl
+# moderngl
 pymunk
 typing_extensions
 matplotlib
