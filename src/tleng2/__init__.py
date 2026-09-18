@@ -160,7 +160,7 @@ __all__ = [
 
 
 __author__ = "TheooKing/Theolaos"
-__version__ = "v2.2.12a"
+__version__ = "v2.3.0a"
 
 import platform
 
